@@ -5,6 +5,7 @@
 #' @param k_grid [int_seq] Sequence of window sizes for the sliding window 
 #' @param t_grid [double_seq] Optional argument with corresponding cut-off for each window. Will be estimated if not supplied
 #' @keywords DMRScan
+#' @import Rcpp
 #' @export
 #' @examples
 #' 
@@ -106,3 +107,4 @@ DMRScan <- function(obs,k_grid,t_grid=NULL,...){
 
     return(regions)
 }
+
