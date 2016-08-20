@@ -1,0 +1,13 @@
+citHeader("To cite the DMRScan package in publications use:")
+citEntry(entry="article",  
+  title  = "Assessing Genome-Wide Significance for the Detection of Differentially Methylated Regions",
+  author = personList(person(given="Christian M",   family="Page"),
+                      person(given="Linda",         family="Vos"),
+                      person(given="Trine B",       family="Rounge"),
+                      person(given="Hanne F",       family="Harbo"),
+                      person(given="Bettina K",     family="Andreassen")),
+  journal = "BMC Bioinformatics (Submitted)",
+  year = "2016",
+  textVersion = paste("Assessing Genome-Wide Significance for the Detection of Differentially Methylated Regions.",
+    "Page CM, Vos L, Rounge TB, Harbo HF, and Andreassen BK",
+    "Submitted to BMC Bioinformatics., (2016)"))
