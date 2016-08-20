@@ -24,9 +24,9 @@
 #' mcmc    <- 1000 ## number of simulation for window sizes to be deterimed
 #' 
 #' t_grid  <- estimate_t_grid.zhang(k_grid=k_grid,L=L,mcmc=mcmc)
-#' res     <- DMRScan(obs=regions,k_grid=k_grid,t_grid=t_grid$t_grid.new) ## If no regions are found, the function returns NA
+#' res     <- dmrscan(obs=regions,k_grid=k_grid,t_grid=t_grid) ## If no regions are found, the function returns NA
 #' 
-DMRScan <- function(obs,k_grid,t_grid=NULL,...){
+dmrscan <- function(obs,k_grid,t_grid=NULL,...){
 
     xx          <- sapply(obs,length)
     L           <- sum(xx)

@@ -1,4 +1,30 @@
-estimate_t_grid.mcmc.ar <- function(L,k_grid,mcmc,n_cpu=1,foo="ar",...){
+#' Estimate window thresholds for sliding window, one unique value for each window size
+#'
+#' @param L [integer] The number of probes in the study. 
+#' @param k_grid [integer] The different window sizes to be tested. Must be an ordered sequence of integers
+#' @param method [string] Gives the method by which the threshold is calculated. Can be either an analytical solution "siegmund", provided by Siegnumd et.al (2012), or an iterative process; either important sampling "zhang", as suggested by Zhang (2012) or a full MCMC model "mcmc" which can account for any dependency structure, passed to the argument "foo".
+#' Optional Parameters
+#' @param mcmc [integer] The number of MCMC iterations to be used, when using either Important Sampling ("zhang") or MCMC estimation of the threshold.
+#' @param n_cpu [integer] When calculating the thresholds on a cluster, how many CPUs should be used.
+#' @param foo [string]
+#' @return Returns a vector of the threshold for each window size 
+#' @examples
+#'
+#'
+#'
+estimate_t_grid <- function(L, k_grid, method = "siegmund",...){
+
+        method      <- match.arg(method,c("siegmund","mcmc","zhang"))
+        estimate_t  <- get(paste("estimate_t_grid",method,sep="."))
+        
+        t_grid      <- estimate_t(L = L, k_grid = k_grid,...)
+
+        return(t_grid)
+
+}
+
+
+estimate_t_grid.mcmc <- function(L,k_grid,mcmc,n_cpu=1,foo="ar",...){
 
     alpha       <- 0.05
     lambda.star <- log((-log(1-alpha)/sum(k_grid))*L)
@@ -33,7 +59,7 @@ estimate_t_grid.mcmc.ar <- function(L,k_grid,mcmc,n_cpu=1,foo="ar",...){
             t_grid.new[i]   <- predict(res.smooth[[i]],x=log(k_grid[i]*lambda.star))$y
     }       
             
-    return(list(t_grid.new=t_grid.new,res=l_res,t_grid.orig=t_grid))
+    return(t_grid.new)
 
 }       
 
@@ -58,12 +84,11 @@ estimate_t_grid.siegmund <- function(k_grid,L){
         for(i in seq_along(k_grid))
             t_grid.new[i]   <- predict(res.smooth[[i]],x=log(k_grid[i]*lambda.star))$y
 
-    return(list(t_grid.new=t_grid.new,res=res,t_grid.orig=t_grid))
+    return(t_grid.new)
 }
-estimate_t_grid.zhang <- function(L,L.star=NULL,k_grid,mcmc=1000){
-  
-    if(is.null(L.star))L.star <- L
 
+estimate_t_grid.zhang <- function(L,k_grid,mcmc=1000){
+  
     alpha       <- 0.05
     lambda.star <- log((-log(1-alpha)/sum(k_grid))*L)
     k_grid      <- sort(k_grid)
@@ -89,5 +114,5 @@ estimate_t_grid.zhang <- function(L,L.star=NULL,k_grid,mcmc=1000){
             t_grid.new[i]   <- predict(res.smooth[[i]],x=log(k_grid[i]*lambda.star))$y
     }
 
-    return(list(t_grid.new=t_grid.new,res=l_res,t_grid.orig=t_grid))
+    return(t_grid.new)
 }
