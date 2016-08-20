@@ -1,9 +1,9 @@
 #' DMR Scan function
 #'
 #' This function search for DMRs given a orded sequence of test statistics
-#' @param obs [double_seq] Sequence of test statistics
-#' @param k_grid [int_seq] Sequence of window sizes for the sliding window 
-#' @param t_grid [double_seq] Optional argument with corresponding cut-off for each window. Will be estimated if not supplied
+#' @param obs [numeric] Sequence of test statistics for each CpG
+#' @param k_grid [integer] Sequence of window sizes for the sliding window 
+#' @param t_grid [numeric] Optional argument with corresponding cut-off for each window. Will be estimated if not supplied
 #' @keywords DMRScan
 #' @import Rcpp
 #' @export
@@ -31,12 +31,11 @@ dmrscan <- function(obs,k_grid,t_grid=NULL,...){
     xx          <- sapply(obs,length)
     L           <- sum(xx)
     alpha       <- 0.05
-    lambda.star <- (-log(1-alpha)/sum(k_grid))*L
 
     k_grid  <- sort(k_grid)
     if(is.null(t_grid)){
         cat("Constructing t-grid\n")
-        t_grid  <- estimate_t_grid.zang(L,k_grid)$t_grid.new
+        t_grid  <- estimate_t_grid(L,k_grid)
         print(t_grid)
     }
 

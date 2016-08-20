@@ -7,11 +7,11 @@
 dmrscan(obs, k_grid, t_grid = NULL, ...)
 }
 \arguments{
-\item{obs}{[double_seq] Sequence of test statistics}
+\item{obs}{[numeric] Sequence of test statistics for each CpG}
 
-\item{k_grid}{[int_seq] Sequence of window sizes for the sliding window}
+\item{k_grid}{[integer] Sequence of window sizes for the sliding window}
 
-\item{t_grid}{[double_seq] Optional argument with corresponding cut-off for each window. Will be estimated if not supplied}
+\item{t_grid}{[numeric] Optional argument with corresponding cut-off for each window. Will be estimated if not supplied}
 }
 \description{
 This function search for DMRs given a orded sequence of test statistics

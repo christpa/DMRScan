@@ -14,11 +14,13 @@ estimate_t_grid(L, k_grid, method = "siegmund", ...)
 \item{method}{[string] Gives the method by which the threshold is calculated. Can be either an analytical solution "siegmund", provided by Siegnumd et.al (2012), or an iterative process; either important sampling "zhang", as suggested by Zhang (2012) or a full MCMC model "mcmc" which can account for any dependency structure, passed to the argument "foo".
 Optional Parameters}
 
+\item{...}{Optinal parameters pased on to arima(), when simulating data.}
+
 \item{mcmc}{[integer] The number of MCMC iterations to be used, when using either Important Sampling ("zhang") or MCMC estimation of the threshold.}
 
 \item{n_cpu}{[integer] When calculating the thresholds on a cluster, how many CPUs should be used.}
 
-\item{foo}{[string]}
+\item{foo}{[string] Function call for the generation of data in the MCMC simulation, can be either "ar", "ma", or "arima".}
 }
 \value{
 Returns a vector of the threshold for each window size
@@ -27,8 +29,6 @@ Returns a vector of the threshold for each window size
 Estimate window thresholds for sliding window, one unique value for each window size
 }
 \examples{
-
-
 
 }
 

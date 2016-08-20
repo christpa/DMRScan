@@ -6,10 +6,12 @@
 #' Optional Parameters
 #' @param mcmc [integer] The number of MCMC iterations to be used, when using either Important Sampling ("zhang") or MCMC estimation of the threshold.
 #' @param n_cpu [integer] When calculating the thresholds on a cluster, how many CPUs should be used.
-#' @param foo [string]
+#' @param foo [string] Function call for the generation of data in the MCMC simulation, can be either "ar", "ma", or "arima".
+#' @param ... Optinal parameters pased on to arima(), when simulating data.
 #' @return Returns a vector of the threshold for each window size 
 #' @examples
 #'
+#' @export
 #'
 #'
 estimate_t_grid <- function(L, k_grid, method = "siegmund",...){
