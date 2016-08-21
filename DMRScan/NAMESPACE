@@ -2,4 +2,5 @@
 
 export(dmrscan)
 export(estimate_t_grid)
+export(make.cpg.regions)
 import(Rcpp)
