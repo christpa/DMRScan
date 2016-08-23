@@ -12,7 +12,7 @@
 #' @examples
 #' pos             <- cumsum(rpois(100,30))
 #' chr             <- sort(sample(1:3,100,TRUE)) 
-#' z_val           <- matrix(rnorm(N),dimnames=list(paste(chr,pos, sep = ".")))
+#' z_val           <- matrix(rnorm(100),dimnames=list(paste(chr,pos, sep = ".")))
 #' 
 #' min.cpg <- 3  # minimum number of cps for a region to be chnsidered
 #' max.gap <- 30 # Maximum allowd gap between two observations within one region
