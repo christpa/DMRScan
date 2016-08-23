@@ -12,7 +12,7 @@ The function dmrscan() requires three key imputs; a vector of test statistics fo
 A list will follow
 
 ### Usage
-
+Some examples here
 
 
 # Citation
