@@ -6,7 +6,15 @@ R package for detection of differentially methylated regions with adjustment for
 CM Page, L Vos, BK Andreasen
 
 ## Package structure
-The function dmrscan() requires three key imputs; a vector of test statistics for each CpG site, and the corresponding positions (chromosome and bp position). Additional imput are the maximum allowed distance within a region and the minimum number of CpGs within a region.
+The function 
+
+  dmrscan() 
+
+requires three key imputs; 
+  a vector of test statistics for each CpG site, 
+  the corresponding positions (chromosome and bp position). 
+  Additional imput are the maximum allowed distance within a region and the minimum number of CpGs within a region.
+
 
 ### Parameters
 A list will follow
