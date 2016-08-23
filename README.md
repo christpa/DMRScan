@@ -31,9 +31,6 @@ A BibTeX entry for LaTeX users is
 
 @Article{DMRScanRpackage,
 title = {Assessing Genome-Wide Significance for the Detection of Differentially Methylated Regions},
-
 author = {Christian M Page and Linda Vos and Trine B Rounge and Hanne F Harbo and Bettina K Andreassen},
-
 journal = {BMC Bioinformatics (Submitted)},
-
 year = {2016}}
