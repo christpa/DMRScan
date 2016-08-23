@@ -29,8 +29,7 @@ library(DMRScan)
 # Citation
 
 To cite the DMRScan package in publications use:
-
-  `Assessing Genome-Wide Significance for the Detection of Differentially Methylated Regions. Page CM, Vos L, Rounge TB, Harbo HF, and Andreassen BK Submitted to BMC Bioinformatics., (2016)`
+*Assessing Genome-Wide Significance for the Detection of Differentially Methylated Regions*. Page CM, Vos L, Rounge TB, Harbo HF, and Andreassen BK Submitted to BMC Bioinformatics., (2016)`
 
 A BibTeX entry for LaTeX users is
 ```BibTeX
