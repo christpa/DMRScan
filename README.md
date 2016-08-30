@@ -17,6 +17,13 @@ Additional imput are the
 ### Parameters
 A list will follow
 
+### Download & install in R
+```R
+library(devtools)
+install_github("christpa/DMRScan/DMRScan")
+# load package
+load(DMRScan)
+```
 ### Usage
 Some examples here
 ```R
