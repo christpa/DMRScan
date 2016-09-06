@@ -12,7 +12,7 @@
 #' L               <- 20000 # Number of probes
 #' pos             <- cumsum(rpois(L,30))
 #' chr             <- rep(1,L) ## use plink annotation 1-22, X = 23, Y = 24, XY = 25, MT = 26
-#' spike           <- numeric(L); spike[sample(pos,L/100)] <- 2
+#' spike           <- numeric(L); spike[(L/2 - 10):(L/2 + 10)] <- 2 #Add i DMRs around L/2
 #' z_val           <- matrix(rnorm(L, mean = spike),dimnames=list(paste("chr1",pos, sep = ".")))
 #' 
 #' min.cpg <- 3  # minimum number of cps for a region to ba chnsidered
