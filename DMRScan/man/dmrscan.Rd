@@ -18,21 +18,22 @@ This function search for DMRs given a orded sequence of test statistics
 }
 \examples{
 
-N               <- 200
-pos             <- cumsum(rpois(N,30))
-chr             <- rep("chr1", N); chr.int <- rep(1,N) ## use plink annotation 1-22, X = 23, Y = 24, XY = 25, MT = 26
-z_val           <- matrix(rnorm(N),dimnames=list(paste(chr,pos, sep = ".")))
+L               <- 20000 # Number of probes
+pos             <- cumsum(rpois(L,30))
+chr             <- rep(1,L) ## use plink annotation 1-22, X = 23, Y = 24, XY = 25, MT = 26
+spike           <- numeric(L); spike[sample(pos,L/100)] <- 2
+z_val           <- matrix(rnorm(L, mean = spike),dimnames=list(paste("chr1",pos, sep = ".")))
 
 min.cpg <- 3  # minimum number of cps for a region to ba chnsidered
 max.gap <- 30 # Maximum allowd gap between two observations within one region
-regions <- make.cpg.region.list(test_statistic=z_val,chr=chr.int,pos=pos,max.gap=max.gap,min.cpg=min.cpg)
+regions <- make.cpg.regions(test_statistic=z_val,chr=chr,pos=pos,max.gap=max.gap,min.cpg=min.cpg)
 
 nobs    <- sum(sapply(regions,nrow)) ## observations remaining
 
 k_grid  <- c(2,3,4) ## window sizes 
 mcmc    <- 1000 ## number of simulation for window sizes to be deterimed
 
-t_grid  <- estimate_t_grid.zhang(k_grid=k_grid,L=L,mcmc=mcmc)
+t_grid  <- estimate_t_grid(k_grid=k_grid,L=L,method = "zhang",mcmc=mcmc)
 res     <- dmrscan(obs=regions,k_grid=k_grid,t_grid=t_grid) ## If no regions are found, the function returns NA
 
 }
