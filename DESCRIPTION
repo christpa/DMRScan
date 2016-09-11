@@ -1,0 +1,27 @@
+Package: DMRScan
+Title: Detection of Differentially Methylated Regions 
+Version: 0.99.0
+Authors@R: c(
+    person("CM", "Page", email = "Christian.Page.PhD@gmail.com", role = c("aut", "cre")),
+    person("L",  "Vos",  email = "Linda.Vos@Kreftregisteret.no", role = "aut"),
+    person("TB", "Rounge", email = "", role = "ctb"),
+    person("HF", "Harbo", email = "", role = "ths"),
+    person("BK", "Andreassen", email = "", role = "aut"))
+Description: This package detects significant differentially methylated regions (for both qualitative and quantitative traits), 
+    using a scan statistic with underlying Poisson heuristics. The scan statistic will depend on a sequence of window sizes 
+    (# of CpGs within each window) and on a threshold for each window size. This threshold can be calculated by three different
+    means: i) analytically using Siegmund et.al (2012) solution (preferred), ii) an important sampling as suggested by Zhang (20xx), 
+    and a iii) full MCMC modeling of the data, choosing between a number of different options for modeling the dependency between 
+    each CpG. 
+Depends:
+    R (>= 3.0.0), MASS, Matrix, mvtnorm, RcppRoll
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Author: Christian M Page [aut, cre],
+  Linda Vos [aut],
+  Trine B Rounge [ctb, dtc],
+  Hanne F Harbo [ths],
+  Bettina K Andreassen [aut]
+Maintainer: Christian M Page <Christian.Page.PhD@gmail.com>
+RoxygenNote: 5.0.1.9000
