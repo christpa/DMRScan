@@ -1,3 +1,4 @@
+#' @import RcppRoll
 window_test <- function(t,k,L,foo,...){
 
     foo     <- get(paste("make_data",foo,sep="."))

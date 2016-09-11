@@ -1,3 +1,4 @@
+#' @importFrom stats dnorm pnorm
 .siegmund_lambda <- function(t,k,L){
                     m   <- L
                     w   <- k

@@ -1,8 +1,10 @@
-make_data.ar <- function(L,...){
+#' @importFrom stats rnorm arima.sim
+#' @import Matrix
+make_data.ar <- function(L,d = 2,...){
         
     ll      <- L+2*d+1
     x       <- rnorm(n = ll)
-    x.new   <- x%*%.ndiag(d = d, n = ll)
+    x.new   <- x%*%.ndiag(par = rep(1,d+1), n = ll)
 
     x.out   <- x.new[(d+1):(L+d)]/sqrt(2*d+1)
     return(x.out)

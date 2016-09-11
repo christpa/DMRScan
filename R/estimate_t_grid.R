@@ -1,32 +1,33 @@
 #' Estimate window thresholds for sliding window, one unique value for each window size
 #'
-#' @param L [integer] The number of probes in the study. 
-#' @param k_grid [integer] The different window sizes to be tested. Must be an ordered sequence of integers
-#' @param method [string] Gives the method by which the threshold is calculated. Can be either an analytical solution "siegmund", provided by Siegnumd et.al (2012), or an iterative process; either important sampling "zhang", as suggested by Zhang (2012) or a full MCMC model "mcmc" which can account for any dependency structure, passed to the argument "foo".
-#' Optional Parameters
-#' @param mcmc [integer] The number of MCMC iterations to be used, when using either Important Sampling ("zhang") or MCMC estimation of the threshold.
-#' @param n_cpu [integer] When calculating the thresholds on a cluster, how many CPUs should be used.
-#' @param foo [string] Function call for the generation of data in the MCMC simulation, can be either "ar", "ma", or "arima".
-#' @param ... Optinal parameters pased on to arima(), when simulating data.
-#' @return Returns a vector of the threshold for each window size 
+#' @param L The number of probes (CpGs) in the study. 
+#' @param k_grid The different window sizes to be tested. Must be either one, or an ordered sequence of integers.
+#' @param method Gives the method by which the threshold is calculated. Can be either an analytical solution 
+#'  "siegmund", provided by Siegnumd et.al (2012), or an iterative process; either important sampling "zhang", as suggested 
+#'  by Zhang (2012) or a full MCMC model "mcmc" which can account for any dependency structure, wich is pass to arima.sim, with ...
+#' @param mcmc The number of MCMC iterations to be used, when using either Important Sampling ("zhang") or MCMC estimation of the threshold.
+#' @param n_cpu When calculating the thresholds on a cluster, how many CPUs should be used.
+#' @param ... Optinal parameters pased on to arima(), when simulating data using the mcmc option, see arima.sim()
+#' @return Returns a vector of the threshold for each window size
+#' @importFrom stats smooth.spline predict
 #' @examples
-#'
+#' t_grid <- estimate_t_grid(L = 1000, k_grid = 3:8, method = "siegmund")
 #' @export
 #'
 #'
-estimate_t_grid <- function(L, k_grid, method = "siegmund",...){
+estimate_t_grid <- function(L, k_grid, method = "siegmund",mcmc = 1000, n_cpu = 1,...){
 
         method      <- match.arg(method,c("siegmund","mcmc","zhang"))
         estimate_t  <- get(paste("estimate_t_grid",method,sep="."))
         
-        t_grid      <- estimate_t(L = L, k_grid = k_grid,...)
+        t_grid      <- estimate_t(L = L, k_grid = k_grid, mcmc = mcmc, n_cpu = n_cpu,...)
 
         return(t_grid)
 
 }
 
 
-estimate_t_grid.mcmc <- function(L,k_grid,mcmc,n_cpu=1,foo="ar",...){
+estimate_t_grid.mcmc <- function(L, k_grid, mcmc, n_cpu = 1,foo = "ar",...){
 
     alpha       <- 0.05
     lambda.star <- log((-log(1-alpha)/sum(k_grid))*L)
@@ -36,7 +37,7 @@ estimate_t_grid.mcmc <- function(L,k_grid,mcmc,n_cpu=1,foo="ar",...){
     ## first row is k, second row is t
     iter.grid   <- as.data.frame(rbind(rep(k_grid,each=length(t_grid)),rep(t_grid,by=length(k_grid))))
     iter.grid   <- do.call(cbind,replicate(mcmc,iter.grid))
-    sign_window <- pbapply(iter.grid,2,function(x,L,foo,...)window_test(t=x[2],k=x[1],L=L,foo=foo,...),L=L,foo=foo,...)
+    sign_window <- apply(iter.grid,2,function(x,L,foo,...)window_test(t=x[2],k=x[1],L=L,foo=foo,...),L=L,foo=foo,...)
     
     res.array  <- array(sign_window,dim=c(length(t_grid),length(k_grid),mcmc))
     
@@ -65,7 +66,7 @@ estimate_t_grid.mcmc <- function(L,k_grid,mcmc,n_cpu=1,foo="ar",...){
 
 }       
 
-estimate_t_grid.siegmund <- function(k_grid,L){
+estimate_t_grid.siegmund <- function(k_grid, L, mcmc = 1, n_cpu = 1){
     
     alpha       <- 0.05
     t_grid      <- seq(from=.5,to=8,length=100)
@@ -89,7 +90,7 @@ estimate_t_grid.siegmund <- function(k_grid,L){
     return(t_grid.new)
 }
 
-estimate_t_grid.zhang <- function(L,k_grid,mcmc=1000){
+estimate_t_grid.zhang <- function(L, k_grid, mcmc = 1000, n_cpu = n_cpu){
   
     alpha       <- 0.05
     lambda.star <- log((-log(1-alpha)/sum(k_grid))*L)

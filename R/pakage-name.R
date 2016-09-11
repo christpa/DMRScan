@@ -20,6 +20,6 @@
 #' 
 #' 
 #' 
-#' @docType pakage
+#' @docType package
 #' @name DMRScan
 NULL

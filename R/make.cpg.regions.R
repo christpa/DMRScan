@@ -2,11 +2,12 @@
 #'
 #' This function creates a list of regions/clusters of CpGs in close proximity, with no gap larger than max.gap, and 
 #' all where all regions are longer than min.cpg. 
-#' @param chr [integer] (Sorted) Vector of chromosome location for each CpG (use integer annotation 1-22, X = 23, Y = 24, XY = 25, MT = 26)
-#' @param pos [integer] (Sorted) Vector giving base pair position for each CpG 
-#' @param test_statistic [numeric] Vector of corresponding observed T-value for each CpG
-#' @param max.gap [integer] Maximum allowed base pair gap within a cluster. Default is set to 500.
-#' @param min.cpg [integer] Minimum number of CpGs allowed in each region to be considered. Default is set to at least 2 CpGs within each region
+#' @param chr (Sorted) Vector of chromosome location for each CpG (use integer annotation 1-22, X = 23, Y = 24, XY = 25, MT = 26)
+#' @param pos (Sorted) Vector giving base pair position for each CpG 
+#'  If unsorted, use order(chr,pos) to sort the genomic positions within each chromosome.
+#' @param test_statistic Vector of corresponding observed T-value for each CpG, must be ordered in the same way as chr and pos
+#' @param max.gap Maximum allowed base pair gap within a cluster. Default is set to 500.
+#' @param min.cpg Minimum number of CpGs allowed in each region to be considered. Default is set to at least 2 CpGs within each region
 #' @keywords CpG Regions
 #' @export
 #' @examples
@@ -20,10 +21,11 @@
 #' ## Remaining observations 
 #' sum(sapply(regions,nrow))
 make.cpg.regions <- function(chr,pos,test_statistic,max.gap = 500, min.cpg = 2){
-        if(any(is.na(c(chr,pos))))
+        if(any(is.na(c(chr,pos)))){
          ## if any NA or Chr is not integer
          ## stop
-        
+        }
+
 	if(is.null(dim(test_statistic))){nn <- names(test_statistic);test_statistic <- as.matrix(test_statistic);rownames(test_statistic)<-nn}
         rowNames    <- rownames(test_statistic)
 

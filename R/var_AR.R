@@ -15,13 +15,7 @@ var_AR <- function(p,K,phi,s){
             j.1 <- j.0 * (p.1/(1-p.2) )
             return(c(j.0,j.1))
         }   
-        .a_j <- function(j,phi){
-            if(j  < 2){
-                return( phi[1]^j)
-            }else{
-                return( phi[1] * .a_j(j-1,phi) +  phi[2]* .a_j(j-2,phi))
-            }
-        }  
+  
     
     j   <- .gamma(phi)
     p.1 <- phi[1]
@@ -42,3 +36,10 @@ var_AR <- function(p,K,phi,s){
         return(NA)
 }
 
+.a_j <- function(j,phi){
+     if(j  < 2){
+         return( phi[1]^j)
+     }else{
+         return( phi[1] * .a_j(j-1,phi) +  phi[2]* .a_j(j-2,phi))
+     }
+} 

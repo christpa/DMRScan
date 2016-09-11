@@ -1,4 +1,10 @@
+#' @importFrom stats rnorm acf 
+#' @import MASS
+#' @importFrom MASS mvrnorm
+#' @import mvtnorm
+#' @importFrom mvtnorm dmvnorm
 .important_sampling <- function(t_vec,k_vec,L,n=10000){
+ ## Writen by LV   
     x   <-  rnorm(L)
     z   <-  numeric(L)
     d   <- 2

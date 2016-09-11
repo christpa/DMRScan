@@ -1,11 +1,13 @@
 #' DMR Scan function
 #'
 #' This function search for DMRs given a orded sequence of test statistics
-#' @param obs [numeric] Sequence of test statistics for each CpG
-#' @param k_grid [integer] Sequence of window sizes for the sliding window 
-#' @param t_grid [numeric] Optional argument with corresponding cut-off for each window. Will be estimated if not supplied
+#' @param obs A sequence of test statistics for each CpG
+#' @param k_grid A sequence of window sizes for the sliding window, must be an integer 
+#' @param t_grid Optional argument with corresponding cut-off for each window. Will be estimated if not supplied.
+#' @param ... Optional arguments to be pased to estimate_t_grid(), if no grid is specified.
+#' @return A list of Differentially Methylated Regions (DMRs). Returns NA if no DMRs were found.
 #' @keywords DMRScan
-#' @import Rcpp
+#' @importFrom stats median pnorm
 #' @export
 #' @examples
 #' 
@@ -25,9 +27,9 @@
 #' mcmc    <- 1000 ## number of simulation for window sizes to be deterimed
 #' 
 #' t_grid  <- estimate_t_grid(k_grid=k_grid,L=L,method = "zhang",mcmc=mcmc)
-#' res     <- dmrscan(obs=regions,k_grid=k_grid,t_grid=t_grid) ## If no regions are found, the function returns NA
+#' res     <- dmr_scan(obs=regions,k_grid=k_grid,t_grid=t_grid) ## If no regions are found, the function returns NA
 #' 
-dmrscan <- function(obs,k_grid,t_grid=NULL,...){
+dmr_scan <- function(obs,k_grid,t_grid=NULL,...){
 
     xx          <- sapply(obs,length)
     L           <- sum(xx)
@@ -36,7 +38,7 @@ dmrscan <- function(obs,k_grid,t_grid=NULL,...){
     k_grid  <- sort(k_grid)
     if(is.null(t_grid)){
         cat("Constructing t-grid\n")
-        t_grid  <- estimate_t_grid(L,k_grid)
+        t_grid  <- estimate_t_grid(L,k_grid,...)
         print(t_grid)
     }
 
