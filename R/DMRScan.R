@@ -11,7 +11,7 @@
 #' @export
 #' @examples
 #' 
-#' L               <- 20000 # Number of probes
+#' L               <- 2000 # Number of probes
 #' pos             <- cumsum(rpois(L,30))
 #' chr             <- rep(1,L) ## use plink annotation 1-22, X = 23, Y = 24, XY = 25, MT = 26
 #' spike           <- numeric(L); spike[(L/2 - 10):(L/2 + 10)] <- 2 #Add i DMRs around L/2
@@ -23,10 +23,10 @@
 #' 
 #' nobs    <- sum(sapply(regions,nrow)) ## observations remaining
 #' 
-#' k_grid  <- c(2,3,4) ## window sizes 
+#' k_grid  <- 2:4 ## window sizes 
 #' mcmc    <- 1000 ## number of simulation for window sizes to be deterimed
 #' 
-#' t_grid  <- estimate_t_grid(k_grid=k_grid,L=L,method = "zhang",mcmc=mcmc)
+#' t_grid  <- estimate_t_grid(k_grid=k_grid,L=L,method = "zhang", mcmc=mcmc)
 #' res     <- dmr_scan(obs=regions,k_grid=k_grid,t_grid=t_grid) ## If no regions are found, the function returns NA
 #' 
 dmr_scan <- function(obs,k_grid,t_grid=NULL,...){

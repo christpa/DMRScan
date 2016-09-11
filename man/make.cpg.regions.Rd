@@ -16,7 +16,10 @@ If unsorted, use order(chr,pos) to sort the genomic positions within each chromo
 
 \item{max.gap}{Maximum allowed base pair gap within a cluster. Default is set to 500.}
 
-\item{min.cpg}{Minimum number of CpGs allowed in each region to be considered. Default is set to at least 2 CpGs within each region}
+\item{min.cpg}{Minimum number of CpGs allowed in each region to be considered. Default is set to at least 2 CpGs within each region.}
+}
+\value{
+The suplied test_statistics ordered into into a list, with one entry for each CpG region.
 }
 \description{
 This function creates a list of regions/clusters of CpGs in close proximity, with no gap larger than max.gap, and 

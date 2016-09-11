@@ -7,7 +7,8 @@
 #'  If unsorted, use order(chr,pos) to sort the genomic positions within each chromosome.
 #' @param test_statistic Vector of corresponding observed T-value for each CpG, must be ordered in the same way as chr and pos
 #' @param max.gap Maximum allowed base pair gap within a cluster. Default is set to 500.
-#' @param min.cpg Minimum number of CpGs allowed in each region to be considered. Default is set to at least 2 CpGs within each region
+#' @param min.cpg Minimum number of CpGs allowed in each region to be considered. Default is set to at least 2 CpGs within each region.
+#' @return The suplied test_statistics ordered into into a list, with one entry for each CpG region.
 #' @keywords CpG Regions
 #' @export
 #' @examples
