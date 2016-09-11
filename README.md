@@ -20,7 +20,7 @@ A list will follow
 ### Download & install in R
 ```R
 library(devtools)
-install_github("christpa/DMRScan/DMRScan")
+install_github("christpa/DMRScan")
 # load package
 load(DMRScan)
 ```
