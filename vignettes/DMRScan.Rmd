@@ -9,13 +9,13 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 # Abstract
-##Motivation
+###Motivation
 DNA methylation plays an important role in human health and disease, and methods for the identification of differently methylated regions are of increasing interest. There is currently a lack of statistical methods which properly address multiple testing, i.e. genome-wide significance for differentially methylated regions.
-#Methods
+###Methods
 We introduce a scan statistic (DMRScan), which overcomes these limitations. We benchmark DMRScan against two well established methods (Bumphunter, DMRcate), using a simulation study based on real methylation data.
-#Results
+###Results
 Our method had a higher power than alternative methods across different simulation scenarios, particularly for small effect sizes. DMRScan exhibits greater flexibility in statistical modeling and can be used with more complex designs than current methods.
-#Conclusion 
+###Conclusion 
 DMRScan is the first dynamic approach which properly addresses the multiple-testing challenges for the identification of differently methylated regions. DMRScan outperformed alternative methods in terms of power, while keeping the false discovery rate controlled.
 
 
@@ -40,4 +40,5 @@ mcmc    <- 1000 ## number of simulation for window sizes to be deterimed
 t_grid  <- estimate_t_grid(k_grid=k_grid,L=L,method = "zhang", mcmc=mcmc)
 res     <- dmr_scan(obs=regions,k_grid=k_grid,t_grid=t_grid) ## If no regions are found, the function returns NA
 head(res)
-```R
+```
+End of vignette.
