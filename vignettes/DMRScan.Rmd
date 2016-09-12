@@ -6,7 +6,6 @@ output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{DMRScan Vignette}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{ASCII}
 ---
 
 ```{r, echo = FALSE}

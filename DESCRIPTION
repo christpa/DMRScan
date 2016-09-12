@@ -12,7 +12,6 @@ biocViews: Software, Technology, Sequencing, WholeGenome
 Depends:
     R (>= 3.3.0), stats, MASS, Matrix, mvtnorm, RcppRoll
 License: GPL-3
-Encoding: ASCII
 LazyData: true
 Author: Christian M Page [aut, cre],
   Linda Vos [aut],
