@@ -1,27 +1,32 @@
 ---
 title: "Using the DMR Scan Package"
 author: "Christian M Page"
-date: "September 10, 2016"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown::render()}
-  %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{DMRScan Vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{ASCII}
 ---
+
+```{r, echo = FALSE}
+library(DMRScan)
+set.seed(1014)
+```
 # Abstract
 ###Motivation
-DNA methylation plays an important role in human health and disease, and methods for the identification of differently methylated regions are of increasing interest. There is currently a lack of statistical methods which properly address multiple testing, i.e. genome-wide significance for differentially methylated regions.
+DNA methylation plays an important role in human health and disease, and methods for the identification of differently methylated regions are of    increasing interest. There is currently a lack of statistical methods which properly address multiple testing, i.e. genome-wide significance for    differentially methylated regions.
 ###Methods
-We introduce a scan statistic (DMRScan), which overcomes these limitations. We benchmark DMRScan against two well established methods (Bumphunter, DMRcate), using a simulation study based on real methylation data.
+We introduce a scan statistic (DMRScan), which overcomes these limitations. We benchmark DMRScan against two well established methods (Bumphunter,  DMRcate), using a simulation study based on real methylation data.
 ###Results
 Our method had a higher power than alternative methods across different simulation scenarios, particularly for small effect sizes. DMRScan exhibits greater flexibility in statistical modeling and can be used with more complex designs than current methods.
-###Conclusion 
-DMRScan is the first dynamic approach which properly addresses the multiple-testing challenges for the identification of differently methylated regions. DMRScan outperformed alternative methods in terms of power, while keeping the false discovery rate controlled.
-
+###Conclusion
+DMRScan is the first dynamic approach which properly addresses the multiple-testing challenges for the identification of differently methylated     regions. DMRScan outperformed alternative methods in terms of power, while keeping the false discovery rate controlled.
 
 # Examples of use of DMRScan
 
-```R
+```{r}
+library(DMRScan)
 L               <- 2000 # Number of probes
 pos             <- cumsum(rpois(L,30))
 chr             <- rep(1,L) ## use plink annotation 1-22, X = 23, Y = 24, XY = 25, MT = 26
@@ -34,11 +39,11 @@ regions <- make.cpg.regions(test_statistic=z_val,chr=chr,pos=pos,max.gap=max.gap
 
 nobs    <- sum(sapply(regions,nrow)) ## observations remaining
 
-k_grid  <- 2:4 ## window sizes 
+k_grid  <- 2:4 ## window sizes
 mcmc    <- 1000 ## number of simulation for window sizes to be deterimed
 
 t_grid  <- estimate_t_grid(k_grid=k_grid,L=L,method = "zhang", mcmc=mcmc)
 res     <- dmr_scan(obs=regions,k_grid=k_grid,t_grid=t_grid) ## If no regions are found, the function returns NA
 head(res)
 ```
-End of vignette.
+End of vignette

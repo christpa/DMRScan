@@ -1,6 +1,6 @@
 Package: DMRScan
 Title: Detection of Differentially Methylated Regions 
-Version: 0.99.1
+Version: 0.99.2
 Authors@R: c(
     person("CM", "Page", email = "page.ntnu@gmail.com", role = c("aut", "cre")),
     person("L",  "Vos",  email = "Linda.Vos@Kreftregisteret.no", role = "aut"),
@@ -12,7 +12,7 @@ biocViews: Software, Technology, Sequencing, WholeGenome
 Depends:
     R (>= 3.3.0), stats, MASS, Matrix, mvtnorm, RcppRoll
 License: GPL-3
-Encoding: UTF-8
+Encoding: ASCII
 LazyData: true
 Author: Christian M Page [aut, cre],
   Linda Vos [aut],
