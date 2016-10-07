@@ -26,15 +26,17 @@ This function creates a list of regions/clusters of CpGs in close proximity, wit
 all where all regions are longer than min.cpg.
 }
 \examples{
-pos             <- cumsum(rpois(100,30))
-chr             <- sort(sample(1:3,100,TRUE)) 
-z_val           <- matrix(rnorm(100),dimnames=list(paste(chr,pos, sep = ".")))
+data(DMRScan.methylationData) ## Load methylation data from chromosome 22
+data(DMRScan.phenotypes) ## Load phenotype (end-point for methylation data)
 
-min.cpg <- 3  # minimum number of cps for a region to be chnsidered
-max.gap <- 30 # Maximum allowd gap between two observations within one region
-regions <- make.cpg.regions(test_statistic=z_val,chr=chr,pos=pos,max.gap=max.gap,min.cpg=min.cpg)
-## Remaining observations 
-sum(sapply(regions,nrow))
+## Test for an association between phenotype and Methylation
+test.statistics <- apply(DMRScan.methylationData,1,function(x,y)summary(glm(y ~ x, family = binomial(link = "logit")))$coefficients[2,3], y = DMRScan.phenotypes)
+pos<- data.frame(matrix(as.integer(unlist(strsplit(names(test.statistics),split="chr|[.]"))), ncol = 3, byrow = TRUE))[,-1] ## Set chromosomal position to each test-statistic
+
+## Set clustering features 
+min.cpg <- 3  ## Minimum number of CpGs in a tested cluster
+max.gap <- 750  ## Maxium distance (in base-pairs) within a cluster before it is broken up into two seperate cluster 
+regions <- make.cpg.regions(test_statistic = test.statistics, chr = pos[,1], pos = pos[,2], max.gap = max.gap, min.cpg = min.cpg)
 }
 \keyword{CpG}
 \keyword{Regions}

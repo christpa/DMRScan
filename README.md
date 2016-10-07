@@ -6,16 +6,16 @@ R package for detection of differentially methylated regions with adjustment for
 CM Page, L Vos, BK Andreasen
 
 ## Package structure
-The function `dmrscan()` requires three key imputs; 
+The function `dmr_scan()` requires three key inputs; 
   - a vector of test statistics for each CpG site, 
   - the corresponding positions (chromosome and bp position). 
 
-Additional imput are the 
+Additional inputs are the 
   - maximum allowed distance within a region
   - the minimum number of CpGs within a region.
 
 ### Parameters
-A list will follow
+
 
 ### Download & install in R
 ```R
@@ -25,19 +25,13 @@ install_github("christpa/DMRScan")
 load(DMRScan)
 ```
 ### Usage
-Some examples here
-```R
-library(DMRScan)
-
-## Some Code here
-
-```
+Please see the vignette.
 
 # Citation
 
 To cite the DMRScan package in publications use:
 
-*Assessing Genome-Wide Significance for the Detection of Differentially Methylated Regions*. Page CM, Vos L, Rounge TB, Harbo HF, and Andreassen BK Submitted to BMC Bioinformatics., (2016)
+*Assessing Genome-Wide Significance for the Detection of Differentially Methylated Regions*. Page CM, Vos L, Rounge TB, Harbo HF, and Andreassen BK _Submitted to BMC Bioinformatics_., (2016)
 
 A BibTeX entry for LaTeX users is
 ```BibTeX

@@ -22,24 +22,32 @@ A list of Differentially Methylated Regions (DMRs). Returns NA if no DMRs were f
 This function search for DMRs given a orded sequence of test statistics
 }
 \examples{
+data(DMRScan.methylationData) ## Load methylation data from chromosome 22
+data(DMRScan.phenotypes) ## Load phenotype (end-point for methylation data)
 
-L               <- 2000 # Number of probes
-pos             <- cumsum(rpois(L,30))
-chr             <- rep(1,L) ## use plink annotation 1-22, X = 23, Y = 24, XY = 25, MT = 26
-spike           <- numeric(L); spike[(L/2 - 10):(L/2 + 10)] <- 2 #Add i DMRs around L/2
-z_val           <- matrix(rnorm(L, mean = spike),dimnames=list(paste("chr1",pos, sep = ".")))
+## Test for an association between phenotype and Methylation
+test.statistics <- apply(DMRScan.methylationData,1,function(x,y)summary(glm(y ~ x, family = binomial(link = "logit")))$coefficients[2,3], y = DMRScan.phenotypes)
+## Set chromosomal position to each test-statistic
+pos<- data.frame(matrix(as.integer(unlist(strsplit(names(test.statistics), split="chr|[.]"))), ncol = 3, byrow = TRUE))[,-1] 
+## Set clustering features 
+min.cpg <- 4  ## Minimum number of CpGs in a tested cluster
+## Maxium distance (in base-pairs) within a cluster 
+## before it is broken up into two seperate cluster 
+max.gap <- 750  
 
-min.cpg <- 3  # minimum number of cps for a region to ba chnsidered
-max.gap <- 30 # Maximum allowd gap between two observations within one region
-regions <- make.cpg.regions(test_statistic=z_val,chr=chr,pos=pos,max.gap=max.gap,min.cpg=min.cpg)
+window.sizes <- 3:7 ## Number of CpGs in the sliding windows, can be either a single number or a sequence of window sizes
+n.CpG        <- nrow(DMRScan.methylationData) ## Number of CpGs to be tested
 
-nobs    <- sum(sapply(regions,nrow)) ## observations remaining
+## Estimate the window threshold, based on the number of CpGs and window sizes
+window.thresholds <- estimate_t_grid(k_grid = window.sizes, L = n.CpG, method = "zhang", mcmc = 10000)
 
-k_grid  <- 2:4 ## window sizes 
-mcmc    <- 1000 ## number of simulation for window sizes to be deterimed
+## Identify all clusters, and generate a list for each cluster
+regions <- make.cpg.regions(test_statistic = test.statistics, chr = pos[,1], pos = pos[,2], max.gap = max.gap, min.cpg = min.cpg)
+## Run the sliding window
+dmrscan.results   <- dmr_scan(obs = regions, k_grid = window.sizes, t_grid = window.thresholds)
+## Print the result
+print(dmrscan.results)
 
-t_grid  <- estimate_t_grid(k_grid=k_grid,L=L,method = "zhang", mcmc=mcmc)
-res     <- dmr_scan(obs=regions,k_grid=k_grid,t_grid=t_grid) ## If no regions are found, the function returns NA
 
 }
 \keyword{DMRScan}

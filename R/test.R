@@ -128,7 +128,7 @@
     names(sign_probe)       <- nn
     rownames(value_probe)   <- k_grid
                 
-    out        <- list(sign_probe=sign_probe,value_probe=value_probe,which_k=which_k)
+    out <- list(sign_probe=sign_probe,value_probe=value_probe,which_k=which_k)
 
     class(out) <- "scan"
     return(out)

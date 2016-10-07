@@ -83,9 +83,9 @@ estimate_t_grid.siegmund <- function(k_grid, L, mcmc = 1, n_cpu = 1){
         t_grid.new <- numeric(length(k_grid))
         res.smooth <- apply(log(res),1,smooth.spline,y=t_grid,df=4)
        
-        
-        for(i in seq_along(k_grid))
-            t_grid.new[i]   <- predict(res.smooth[[i]],x=log(k_grid[i]*lambda.star))$y
+  
+  for(i in seq_along(k_grid))
+    t_grid.new[i]   <- predict(res.smooth[[i]],x=log(k_grid[i]*lambda.star))$y
 
     return(t_grid.new)
 }
@@ -98,7 +98,7 @@ estimate_t_grid.zhang <- function(L, k_grid, mcmc = 1000, n_cpu = n_cpu){
     t_grid      <- seq(from=1,to=3.5,.10)
     
     
-    l_res         <- log(t(.important_sampling(t_vec=t_grid,k_vec=k_grid,L=L,n=mcmc)))
+    l_res  <- log(t(.important_sampling(t_vec=t_grid,k_vec=k_grid,L=L,n=mcmc)))
     t_grid.new  <- numeric(length(k_grid))
 
     rownames(l_res) <- k_grid
