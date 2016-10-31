@@ -1,196 +1,148 @@
-#.test <- function(x,i,k,t){
-#
-#        xx      <- x[(i-k+1):i]
-#        xx      <- xx[!is.na(xx) & !is.infinite(xx)]
-#        ll      <- length(xx)
-#        if(ll == k)
-#            stat    <- sum(xx)/ll
-#        else
-#            stat    <- 0
-#
-#            out     <- abs(stat) > t
-#    return(list(test=out,value=stat))
-#}
-#
-#
-#.Xt <- function(dat,window.threshold,window.size){
-#
-#    nn          <- rownames(dat)
-#    dat         <- abs(dat)
-#    L           <- length(dat) - window.size + 1
-#
-#    sign_probe  <- logical(L)
-#    value_probe <- numeric(L)
-#
-#    if(L<=k){
-# #       t           <- ifelse(!mean,yes=t,no=t*length(dat))
-# #       value_probe <- rep(sum(dat,na.rm=TRUE),L)
-# #       sign_probe  <- value_probe > t
-#        # Return FALSE
-#    }else{
-#        window.observations <- roll_mean(dat, window.size)
-#        
-#        if(any(window.observations) > window.threshold){
-#            ## significant windows
-#
-#
-#        }
-#        
-#        
-#        
-#        
-#        
-#        for(i in (k+1):L){
-#            tmp <- .test(x=dat,i=i,k=k,t=t)
-#             if(tmp$test){
-#                 sign_probe[(i-k):i] <- TRUE
-#            }
-#            value_probe[i - k] <- tmp$value
-#        }
-#    }
-#        names(sign_probe)  <- nn
-#
-#        out         <- list(sign_probe=sign_probe,value_probe=value_probe)
-#        class(out)  <- "scan"
-#
-#       return(out)
-##}
-#
-#.Xt.list <- function(dat,t,k){
-#
-#    sign_probe  <- matrix(NA,sum(sapply(dat,nrow)),length(k))
-#    value_probe <- sign_probe
-#    
-#        for(i in seq_along(k)){
-#            tmp     <- sapply(dat,.Xt,t=t[i],k=k[i])
-#            sign_probe[,i]  <- do.call(c,lapply(tmp,function(x)x[[1]]))
-#            value_probe[,i] <- do.call(c,lapply(tmp,function(x)x[[2]]))
-#        }
-#    
-#        out <- list(sign_probe=sign_probe,value_probe=value_probe)
-#        
-#
-#    return(out)
-#}
+#' @rdname Rt-methods
+#' @aliases Rt,RegionList-method
+setMethod("Rt", "RegionList", function(region,windowThreshold,windowSize){
+    
+    regions        <- getRegions(region)
+    slidingWindow  <- sapply(regions, Rt, windowThreshold = windowThreshold,
+                          windowSize = windowSize)
+      
+    signProbe  <- t(as.matrix(do.call(c,slidingWindow[1,])))
+    valueProbe <- t(as.matrix(do.call(c,slidingWindow[2,])))
+    
+    whichK     <- integer(length(signProbe))
+    whichK[signProbe] <- windowSize 
 
-.Rt <- function(dat,window.threshold,window.size){
+    out <- list(signProbe=signProbe,valueProbe,whichK=whichK)
+    
+        return(out) 
+    }
+)
 
-    dat         <- abs(dat)
-    nProbe      <- length(dat)
 
-    if(nProbe <= window.size){
-         sign_probe <- rep(FALSE,nProbe)
-         value_probe <- rep(NaN, nProbe)
+#' @rdname Rt-methods
+#' @aliases Rt,Region-method
+setMethod("Rt", "Region", function(region,windowThreshold,windowSize){
+
+    dat         <- abs(region@tValues)
+    nProbe      <- region@nCpG
+
+    if(nProbe <= windowSize){
+         signProbe <- rep(FALSE,nProbe)
+         valueProbe <- rep(NaN, nProbe)
     }else{
-    sign_probe  <- logical(nProbe)
-    value_probe <- c(window.observations, rep(NaN,window.size))
-        
-    window.observations <- roll_mean(dat,window.size)
-    nWindows            <- length(window.observations)
-        if(any(window.observations) > window.threshold){
-            if(nProbe < 2*(window.size -1)){
+        signProbe  <- logical(nProbe)
+        window.observations <- roll_mean(dat,windowSize)
+        valueProbe <- c(window.observations, rep(NaN,windowSize-1)) ## should instead 
+        nWindows    <- length(window.observations)
+        sign_window <- window.observations > windowThreshold
+        if(any(sign_window)){
+            if(nProbe < 2*(windowSize -1)){
                 for(i in seq_along(window.observations))
-                    if((window.observations[i] > window.threshold)){
-## Significant windows
-                    if(i == 1){
-                        sign_probe[1:window.size] <- TRUE
-                    }else if(window.observations[i-1] < window.threshold){
-                        sign_probe[i:(i+window.size)] <- TRUE
+                    if(sign_window[i]){
+## Significant windows, if first window is significant, TRUE, else 
+                        if(i == 1){
+                            signProbe[1:windowSize] <- TRUE
+                        }else if(i == nWindows){
+## Last window, Last window will overwrite NaNs
+                            signProbe[(nProbe - windowSize):nProbe] <- TRUE
+## chek for overalpp
+                        }else if(window.observations[i-1] < windowThreshold){
+                            signProbe[i:(i+windowSize -1)] <- TRUE
+                        }
                     }
-            }else{
-                overlapping_significant_windows <- roll_sum(window.observations, window.size)
+                }else{
+                    overlapping_significant_windows <- roll_sum(sign_window, windowSize)
                 if(any(overlapping_significant_windows > 1)){
 ## Overlapping significant windows
-                    window.observations[which(overlapping_significant_windows > 1) -1 ] <- 0
+                    sign_window[which(overlapping_significant_windows > 1)] <- FALSE
                 }
 ## Overlapping significant windows are removed 
-                    which.sign <- which(window.observations > window.threshold)
-                    sign_probe[which.sign:(which.sign + window.size)] <- TRUE
+                    which.sign <- do.call(c,lapply(which(sign_window),
+                            function(x,windowSize){x:(x + windowSize -1)},
+                                         windowSize = windowSize))
+                    
+
+                    signProbe[which.sign] <- TRUE
+                }
         }
-#        for(i in (k+1):L){
-#            tmp <- .test(x=dat,i=i,k=k,t=t)
-#            if(tmp$test & !any(sign_probe[(i-k+1):(i-1)])){
-#                sign_probe[(i-k+1):i] <- TRUE
-#            }
-#            value_probe[i - k] <- tmp$value
-#        }
     }
-        names(sign_probe)   <- rownames(dat)
-        out         <- list(sign_probe=sign_probe,value_probe=value_probe)
-        class(out)  <- "scan"
+    
+        names(signProbe)   <- rownames(dat)
+        out         <- list(signProbe=signProbe,valueProbe=valueProbe)
 
        return(out)
-}
+    }
+)
 
-.Rt.list <- function(dat,window.threshold,window.size){
-        
-    tmp         <- sapply(dat,.Rt, window.threshold = window.threshold,
-                          window.size = window.size)
-      
-    sign_probe  <- t(as.matrix(do.call(c,tmp[1,])))
-    value_probe <- t(as.matrix(do.call(c,tmp[2,])))
+
+#' @rdname St-methods                                                           
+#' @aliases St,RegionList-method                                                    
+setMethod("St", "RegionList", function(region,windowThreshold,windowSize){ 
+
+    regions        <- getRegions(region)
+    slidingWindow  <- sapply(regions,St,windowThreshold = windowThreshold,
+                          windowSize = windowSize)
+
+    signProbe  <- do.call(c,slidingWindow[1,])
+    valueProbe <- do.call(cbind,slidingWindow[2,])
+    whichK     <- do.call(c,slidingWindow[3,])
+
+    out     <- list(signProbe,valueProbe,whichK=whichK)
+
+        return(out)
+    }   
+)
+
+#' @rdname St-methods                                                           
+#' @aliases St,Region-method                                                    
+setMethod("St", "Region", function(region,windowThreshold,windowSize){         
+                    
+    dat         <- getT(region)
+    nProbe      <- nCpG(region)
+
+    signProbe  <- logical(nProbe)
+    valueProbe <- matrix(0,length(windowSize),nProbe)
+    whichK     <- integer(nProbe)
     
-    which_k     <- integer(length(sign_probe))
-    which_k[sign_probe] <- k
-
-    out <- list(sign_probe=sign_probe,value_probe,which_k=which_k)
-    
-    return(out) 
-}
-
-.St <- function(dat,window.threshold,window.size){
-## window.threshold & window.size are vectors/grid of values
-## Assumes window sizes is sorted from smallest to largers
-
-    dat         <- abs(dat)
-    nProbe      <- length(dat)
-    sign_probe  <- logical(nProbe)
-    value_probe <- matrix(0,length(k_grid),nProbe)
-    which_k     <- integer(nProbe)
-
-    for(runner in seq_along(window.size)){
-        window   <- window.size[runner]
-## Identify any siginficant windows with window size "window"
-        tmp     <- roll_mean(dat, window)
-        
-        sign_window <- (tmp > window.threshold[runner])
+    for(runner in seq_along(windowSize)){
+        window   <- windowSize[runner]
+## Identify any siginficant windows with windowSize "window"
+## If region presented is shorted than windowSize; return NaN                                                                        
+       if(nProbe > window){                                                        
+        tmp         <- roll_mean(dat, window)
+        nWindows    <- length(tmp)
+        sign_window <- (tmp > windowThreshold[runner])
 
         if(any(sign_window)){
 ## Significant windows
 ## Since smalles window comes first, any overlapping windows (ie. next 
 ## itteration will be non-sigificant.
-           sign_window_list <- lapply(which(sign_window), function(x,window){
-                                    return(x:(x+window-1))}, window = window)
+           sign_window_list <- lapply(which(sign_window), 
+                                    function(x,window){return(x:(x+window-1))},
+                                    window = window)
+
+        ## Special casese: last window significnat
+            if(sign_window[nWindows] & !any(signProbe[(nProbe - window+1):nProbe])){
+## Last window significant
+                signProbe[(nProbe - window+1):nProbe] <- TRUE
+            }
 
             for(i in seq_along(sign_window_list)){
-                        if(!any(sign_probe[sign_window_list[[i]]])){                       
-                                sign_probe[sign_window_list[[i]]] <- TRUE 
-                                which_k[sign_window_list[[i]]]   <- length(sign_window_list[[i]])
-                              }                                
+                   if(!any(signProbe[sign_window_list[[i]]])){                       
+                          signProbe[sign_window_list[[i]]] <- TRUE 
+                          whichK[sign_window_list[[i]]]   <- length(sign_window_list[[i]])
+                   }                                
             }
+        }
+            valueProbe[runner,] <- c(tmp, rep(NaN,window-1))
+        }
     }
-                   
-        
-    names(sign_probe)       <- rownames(dat)
-    rownames(value_probe)   <- k_grid
+    
+    names(signProbe)       <- rownames(dat)
+    rownames(valueProbe)   <- windowSize 
                 
-    out <- list(sign_probe=sign_probe,value_probe=value_probe,which_k=which_k)
+    out <- list(signProbe=signProbe,valueProbe=valueProbe,whichK=whichK)
 
-    class(out) <- "scan"
-    return(out)
-}
-
-.St.list <- function(dat,t,k){
-
-    ll          <- sum(sapply(dat,length))
-
-    tmp         <- sapply(dat,.St,t=t,k=k)
-
-    sign_probe  <- do.call(c,tmp[1,])
-    value_probe <- do.call(cbind,tmp[2,])
-    which_k     <- do.call(c,tmp[3,])
-
-    out     <- list(sign_probe,value_probe,which_k=which_k)
-
-    return(out)
-}   
+        return(out)
+    }
+)

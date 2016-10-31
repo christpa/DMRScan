@@ -1,14 +1,14 @@
-#' Bundles CpGs into a list of clusters 
-#'
-#' This function creates a list of regions/clusters of CpGs in close proximity, with no gap larger than max.gap, and 
-#' all where all regions are longer than min.cpg. 
-#' @param chr (Sorted) Vector of chromosome location for each CpG (use integer annotation 1-22, X = 23, Y = 24, XY = 25, MT = 26)
+#' @title Cluster
+#' @name makeCpGregions
+#' @description
+#' Clustger CpGs together in regions based on proximity
+#' @param chr (Sorted) Vector of chromosome location for each CpG 
 #' @param pos (Sorted) Vector giving base pair position for each CpG 
 #'  If unsorted, use order(chr,pos) to sort the genomic positions within each chromosome.
-#' @param test_statistic Vector of corresponding observed T-value for each CpG, must be ordered in the same way as chr and pos
-#' @param max.gap Maximum allowed base pair gap within a cluster. Default is set to 500.
-#' @param min.cpg Minimum number of CpGs allowed in each region to be considered. Default is set to at least 2 CpGs within each region.
-#' @return The suplied test_statistics ordered into into a list, with one entry for each CpG region.
+#' @param observations Vector of corresponding observed T-value for each CpG, must be ordered in the same way as chr and pos
+#' @param maxGap Maximum allowed base pair gap within a cluster. Default is set to 500.
+#' @param minCpG Minimum number of CpGs allowed in each region to be considered. Default is set to at least 2 CpGs within each region.
+#' @return The suplied observations ordered into into a RegionList object. To be parsed further into dmrscan() 
 #' @keywords CpG Regions
 #' @export
 #' @examples
@@ -16,57 +16,151 @@
 #' data(DMRScan.phenotypes) ## Load phenotype (end-point for methylation data)
 #' 
 #' ## Test for an association between phenotype and Methylation
-#' test.statistics <- apply(DMRScan.methylationData,1,function(x,y)summary(glm(y ~ x, family = binomial(link = "logit")))$coefficients[2,3], y = DMRScan.phenotypes)
-#' pos<- data.frame(matrix(as.integer(unlist(strsplit(names(test.statistics),split="chr|[.]"))), ncol = 3, byrow = TRUE))[,-1] ## Set chromosomal position to each test-statistic
+#' testStatistics <- apply(DMRScan.methylationData,1,function(x,y)summary(glm(y ~ x, family = binomial(link = "logit")))$coefficients[2,3], y = DMRScan.phenotypes)
+#' pos<- data.frame(matrix(as.integer(unlist(strsplit(names(testStatistics),split="chr|[.]"))), ncol = 3, byrow = TRUE))[,-1] ## Set chromosomal position to each test-statistic
 #' 
 #' ## Set clustering features 
-#' min.cpg <- 3  ## Minimum number of CpGs in a tested cluster
-#' max.gap <- 750  ## Maxium distance (in base-pairs) within a cluster before it is broken up into two seperate cluster 
-#' regions <- make.cpg.regions(test_statistic = test.statistics, chr = pos[,1], pos = pos[,2], max.gap = max.gap, min.cpg = min.cpg)
-make.cpg.regions <- function(chr,pos,test_statistic,max.gap = 500, min.cpg = 2){
+#' minCpG <- 3  ## Minimum number of CpGs in a tested cluster
+#' maxGap <- 750  ## Maxium distance (in base-pairs) within a cluster before it is broken up into two seperate cluster 
+#' regions <- makeCpGregions(observations = testStatistics, chr = pos[,1], pos = pos[,2], maxGap = maxGap, minCpG = minCpG)
+makeCpGregions <- function(observations, chr, pos, maxGap = 500, minCpG = 2){
         if(any(is.na(c(chr,pos)))){
          ## if any NA or Chr is not integer
          ## stop
         }
 
-	if(is.null(dim(test_statistic))){
-        nn <- names(test_statistic);test_statistic <- as.matrix(test_statistic)
-        rownames(test_statistic)<-nn
+	if(is.null(dim(observations))){
+        rowNames <- names(observations)
+        observations <- as.matrix(observations)
+        rownames(observations) <- rowNames
+    }else{
+        rowNames <- rownames(observations)
     }
-        rowNames    <- rownames(test_statistic)
 
-        idx          <- split(seq_along(pos), chr)
-        region.idx   <- rep(NA,length(pos))
-        end          <- 0
+    idx          <- split(seq_along(pos), chr)
+    region.idx   <- rep(NA,length(pos))
+    end          <- 0
+    
+    for(i in seq_along(idx)){
+         oo      <- order(pos[idx[[i]]])
+         idx.reg <- idx[[i]][oo]
+         xx      <- pos[idx.reg]
         
-        for(i in seq_along(idx)){
-             oo      <- order(pos[idx[[i]]])
-             idx.reg <- idx[[i]][oo]
-             xx      <- pos[idx.reg]
-            
-             diff    <- as.numeric(diff(xx) > max.gap)
-             cluster <- cumsum(c(1,diff))
-             region.idx[idx.reg] <- cluster + end
-             end     <- max(cluster) + end
-         }
+         diff    <- as.numeric(diff(xx) > maxGap)
+         cluster <- cumsum(c(1,diff))
+         region.idx[idx.reg] <- cluster + end
+         end     <- max(cluster) + end
+    }
 
+    
+    if(minCpG >= 2){
+        nRegions    <- sum(table(cluster) >= minCpG)
+    }else{
+        nRegions    <- as.integer(max(cluster))
+    }
+        regionList  <- RegionList(nRegions)
 
-
-        n.reg               <- max(region.idx)
-        region.list         <-array(list(),n.reg)
-        rr.true             <- !is.null(rownames(test_statistic))
-
-        for(i in seq_along(region.list)){
-            reg.id  <- which(region.idx==i)
-            xx     <- test_statistic[reg.id,]
-            region.list[[i]]  <- as.matrix(xx)
-                if(rr.true)
-                    rownames(region.list[[i]]) <- rowNames[reg.id]
-
-            cat(i, "/", n.reg,"\r")
-        };cat("\n") 
-        ll               <- sapply(region.list,length)
-        region.list.long <- region.list[ll >= min.cpg]
-
-        return(region.list.long)
+    j                  <- 1
+    for(i in seq_len(max(cluster))){
+        reg.id  <- which(region.idx==i)
+        xx     <- observations[reg.id,]
+        
+        if(length(reg.id) >= minCpG){
+            regionList <- setRegion(regionList,
+                                  i             = j,
+                                  Region(
+                                    tValues       = xx,
+                                    id            = rowNames[reg.id],
+                                    chromosome    = chr[reg.id][1],
+                                    position      = pos[reg.id]
+                                )
+                        )
+            #cat(j, "/", nRegions,"\r")
+                j   <- j + 1 
+        }
+    };cat("\n") 
+    
+    return(regionList)
 }
+
+
+#' @title Cluster
+#' @name makeCpGgenes
+#' @description
+#' Clustger CpGs together in genes based on annotation
+#' @param chr (Sorted) Vector of chromosome location for each CpG 
+#' @param pos (Sorted) Vector giving base pair position for each CpG 
+#'  If unsorted, use order(chr,pos) to sort the genomic positions within each chromosome.
+#' @param observations Vector of corresponding observed T-value for each CpG, must be ordered in the same way as chr and pos
+#' @param gene A vector asigning each probe to a gene.
+#' @param minCpG Minimum number of CpGs allowed in each region to be considered. Default is set to at least 2 CpGs within each region.
+#' @return The suplied observations ordered into into a list, with one entry for each CpG region.
+#' @keywords CpG Regions
+#' @export
+#' @examples
+#' data(DMRScan.methylationData) ## Load methylation data from chromosome 22
+#' data(DMRScan.phenotypes) ## Load phenotype (end-point for methylation data)
+#' 
+#' ## Test for an association between phenotype and Methylation
+#' testStatistics <- apply(DMRScan.methylationData,1,function(x,y)summary(glm(y ~ x, family = binomial(link = "logit")))$coefficients[2,3], y = DMRScan.phenotypes)
+#' pos <- data.frame(matrix(as.integer(unlist(strsplit(names(testStatistics),split="chr|[.]"))), ncol = 3, byrow = TRUE))[,-1] ## Set chromosomal position to each test-statistic
+#' 
+#' ## Set clustering features 
+#' minCpG   <- 3  ## Minimum number of CpGs in a tested cluster
+#' gene     <- sample(paste("Gene",1:100,sep=""), length(testStatistics),replace=TRUE)
+#' regions  <- makeCpGgenes(observations = testStatistics, chr = pos[,1], pos = pos[,2], gene = gene, minCpG = minCpG)
+makeCpGgenes <- function(observations, chr, pos, gene, minCpG = 2){
+
+        if(any(is.na(c(chr,pos)))){
+         ## if any NA or Chr is not integer
+         ## stop
+        }
+        if(is.factor(gene))
+            gene    <- as.character(gene)
+        
+        if(is.null(dim(observations))){
+            rowNames <- names(observations)
+            observations <- as.matrix(observations)
+            rownames(observations) <- rowNames
+        }else{
+            rowNames <- rownames(observations)
+        }
+            if(is.numeric(gene) | is.factor(gene))
+                gene <- as.character(gene)
+
+## Clean gene names
+        gene[grep(" ", gene)] <- NA
+        gene[gene == ""] <- NA
+
+        
+      geneNames  <- unique(na.omit(gene))
+      nGene      <- sum(table(gene) >= minCpG)
+      
+      regionList <- RegionList(nGene)
+
+      i          <- 1
+      for(geneIter in geneNames){
+          idx           <- gene %in% geneIter
+          if(length(idx) >= minCpG){
+            regionList    <- setRegion(regionList,
+                                     i  = i,
+                                     Region( 
+                                        tValues = observations[idx],
+                                        id      = rowNames[idx],
+                                        chromosome = chr[idx][1],
+                                        position= pos[idx])
+                            )
+          }
+            i   <- i + 1
+
+            #cat(i, "/", nGene, "\r")
+      };cat("\n")
+
+       names(regionList@regions) <- geneNames     
+       ll               <- which(sapply(getRegions(regionList),length) >= minCpG)
+
+       regionList       <- RegionList(regionList[ll],nRegions = length(ll))
+
+        return(regionList)
+}
+

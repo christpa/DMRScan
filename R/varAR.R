@@ -20,7 +20,7 @@ varAR <- function(order,nProbe,phi,se){
         j   <- .gamma(phi)
         p.1 <- phi[1]
         p.2 <- phi[2]
-        a.j <- sapply(0:nProbe,.a_j,phi=phi)
+        a.j <- sapply(seq_len(nProbe),.a_j,phi=phi)
 
         out   <- j[1]*(sum(a.j[-1])^2 + sum(a.j[-(nProbe+1)]*p.2 )^2) + 2*j[2]*(sum(a.j[-1])*sum(a.j[-(nProbe+1)]*p.2)) + sum(cumsum(a.j)^2)
         norm  <- nProbe^2

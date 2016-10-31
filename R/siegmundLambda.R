@@ -1,8 +1,8 @@
-#' @importFrom stats dnorm pnorm
-.siegmund_lambda <- function(t,k,L){
-                    m   <- L
-                    w   <- k
-                    z   <- t
+#' @import stats
+siegmundLambda <- function(threshold,windowSize,nProbe){
+                    m   <- nProbe
+                    w   <- windowSize
+                    z   <- threshold
 
         nu <- function(x){
             y <- x/2
