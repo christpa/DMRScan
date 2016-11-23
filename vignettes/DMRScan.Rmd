@@ -43,16 +43,24 @@ data(DMRScan.phenotypes) ## Load phenotype (end-point for methylation data)
 > Note that the DMRScan do not require raw data to be used, but only test statistics. 
 To generate test statistics for use in DMRScan, we use logistic regression on 
 the example DNA methylation data, and the phenotype data as endpoint.
+<<<<<<< HEAD
 ```R
 observations <- apply(DMRScan.methylationData,1,function(x,y)summary(glm(y ~ x, family = binomial(link = "logit")))$coefficients[2,3], y = DMRScan.phenotypes)
 head(observations)
+=======
+```[r}
+test.statistics <- apply(DMRScan.methylationData,1,function(x,y)
+                  summary(glm(y ~ x, family = binomial(link = "logit")))$coefficients[2,3], 
+                  y = DMRScan.phenotypes)
+head(test.statistics)
+>>>>>>> c23fb8d915f4b124ad2c4c58590dfbecad9f03b6
 ```
 This will return a sequence of test statistics; which is the data that is used 
 further. The output which will be used further is given below:
 
 | chr22.17061793 | chr22.17062497 | chr22.17062614 | chr22.17063057 | chr22.17063105 | chr22.17063107|
-| ---------------|- --------------|----------------|----------------|----------------|-----------|
-|   0.02924113   |    0.65795471  |   0.86192751   |  -0.39548318   | -0.73786743    | 0.28811812 |
+| ---------------|----------------|----------------|----------------|----------------|---------------|
+|   0.02924113   |    0.65795471  |   0.86192751   |  -0.39548318   |   -0.73786743  | 0.28811812    |
 
 The sliding window function in DMRScan is not dependent on raw methylation data, 
 but rather the test statistic for each genomic position. This allows for much 
@@ -76,8 +84,14 @@ inputs;
 To identify the coordinate to each test statistic given in the previous table, 
 we split the names inherited from the methylation values into its chromosomal 
 part, and the base pair location.
+<<<<<<< HEAD
 ```R
 pos <- matrix(as.integer(unlist(strsplit(names(observations),split="chr|[.]"))), ncol = 3, byrow = TRUE)[,-1] 
+=======
+```{r}
+pos <- matrix(as.integer(unlist(strsplit(names(test.statistics),split="chr|[.]"))), 
+                                                        ncol = 3, byrow = TRUE)[,-1] 
+>>>>>>> c23fb8d915f4b124ad2c4c58590dfbecad9f03b6
 head(pos)
 ```
 The chromosome number and genomic position is here stored in the same object, a 
@@ -87,15 +101,31 @@ information can be stored in separate objects.
 To generate the clusters, we also need to set the additional clustering 
 parameters:
 
+<<<<<<< HEAD
 ```R
 min.cpg <- 3  ## Minimum number of CpGs in a tested cluster
 max.gap <- 750  ## Maxium distance (in base-pairs) within a cluster before it is broken up into two seperate cluster 
+=======
+```{r}
+ ## Minimum number of CpGs in a tested cluster
+min.cpg <- 3 
+
+## Maxium distance (in base-pairs) within a cluster before it is broken 
+## up into two seperate cluster
+max.gap <- 750   
+>>>>>>> c23fb8d915f4b124ad2c4c58590dfbecad9f03b6
 ```
 This, together with the test statistic vector from earlier, allows us to generate 
 a list of clusters where the sliding window is operated. 
 
+<<<<<<< HEAD
 ```R
 regions <- makeCpGregions(observations = observations, chr = pos[,1], pos = pos[,2], maxGap = max.gap, minCpG = min.cpg)
+=======
+```{r}
+regions <- make.cpg.regions(test_statistic = test.statistics, chr = pos[,1], pos = pos[,2], 
+                                              max.gap = max.gap, min.cpg = min.cpg)
+>>>>>>> c23fb8d915f4b124ad2c4c58590dfbecad9f03b6
 ``` 
 ## DMRScan 
 We are now ready to run the sliding window on the clusters. To run a sliding 
@@ -136,6 +166,7 @@ specified, as well as the correlation structure. We will illustrate using only
 important sampling (which has a fixed correlation structure on the form of AR(2)) 
 and the closed form expression from Siegmund et.al. 
 
+<<<<<<< HEAD
 ```R
 window.sizes <- 3:7 ## Number of CpGs in the sliding windows (can be either a single number or a sequence)
 n.CpG        <- nCpG(regions) ## Number of CpGs to be tested
@@ -151,6 +182,30 @@ We now have all the data and parameters needed to run the `dmr_scan()` function.
 First using a window threshold estimated with _importanc sampling_, we have
 ```R
 dmrscan.results   <- dmrscan(observations = regions, windowSize = window.sizes, windowThreshold = window.thresholds.importancSampling)
+=======
+```{r}
+## Number of CpGs in the sliding windows (can be either a single number or a sequence)
+window.sizes <- 3:7 
+
+## Number of CpGs to be tested
+n.CpG        <- nrow(DMRScan.methylationData) 
+
+## Estimate the window threshold, based on the number of CpGs and window sizes 
+## using important sampling
+window.thresholds.importantSampling <- estimate_t_grid(k_grid = window.sizes, 
+                                          L = n.CpG, method = "zhang", mcmc = 10000)
+
+## Estimating the window threshold using the closed form expression
+window.thresholds.siegmund <- estimate_t_grid(k_grid = window.sizes, 
+                                           L = n.CpG, method = "siegmund")
+``` 
+### Identifying Differentially Methylated Regions
+We now have all the data and parameters needed to run the `dmr_scan()` function. 
+First using a window threshold estimated with _important sampling_, we have
+```{r}
+dmrscan.results   <- dmr_scan(obs = regions, k_grid = window.sizes, 
+                              t_grid = window.thresholds.importantSampling)
+>>>>>>> c23fb8d915f4b124ad2c4c58590dfbecad9f03b6
 ## Print the result
 print(dmrscan.results)
 ```
@@ -166,8 +221,14 @@ This will give the following result, with four genome wide significant regions. 
 
 When using a more stringent cut-off, generated by using the "_siegmund_" option in `dmr_scan()`, we get no significant regions on the same data set. Exemplified by the syntax below:
 
+<<<<<<< HEAD
 ```R
 dmrscan.results   <- dmr_scan(obs = regions, k_grid = window.sizes, t_grid = window.thresholds.siegmund)
+=======
+```{r}
+dmrscan.results   <- dmr_scan(obs = regions, k_grid = window.sizes, 
+                                t_grid = window.thresholds.siegmund)
+>>>>>>> c23fb8d915f4b124ad2c4c58590dfbecad9f03b6
 ## Print the result
 print(dmrscan.results)
 ```
