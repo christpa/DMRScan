@@ -7,19 +7,22 @@
 makeCpGgenes(observations, chr, pos, gene, minCpG = 2)
 }
 \arguments{
-\item{observations}{Vector of corresponding observed T-value for each CpG, must be ordered in the same way as chr and pos}
+\item{observations}{Vector of corresponding observed T-value for each CpG, 
+must be ordered in the same way as chr and pos}
 
-\item{chr}{(Sorted) Vector of chromosome location for each CpG}
+\item{chr}{Vector of chromosome location for each CpG}
 
-\item{pos}{(Sorted) Vector giving base pair position for each CpG 
-If unsorted, use order(chr,pos) to sort the genomic positions within each chromosome.}
+\item{pos}{Vector giving base pair position for each CpG If unsorted, 
+use order(chr,pos) to sort the genomic positions within each chromosome.}
 
 \item{gene}{A vector asigning each probe to a gene.}
 
-\item{minCpG}{Minimum number of CpGs allowed in each region to be considered. Default is set to at least 2 CpGs within each region.}
+\item{minCpG}{Minimum number of CpGs allowed in each region to be 
+considered. Default is set to at least 2 CpGs within each region.}
 }
 \value{
-The suplied observations ordered into into a list, with one entry for each CpG region.
+The suplied observations ordered into into a list, 
+with one entry for each CpG region.
 }
 \description{
 Clustger CpGs together in genes based on annotation
@@ -29,13 +32,22 @@ data(DMRScan.methylationData) ## Load methylation data from chromosome 22
 data(DMRScan.phenotypes) ## Load phenotype (end-point for methylation data)
 
 ## Test for an association between phenotype and Methylation
-testStatistics <- apply(DMRScan.methylationData,1,function(x,y)summary(glm(y ~ x, family = binomial(link = "logit")))$coefficients[2,3], y = DMRScan.phenotypes)
-pos <- data.frame(matrix(as.integer(unlist(strsplit(names(testStatistics),split="chr|[.]"))), ncol = 3, byrow = TRUE))[,-1] ## Set chromosomal position to each test-statistic
+testStatistics <- apply(DMRScan.methylationData,1,function(x,y)
+ summary(glm(y ~ x, family = binomial(link = "logit")))$coefficients[2,3],
+  y = DMRScan.phenotypes)
+
+## Set chromosomal position to each test-statistic
+pos <- data.frame(matrix(as.integer(unlist(strsplit(names(testStatistics),
+ split="chr|[.]"))), ncol = 3, byrow = TRUE))[,-1]
 
 ## Set clustering features 
 minCpG   <- 3  ## Minimum number of CpGs in a tested cluster
-gene     <- sample(paste("Gene",1:100,sep=""), length(testStatistics),replace=TRUE)
-regions  <- makeCpGgenes(observations = testStatistics, chr = pos[,1], pos = pos[,2], gene = gene, minCpG = minCpG)
+gene     <- sample(paste("Gene",1:100,sep=""), 
+                           length(testStatistics),replace=TRUE)
+regions  <- makeCpGgenes(observations = testStatistics, 
+                         chr = pos[,1], pos = pos[,2], 
+                         gene = gene, minCpG = minCpG)
+
 }
 \keyword{CpG}
 \keyword{Regions}

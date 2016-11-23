@@ -10,6 +10,9 @@
 \arguments{
 \item{object}{The region to be desplied, of type Region}
 }
+\value{
+Cat a region to screen
+}
 \description{
 Show a region
 }

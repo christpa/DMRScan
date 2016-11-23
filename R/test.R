@@ -21,6 +21,7 @@ setMethod("Rt", "RegionList", function(region,windowThreshold,windowSize){
 
 #' @rdname Rt-methods
 #' @aliases Rt,Region-method
+#' @importFrom RcppRoll roll_mean roll_sum
 setMethod("Rt", "Region", function(region,windowThreshold,windowSize){
 
     dat         <- abs(region@tValues)
@@ -32,7 +33,7 @@ setMethod("Rt", "Region", function(region,windowThreshold,windowSize){
     }else{
         signProbe  <- logical(nProbe)
         window.observations <- roll_mean(dat,windowSize)
-        valueProbe <- c(window.observations, rep(NaN,windowSize-1)) ## should instead 
+        valueProbe <- c(window.observations, rep(NaN,windowSize-1)) 
         nWindows    <- length(window.observations)
         sign_window <- window.observations > windowThreshold
         if(any(sign_window)){
@@ -54,7 +55,7 @@ setMethod("Rt", "Region", function(region,windowThreshold,windowSize){
                     overlapping_significant_windows <- roll_sum(sign_window, windowSize)
                 if(any(overlapping_significant_windows > 1)){
 ## Overlapping significant windows
-                    sign_window[which(overlapping_significant_windows > 1)] <- FALSE
+                 sign_window[which(overlapping_significant_windows > 1)] <- FALSE
                 }
 ## Overlapping significant windows are removed 
                     which.sign <- do.call(c,lapply(which(sign_window),
@@ -75,8 +76,7 @@ setMethod("Rt", "Region", function(region,windowThreshold,windowSize){
 )
 
 
-#' @rdname St-methods                                                           
-#' @aliases St,RegionList-method                                                    
+#' @rdname St-methods                
 setMethod("St", "RegionList", function(region,windowThreshold,windowSize){ 
 
     regions        <- getRegions(region)
@@ -93,9 +93,9 @@ setMethod("St", "RegionList", function(region,windowThreshold,windowSize){
     }   
 )
 
-#' @rdname St-methods                                                           
-#' @aliases St,Region-method                                                    
-setMethod("St", "Region", function(region,windowThreshold,windowSize){         
+#' @rdname St-methods             
+#' @importFrom RcppRoll roll_mean 
+setMethod("St", "Region", function(region,windowThreshold,windowSize){ 
                     
     dat         <- getT(region)
     nProbe      <- nCpG(region)
@@ -107,8 +107,8 @@ setMethod("St", "Region", function(region,windowThreshold,windowSize){
     for(runner in seq_along(windowSize)){
         window   <- windowSize[runner]
 ## Identify any siginficant windows with windowSize "window"
-## If region presented is shorted than windowSize; return NaN                                                                        
-       if(nProbe > window){                                                        
+## If region presented is shorted than windowSize; return NaN   
+       if(nProbe > window){                                    
         tmp         <- roll_mean(dat, window)
         nWindows    <- length(tmp)
         sign_window <- (tmp > windowThreshold[runner])

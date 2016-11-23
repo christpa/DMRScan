@@ -2,35 +2,13 @@
 % Please edit documentation in R/Region.R
 \docType{class}
 \name{RegionList-class}
-\alias{RegionList}
 \alias{RegionList-class}
-\alias{RegionList-class,initialize}
-\alias{initialize-RegionList}
-\title{Class RegionList                                                                 
-                                                                             
+\title{Class RegionList                                                        
+                                                                    
 Class \code{RegionList} is a collection of Regions}
-\usage{
-\S4method{initialize}{RegionList}(.Object, nRegions = "integer",
-  regions = "array")
-
-RegionList(...)
-}
-\arguments{
-\item{.Object}{Empty}
-
-\item{nRegions}{The number of regions to be included in the RegionList object}
-
-\item{regions}{An optional list of regions to be assigned to a RegionList}
-
-\item{...}{Parameters to be past to new("RegionList",...)}
-}
 \description{
-Class RegionList                                                                 
-                                                                             
+Class RegionList                                                        
+                                                                    
 Class \code{RegionList} is a collection of Regions
-
-Constructor for class RegionList
-
-Shorthand for initializing RegionList
 }
 

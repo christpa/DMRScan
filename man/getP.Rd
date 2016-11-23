@@ -7,14 +7,19 @@
 \alias{getP,RegionList-method}
 \title{Method getP}
 \usage{
-getP(region)
+getP(region, n = 10)
 
-\S4method{getP}{Region}(region)
+\S4method{getP}{Region}(region, n = 10)
 
-\S4method{getP}{RegionList}(region)
+\S4method{getP}{RegionList}(region, n = 10)
 }
 \arguments{
 \item{region}{An object of type Region or RegionList}
+
+\item{n}{The number of digits to be presented. Default is 10}
+}
+\value{
+A numeric vector of p-values
 }
 \description{
 Method getP
@@ -22,5 +27,15 @@ Method getP
 Get p-values for a region
 
 Get p-values for a list of regions (RegionList)
+}
+\examples{
+#Number of probes is n = 10
+nCpG <- 10
+region <- Region(tValues    = rnorm(nCpG),
+                 position   = 1:nCpG,
+                 chromosome = "3",
+                 pVal       = runif(1))
+## Pvalues for Region
+getP(region)
 }
 

@@ -12,6 +12,9 @@
 
 \item{...}{Inherited from plot()}
 }
+\value{
+A plot object
+}
 \description{
 Plot DMRs of type Region
 }

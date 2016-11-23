@@ -10,26 +10,33 @@ dmrscan(observations, windowSize, windowThreshold = NULL, ...)
 \arguments{
 \item{observations}{An object of type RegionList}
 
-\item{windowSize}{A sequence of windowSizes for the slidingWindow, must be an integer}
+\item{windowSize}{A sequence of windowSizes for the slidingWindow, 
+must be an integer}
 
-\item{windowThreshold}{Optional argument with corresponding cut-off for each window. Will be estimated if not supplied.}
+\item{windowThreshold}{Optional argument with corresponding cut-off for 
+each window. Will be estimated if not supplied.}
 
-\item{...}{Optional arguments to be pased to estimate_windowThreshold(), if no grid is specified.}
+\item{...}{Optional arguments to be pased to estimate_windowThreshold(), 
+if no grid is specified.}
 }
 \value{
-An object of type RegionList with signficantly differentially methylated regions
+An object of type RegionList with signficantly differentially
 }
 \description{
 DMR Scan function
 }
 \examples{
-data(DMRScan.methylationData) ## nProbeoad methylation data from chromosome 22
-data(DMRScan.phenotypes) ## nProbeoad phenotype (end-point for methylation data)
+## nProbeoad methylation data from chromosome 22
+data(DMRScan.methylationData) 
+## nProbeoad phenotype (end-point for methylation data)
+data(DMRScan.phenotypes) 
 
 ## Test for an association between phenotype and Methylation
-test.statistics <- apply(DMRScan.methylationData,1,function(x,y)summary(glm(y ~ x, family = binomial(link = "logit")))$coefficients[2,3], y = DMRScan.phenotypes)
+test.statistics <- apply(DMRScan.methylationData,1,function(x,y)
+  summary(glm(y ~ x, family = binomial(link = "logit")))$coefficients[2,3],
+                                                   y = DMRScan.phenotypes)
 ## Set chromosomal position to each test-statistic
-positions<- data.frame(matrix(as.integer(unlist(strsplit(names(test.statistics), split="chr|[.]"))), ncol = 3, byrow = TRUE))[,-1] 
+positions <- data.frame(matrix(as.integer(unlist(strsplit(names(test.statistics), split="chr|[.]"))), ncol = 3, byrow = TRUE))[,-1]
 ## Set clustering features 
 min.cpg <- 4  ## Minimum number of CpGs in a tested cluster
 ## Maxium distance (in base-pairs) within a cluster 
@@ -37,15 +44,21 @@ min.cpg <- 4  ## Minimum number of CpGs in a tested cluster
 max.gap <- 750  
 
 ## Identify all clusters, and generate a list for each cluster
-regions <- makeCpGregions(observations = test.statistics, chr = positions[,1], pos = positions[,2], maxGap = max.gap, minCpG = min.cpg)
-
-windowSizes <- 3:7 ## Number of CpGs in the slidingWindows, can be either a single number or a sequence of windowSizes
+regions <- makeCpGregions(observations = test.statistics, 
+                          chr = positions[,1], pos = positions[,2], 
+                          maxGap = max.gap, minCpG = min.cpg)
+## Number of CpGs in the slidingWindows, can be either a single number 
+## or a sequence of windowSizes
+windowSizes <- 3:7 
 nCpG        <- nCpG(regions) ## Number of CpGs to be tested
 
-## Estimate the windowThreshold, based on the number of CpGs and windowSizes
-windowThresholds <- estimateWindowThreshold(nProbe = nCpG, windowSize = windowSizes, method = "sampling", mcmc = 10000)
+# Estimate the windowThreshold, based on the number of CpGs and windowSizes
+windowThresholds <- estimateWindowThreshold(nProbe = nCpG, 
+               windowSize = windowSizes, method = "sampling", mcmc = 10000)
 ## Run the slidingWindow
-DMRScanResults   <- dmrscan(observations = regions, windowSize = windowSizes, windowThreshold = windowThresholds)
+DMRScanResults   <- dmrscan(observations = regions, 
+                            windowSize = windowSizes, 
+                            windowThreshold = windowThresholds)
 ## Print the result
 print(DMRScanResults)
 

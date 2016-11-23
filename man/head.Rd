@@ -10,7 +10,11 @@
 \arguments{
 \item{x}{An object to be printed of type RegionList}
 
-\item{n}{The number of regions to be printed when the RegionList is longer than n}
+\item{n}{The number of regions to be printed when the RegionList is 
+longer than n}
+}
+\value{
+The top regins in a RegionList
 }
 \description{
 Cat the head of a list of regions in a RegionList object

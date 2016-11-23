@@ -1,13 +1,15 @@
-#' @import stats MASS mvtnorm
+#' @importFrom stats rnorm 
+#' @importFrom MASS mvrnorm
+#' @importFrom mvtnorm dmvnorm
 importantSampling <- function(thresholdGrid,windowSize,nProbe,mcmc = 10000){
  ## Writen by LV   
-    x   <-  rnorm(nProbe)
+    x   <-  stats::rnorm(nProbe)
     z   <-  numeric(nProbe)
     d   <- 2
-    z[seq_len(d)] <-  rnorm(d)
+    z[seq_len(d)] <-  stats::rnorm(d)
 
     for(i in seq_len(nProbe)[-1]){z[i]<-sum(x[max(i-d,1):min(i+d,nProbe)])/sqrt(2*d+1)}
-    acf <- acf(z,plot=FALSE)$acf
+    acf <- stats::acf(z,plot=FALSE)$acf
 
     lambda <- matrix(nrow = length(thresholdGrid), ncol= length(windowSize))
 
@@ -28,30 +30,31 @@ importantSampling <- function(thresholdGrid,windowSize,nProbe,mcmc = 10000){
         }
         A <- chol(Sigma)
 
-        Y <- mvrnorm(n = mcmc, mu=rep(0,c+k-1),Sigma=diag(c+k-1))
+        Y <- MASS::mvrnorm(n = mcmc, mu=rep(0,c+k-1),Sigma=diag(c+k-1))
         #x <- mvrnorm(n=n,mu=m,Sigma=Sigma)
         x <- Y%*%A + m ## kanske t(A)?
 
-        x   <- abs(x) ## To account for abs() of the test statistic in the R and S - test
+## To account for abs() of the test statistic in the R and S - test
+        x   <- abs(x) 
         m   <- abs(m)
 
         x2 = matrix(NA, nrow = mcmc, ncol = c)
-        for (i in 1:c)
-            x2[,i] = apply(x[,i:(i+k-1)],1, function(x,mcmc)sum(x)/mcmc,mcmc = k)
+      for (i in 1:c)
+         x2[,i] = apply(x[,i:(i+k-1)],1, function(x,mcmc)sum(x)/mcmc,mcmc = k)
 
-        for (j in seq_along(thresholdGrid)){
-            w = 0
-            if (c>2) {x3 <- apply((x2[,seq_len(c-1)]>= thresholdGrid[j]), 1,sum)*(x2[,c] >= thresholdGrid[j])}
-            if (c==2){x3 <-(x2[,1]>= thresholdGrid[j])*(x2[,c] >= thresholdGrid[j])}
+    for (j in seq_along(thresholdGrid)){
+      w = 0
+      if (c>2) {x3 <- apply((x2[,seq_len(c-1)]>= thresholdGrid[j]), 1,sum)*(x2[,c] >= thresholdGrid[j])}
+      if (c==2){x3 <-(x2[,1]>= thresholdGrid[j])*(x2[,c] >= thresholdGrid[j])}
 
-                for (i in which(x3==1) ) {
-                    tmp <- (nProbe-k+1)*dmvnorm(x[i,], mean = rep(0,c+k-1),sigma = Sigma)/dmvnorm(x[i,], mean =m,sigma = Sigma)
-                    if(!is.nan(tmp)){
-                        w = w + tmp
-                    }
-                }
-            lambda[j,iter] = w/mcmc
-        }
+          for (i in which(x3==1) ) {
+              tmp <- (nProbe-k+1)*mvtnorm::dmvnorm(x[i,], mean = rep(0,c+k-1),sigma = Sigma)/dmvnorm(x[i,], mean =m,sigma = Sigma)
+              if(!is.nan(tmp)){
+                  w = w + tmp
+              }
+          }
+      lambda[j,iter] = w/mcmc
+   }
     }
     return(lambda)
 }

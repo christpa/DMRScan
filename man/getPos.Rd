@@ -16,11 +16,24 @@ getPos(region)
 \arguments{
 \item{region}{An opbject of type Region or RegionList}
 }
+\value{
+An integer vector of positions for each probe site
+}
 \description{
 Method getPos
 
 Get the chromosomal coordinates for a Region
 
-Get the chromosomal coordinates for a list of regions in a RegionList object
+Get the chromosomal coordinates for a 
+list of regions in a RegionList object
+}
+\examples{
+#Number of probes is n = 10
+nCpG <- 10
+region <- Region(tValues    = rnorm(nCpG),
+                 position   = 1:nCpG,
+                 chromosome = "3")
+## Genomic coordinates for Region
+getPos(region)
 }
 

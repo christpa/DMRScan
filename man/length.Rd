@@ -13,6 +13,11 @@
 \arguments{
 \item{x}{An object of type Region}
 }
+\value{
+The number of CpGs in a Region
+
+The number of CpGs in a RegionList
+}
 \description{
 Calculate the length of a region in terms of CpGs
 

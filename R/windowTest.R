@@ -1,5 +1,5 @@
-#' @import RcppRoll stats 
 #' @importFrom Matrix sparseMatrix
+#' @importFrom RcppRoll roll_mean roll_sum
 windowTest <- function(threshold,windowSize,nProbe,method,...){
 
     makeData.ar <- function(nProbe,d = 2,...){
@@ -13,12 +13,12 @@ windowTest <- function(threshold,windowSize,nProbe,method,...){
                     i <- c(i,k:dim)
                     j <- c(j,1:(dim -k+1))
               }
-            mat <- Matrix::sparseMatrix(i=i,j=j,x=x,dims=c(dim,dim),symmetric=FALSE)
-            return(mat)
+     mat <- Matrix::sparseMatrix(i=i,j=j,x=x,dims=c(dim,dim),symmetric=FALSE)
+         return(mat)
         }       
 
     ll      <- nProbe + 2*d + 1
-    x       <- rnorm(n = ll)
+    x       <- stats::rnorm(n = ll)
     x.new   <- x%*%ndiag(par = rep(1,d+1), dim = ll)
 
     x.out   <- x.new[seq(d+1,nProbe+d)]/sqrt(2*d+1)
@@ -26,14 +26,14 @@ windowTest <- function(threshold,windowSize,nProbe,method,...){
         
     }   
     makeData.arima <- function(L,...){
-        x.out   <- arima.sim(n=L,...)
+        x.out   <- stats::arima.sim(n=L,...)
         return(as.numeric(x.out))
     }
 
     submethod   <- get(paste("makeData",method,sep="."))
     x           <- submethod(nProbe,...)
-    windows     <- roll_mean(abs(x),windowSize)
-    sign        <- sum(roll_sum(windows > threshold,windowSize) == 1)
+    windows     <- RcppRoll::roll_mean(abs(x),windowSize)
+    sign        <- sum(RcppRoll::roll_sum(windows > threshold,windowSize) == 1)
 
     return(sign)
 }

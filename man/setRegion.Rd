@@ -22,11 +22,26 @@ setRegion(x, i, ...)
 
 \item{region}{An object of type Region to be inseted in RegionList}
 }
+\value{
+An updated version of RegionList x, with a new Region at index i
+}
 \description{
 Method setRegion
 
 Update a RegionList object
 
 Set a Region of type missing
+}
+\examples{
+## A region list with 3 regions
+regList <- RegionList(3L)
+#Number of probes in first is n = 10
+nCpG <- 10
+region <- Region(tValues    = rnorm(nCpG),
+                 position   = 1:nCpG,
+                 chromosome = "3")
+## Set first region in regList to region
+regList <- setRegion(regList,i = 1, region)
+
 }
 

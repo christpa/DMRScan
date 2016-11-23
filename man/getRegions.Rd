@@ -13,9 +13,18 @@ getRegions(x)
 \arguments{
 \item{x}{A RegionList object}
 }
+\value{
+An object of type Region
+}
 \description{
 Method getRegions
 
 Get the regions within an RegionList object
+}
+\examples{
+someEmptyRegions <- RegionList(3L) 
+# To get back three empty regions
+getRegions(someEmptyRegions)
+
 }
 

@@ -20,11 +20,24 @@ getT(region, ...)
 
 \item{index}{Index to extract}
 }
+\value{
+A numeric vector of t-values for a Region or RegionList
+}
 \description{
 Method getT
 
 Get test statistic for an object of type Region
 
 Get test statistic for all regins within a RegionList class
+}
+\examples{
+#Number of probes is n = 10
+nCpG <- 10
+region <- Region(tValues    = rnorm(nCpG),
+                 position   = 1:nCpG,
+                 chromosome = "3")
+## T values for Region
+getT(region)
+
 }
 

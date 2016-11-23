@@ -2,7 +2,6 @@
 % Please edit documentation in R/Region.R
 \docType{methods}
 \name{nCpG}
-\alias{length}
 \alias{nCpG}
 \alias{nCpG,Region-method}
 \alias{nCpG,RegionList-method}
@@ -17,11 +16,20 @@ nCpG(x)
 \arguments{
 \item{x}{An opbject of type Region or RegionList}
 }
+\value{
+The number of CpGs in an object
+}
 \description{
 Method nCpG
 
 Get the number of CpGs i a region
 
 Get the number of CpGs in a RegionList
+}
+\examples{
+someEmptyRegions <- RegionList(3L)
+# The number of CpGs in this regions is 0
+nCpG(someEmptyRegions)
+
 }
 

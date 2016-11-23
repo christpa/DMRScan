@@ -11,7 +11,12 @@
 \S4method{names}{RegionList}(x)
 }
 \arguments{
-\item{x}{An object of type RegionList}
+\item{x}{An object of type Region}
+}
+\value{
+The names of individual CpGs in a Region
+
+A character vector of all CpG ids in a RegionList
 }
 \description{
 Get the names of all probes within a region

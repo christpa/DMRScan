@@ -15,6 +15,11 @@
 
 \item{...}{Has no function}
 }
+\value{
+An print object of a Region class
+
+A printed object of all regions in a RegionList
+}
 \description{
 Print a region
 

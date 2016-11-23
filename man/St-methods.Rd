@@ -20,7 +20,14 @@ St(region, windowThreshold, windowSize)
 
 \item{windowSize}{Vector of window sizes to be tested on regions}
 }
+\value{
+A list of which windows that are significant
+}
 \description{
 Method St
+}
+\examples{
+## Not run
+
 }
 

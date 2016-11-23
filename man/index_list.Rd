@@ -2,19 +2,18 @@
 % Please edit documentation in R/Region.R
 \docType{methods}
 \name{[[}
-\alias{RegionList-method}
 \alias{[[}
-\alias{[[,}
 \title{Get a region from a RegionList object}
 \usage{
-\S4method{[[}{RegionList}(x, i, j)
+\S4method{[[}{RegionList}(x, i)
 }
 \arguments{
 \item{x}{An object of type RegionList}
 
 \item{i}{Index, which region to extract}
-
-\item{j}{Not Used}
+}
+\value{
+A region from a RegionList with class "Region"
 }
 \description{
 Get a region from a RegionList object

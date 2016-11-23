@@ -2,39 +2,10 @@
 % Please edit documentation in R/Region.R
 \docType{class}
 \name{Region-class}
-\alias{Region}
 \alias{Region-class}
-\alias{Region-class,initialize}
-\alias{Region-init}
-\alias{initialize-Region}
-\title{Class Region}
-\usage{
-\S4method{initialize}{Region}(.Object, tValues = "numeric",
-  id = "character", position = "integer", chromosome = "character",
-  pVal = "numeric")
-
-Region(...)
-}
-\arguments{
-\item{.Object}{Empty}
-
-\item{tValues}{A vector of test statistics}
-
-\item{id}{A vector of id's for each test statistic}
-
-\item{position}{A vector of position for each test statistc}
-
-\item{chromosome}{An character describing the chromosome (1-22, X,Y)}
-
-\item{pVal}{A numeric giving the estimated p-value for each significant DMR}
-
-\item{...}{Parameters to pased to new("Regions",...)}
-}
+\title{Object of type Region}
 \description{
-Class \code{Region} is a collection of test statistics for a set of CpGs within a short genomic range
-
-Constructor for class Region
-
-Shorthand for initializing region
+Class \code{Region} is a collection of test statistics for a set of CpGs 
+within a short genomic range
 }
 
