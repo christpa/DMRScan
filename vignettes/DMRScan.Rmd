@@ -43,17 +43,12 @@ data(DMRScan.phenotypes) ## Load phenotype (end-point for methylation data)
 > Note that the DMRScan do not require raw data to be used, but only test statistics. 
 To generate test statistics for use in DMRScan, we use logistic regression on 
 the example DNA methylation data, and the phenotype data as endpoint.
-<<<<<<< HEAD
 ```R
-observations <- apply(DMRScan.methylationData,1,function(x,y)summary(glm(y ~ x, family = binomial(link = "logit")))$coefficients[2,3], y = DMRScan.phenotypes)
+observations <- apply(DMRScan.methylationData,1,function(x,y){
+                        summary(glm(y ~ x, 
+                        family = binomial(link = "logit")))$coefficients[2,3]}, 
+                                            y = DMRScan.phenotypes)
 head(observations)
-=======
-```[r}
-test.statistics <- apply(DMRScan.methylationData,1,function(x,y)
-                  summary(glm(y ~ x, family = binomial(link = "logit")))$coefficients[2,3], 
-                  y = DMRScan.phenotypes)
-head(test.statistics)
->>>>>>> c23fb8d915f4b124ad2c4c58590dfbecad9f03b6
 ```
 This will return a sequence of test statistics; which is the data that is used 
 further. The output which will be used further is given below:
@@ -84,14 +79,9 @@ inputs;
 To identify the coordinate to each test statistic given in the previous table, 
 we split the names inherited from the methylation values into its chromosomal 
 part, and the base pair location.
-<<<<<<< HEAD
 ```R
-pos <- matrix(as.integer(unlist(strsplit(names(observations),split="chr|[.]"))), ncol = 3, byrow = TRUE)[,-1] 
-=======
-```{r}
-pos <- matrix(as.integer(unlist(strsplit(names(test.statistics),split="chr|[.]"))), 
-                                                        ncol = 3, byrow = TRUE)[,-1] 
->>>>>>> c23fb8d915f4b124ad2c4c58590dfbecad9f03b6
+pos <- matrix(as.integer(unlist(strsplit(names(observations),split="chr|[.]"))), 
+                                                ncol = 3, byrow = TRUE)[,-1] 
 head(pos)
 ```
 The chromosome number and genomic position is here stored in the same object, a 
@@ -114,8 +104,8 @@ This, together with the test statistic vector from earlier, allows us to generat
 a list of clusters where the sliding window is operated. 
 
 ```R
-regions <- make.cpg.regions(test_statistic = test.statistics, chr = pos[,1], pos = pos[,2], 
-                                              max.gap = max.gap, min.cpg = min.cpg)
+regions <- makeCpGregions(observations  = observations, chr = pos[,1], pos = pos[,2], 
+                                              maxGap = max.gap, minCpG = min.cpg)
 ``` 
 ## DMRScan 
 We are now ready to run the sliding window on the clusters. To run a sliding 
@@ -133,7 +123,7 @@ package. The different options are:
 - A full MCMC model with simulation of null model `model = "mcmc"`, with given 
 correlation structure for the null data, provided by `arima.sim()`.
 - An faster MCMC called "important sampling", where only a subset of the data
-is sampled. This is implemented in `model = "zhang"`, and is up to 700 times 
+is sampled. This is implemented in `model = "sampling"`, and is up to 700 times 
 faster than the MCMC model, and simulation studies indicates that these to 
 options are comparable in performance.
 - An analytical solution to calculate the window thresholds, based on Siegmund
@@ -167,7 +157,7 @@ window.thresholds.importancSampling <- estimateWindowThreshold(nProbe = n.CpG, w
 window.thresholds.siegmund <- estimateWindowThreshold(nProbe = n.CpG, windowSize = window.sizes, method = "siegmund")
 ``` 
 ### Identifying Differentially Methylated Regions
-We now have all the data and parameters needed to run the `dmr_scan()` function. 
+We now have all the data and parameters needed to run the `dmrscan()` function. 
 First using a window threshold estimated with _importanc sampling_, we have
 ```R
 dmrscan.results   <- dmrscan(observations = regions, windowSize = window.sizes, windowThreshold = window.thresholds.importancSampling)
@@ -187,11 +177,11 @@ window.thresholds.siegmund <- estimate_t_grid(k_grid = window.sizes,
                                            L = n.CpG, method = "siegmund")
 ``` 
 ### Identifying Differentially Methylated Regions
-We now have all the data and parameters needed to run the `dmr_scan()` function. 
+We now have all the data and parameters needed to run the `dmrscan()` function. 
 First using a window threshold estimated with _important sampling_, we have
-```{r}
-dmrscan.results   <- dmr_scan(obs = regions, k_grid = window.sizes, 
-                              t_grid = window.thresholds.importantSampling)
+```R
+dmrscan.results   <- dmrscan(observations = regions, windowSize = window.sizes, 
+                              windowThreshold = window.thresholds.importantSampling)
 ## Print the result
 print(dmrscan.results)
 ```
@@ -205,14 +195,32 @@ This will give the following result, with four genome wide significant regions. 
 | chr22.46762751 | 41946 | 41950 |     5 | 2158 | 2.693212e-04| chr22:46762751-46762782|
 
 
-When using a more stringent cut-off, generated by using the "_siegmund_" option in `dmr_scan()`, we get no significant regions on the same data set. Exemplified by the syntax below:
+When using a more stringent cut-off, generated by using the "_siegmund_" option in `dmrscan()`, we get no significant regions on the same data set. Exemplified by the syntax below:
 
 ```R
-dmrscan.results   <- dmr_scan(obs = regions, k_grid = window.sizes, 
+dmrscan.results   <- dmrscan(obs = regions, k_grid = window.sizes, 
                                 t_grid = window.thresholds.siegmund)
 ## Print the result
 print(dmrscan.results)
 ```
 Which will return an object of type 'NA', since no genome wide significant regions were found.
+
+## Estimating window thresholds with an ARIMA model using MCMC
+We can also use an Monte Carlo approach to estimate the window thresholds, in order to model complex or non-standard correlation structures. We use the argument "submethod" to set the function calls to the different sampling functions (e.g. ar(), ma(), arima()), and pases ... to the models argument in these functions. 
+
+```R
+window.threshold.mcmc <- estimateWindowThreshold(nProbe = n.CpG, windowSize = window.sizes, 
+                                method = "mcmc", mcmc = 1000, nCPU = 1, submethod = "arima", 
+                                model = list(ar = c(0.1,0.03), ma = c(0.04), order = c(2,0,1)))
+
+dmrscan.results      <-  dmrscan(observations = regions, windowSize = window.sizes,             
+                              windowThreshold = window.threshold.mcmc)
+
+print(dmrscan.results)
+```
+
+
+
+
 
 End of vignette

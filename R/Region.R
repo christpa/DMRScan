@@ -263,7 +263,7 @@ setGeneric("nCpG", function(x) standardGeneric("nCpG"))
 #' @rdname getP
 setMethod("getP", "Region",
           function(region,n=10){
-              return(print(region@pVal,digits = n))
+              return(invisible(print(region@pVal,digits = n)))
         }
 )
 
