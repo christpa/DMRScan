@@ -5,9 +5,6 @@
 \alias{[}
 \alias{[,RegionList-method}
 \title{Get Object Region}
-\usage{
-\S4method{[}{RegionList,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
-}
 \arguments{
 \item{x}{An object of type RegionList}
 

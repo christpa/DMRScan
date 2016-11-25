@@ -322,7 +322,7 @@ setMethod("getT", "RegionList",
 #' Get Object Region
 #' @name [
 #' @aliases [,RegionList-method
-#' @aliases [,RegionList,ANY,ANY,ANY
+#' @usage NULL 
 #' @param x An object of type RegionList 
 #' @param i Index, which region to extract                                      
 #' @param j (Not used)
