@@ -33,7 +33,7 @@ Get test statistic for all regins within a RegionList class
 \examples{
 #Number of probes is n = 10
 nCpG <- 10
-region <- Region(tValues    = rnorm(nCpG),
+region <- RegionInit(tValues    = rnorm(nCpG),
                  position   = 1:nCpG,
                  chromosome = "3")
 ## T values for Region

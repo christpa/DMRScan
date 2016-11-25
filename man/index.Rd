@@ -3,19 +3,26 @@
 \docType{methods}
 \name{[}
 \alias{[}
-\title{Get a individual region within an object of class RegionList}
+\alias{[,RegionList-method}
+\title{Get Object Region}
 \usage{
-\S4method{[}{RegionList,ANY,ANY,ANY}(x, i)
+\S4method{[}{RegionList,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
 }
 \arguments{
 \item{x}{An object of type RegionList}
 
 \item{i}{Index, which region to extract}
+
+\item{j}{(Not used)}
+
+\item{...}{(not used)}
+
+\item{drop}{If drop is used}
 }
 \value{
 A region from a RegionList of class "list"
 }
 \description{
-Get a individual region within an object of class RegionList
+Get Object Region
 }
 

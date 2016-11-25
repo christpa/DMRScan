@@ -27,7 +27,7 @@ Get the number of CpGs i a region
 Get the number of CpGs in a RegionList
 }
 \examples{
-someEmptyRegions <- RegionList(3L)
+someEmptyRegions <- RegionListInit(3L)
 # The number of CpGs in this regions is 0
 nCpG(someEmptyRegions)
 

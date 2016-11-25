@@ -137,14 +137,14 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,...){
    
    ## Roll back regions into object region
 
-        signRegions          <- RegionList(nRegions = nregions)
+        signRegions          <- RegionListInit(nRegions = nregions)
 
         for(i in seq_along(signRegion)){
             motherRegion        <- observations[[regionIndex[i]]]
             signIndex           <- index[[i]]
             signRegions         <- setRegion(signRegions,
                                              i      = i,
-                                        Region(
+                                        RegionInit(
                                           tValues   = tVal.orig[signIndex],
                                           position  = position[signIndex],
                                           chromosome= motherRegion@chromosome,
@@ -159,7 +159,7 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,...){
 
 
     }else{
-        signRegions <- RegionList(0L)
+        signRegions <- RegionListInit(0L)
     }
           return(signRegions)
 }

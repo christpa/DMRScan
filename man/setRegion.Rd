@@ -18,7 +18,7 @@ setRegion(x, i, ...)
 
 \item{i}{an index}
 
-\item{...}{Arguments to be pased to Region(...)}
+\item{...}{Arguments to be pased to RegionInit(...)}
 
 \item{region}{An object of type Region to be inseted in RegionList}
 }
@@ -34,10 +34,10 @@ Set a Region of type missing
 }
 \examples{
 ## A region list with 3 regions
-regList <- RegionList(3L)
+regList <- RegionListInit(3L)
 #Number of probes in first is n = 10
 nCpG <- 10
-region <- Region(tValues    = rnorm(nCpG),
+region <- RegionInit(tValues    = rnorm(nCpG),
                  position   = 1:nCpG,
                  chromosome = "3")
 ## Set first region in regList to region

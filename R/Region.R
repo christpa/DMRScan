@@ -18,8 +18,9 @@ setClass(Class = "Region",
 
 #' Constructor for class Region  
 #' 
-#' @name initialize-Region
-#' @rdname initialize_Region 
+#' @name Region
+#' @rdname initialize_Region
+#' @aliases initialize,Region-method
 #' @param .Object Empty
 #' @param tValues A vector of test statistics
 #' @param id A vector of id's for each test statistic
@@ -65,10 +66,10 @@ setMethod("initialize", "Region",
 #' @examples
 #' #Number of probes is n = 10
 #' nCpG <- 10
-#' region <- Region(tValues    = rnorm(nCpG),
+#' region <- RegionInit(tValues    = rnorm(nCpG),
 #'                  position   = 1:nCpG,
 #'                  chromosome = "3")
-Region <- function(...) new("Region", ...)
+RegionInit <- function(...) new("Region", ...)
 
 #' Class RegionList                                                        
 #'                                                                     
@@ -85,8 +86,9 @@ setClass(Class = "RegionList",
 )
 
 #' Constructor RegionList
-#' @name initialize-RegionList 
+#' @name RegionList 
 #' @rdname initialize_RegionList
+#' @aliases initialize,RegionList-method
 #' @param .Object Empty
 #' @param nRegions The number of regions to be included in the RegionList object
 #' @param regions An optional list of regions to be assigned to a RegionList
@@ -111,7 +113,7 @@ setMethod("initialize", "RegionList",
 )
 
 #' Shorthand for initializing RegionList
-#' @name RegionList                                        
+#' @name RegionList-init                                        
 #' @rdname RegionList-class_init
 #' @param ... Parameters to be past to new("RegionList",...)
 #' @importFrom methods new
@@ -119,9 +121,9 @@ setMethod("initialize", "RegionList",
 #' @export
 #' @examples 
 #' # An empty list of 3 regions
-#' RegionList(3L)
+#' RegionListInit(3L)
 #' 
-RegionList <- function(...){ 
+RegionListInit <- function(...){ 
                 new("RegionList",...)         
 }
  
@@ -166,13 +168,13 @@ setGeneric("St", function(region,windowThreshold,windowSize)
 #' @examples
 #' #Number of probes is n = 10
 #' nCpG <- 10
-#' region <- Region(tValues    = rnorm(nCpG),
+#' region <- RegionInit(tValues    = rnorm(nCpG),
 #'                  position   = 1:nCpG,
 #'                  chromosome = "3",
 #'                  pVal       = runif(1))
 #' ## Pvalues for Region
 #' getP(region)
-setGeneric("getP", function(region,n=10) standardGeneric("getP"))
+setGeneric("getP", function(region,n = 12) standardGeneric("getP"))
 
 #' Method getPos 
 #' @name getPos
@@ -183,7 +185,7 @@ setGeneric("getP", function(region,n=10) standardGeneric("getP"))
 #' @examples
 #' #Number of probes is n = 10
 #' nCpG <- 10
-#' region <- Region(tValues    = rnorm(nCpG),
+#' region <- RegionInit(tValues    = rnorm(nCpG),
 #'                  position   = 1:nCpG,
 #'                  chromosome = "3")
 #' ## Genomic coordinates for Region
@@ -200,7 +202,7 @@ setGeneric("getPos", function(region) standardGeneric("getPos"))
 #' @examples
 #' #Number of probes is n = 10
 #' nCpG <- 10
-#' region <- Region(tValues    = rnorm(nCpG),
+#' region <- RegionInit(tValues    = rnorm(nCpG),
 #'                  position   = 1:nCpG,
 #'                  chromosome = "3")
 #' ## T values for Region
@@ -218,10 +220,10 @@ setGeneric("getT", function(region,...) standardGeneric("getT"))
 #' @return An updated version of RegionList x, with a new Region at index i
 #' @examples
 #' ## A region list with 3 regions
-#' regList <- RegionList(3L)
+#' regList <- RegionListInit(3L)
 #' #Number of probes in first is n = 10
 #' nCpG <- 10
-#' region <- Region(tValues    = rnorm(nCpG),
+#' region <- RegionInit(tValues    = rnorm(nCpG),
 #'                  position   = 1:nCpG,
 #'                  chromosome = "3")
 #' ## Set first region in regList to region
@@ -236,7 +238,7 @@ setGeneric("setRegion", function(x,i,...) standardGeneric("setRegion"))
 #' @param x A RegionList object
 #' @exportMethod getRegions                
 #' @examples 
-#' someEmptyRegions <- RegionList(3L) 
+#' someEmptyRegions <- RegionListInit(3L) 
 #' # To get back three empty regions
 #' getRegions(someEmptyRegions)
 #' 
@@ -251,7 +253,7 @@ setGeneric("getRegions", function(x) standardGeneric("getRegions"))
 #' @rdname nCpG
 #' @exportMethod nCpG      
 #' @examples 
-#' someEmptyRegions <- RegionList(3L)
+#' someEmptyRegions <- RegionListInit(3L)
 #' # The number of CpGs in this regions is 0
 #' nCpG(someEmptyRegions)
 #'
@@ -262,15 +264,15 @@ setGeneric("nCpG", function(x) standardGeneric("nCpG"))
 #' Get p-values for a region
 #' @rdname getP
 setMethod("getP", "Region",
-          function(region,n=10){
-              return(invisible(print(region@pVal,digits = n)))
+          function(region,n=12){
+              return(round(region@pVal,digits = n))
         }
 )
 
 #' Get p-values for a list of regions (RegionList)
 #' @rdname getP
 setMethod("getP", "RegionList",
-          function(region,n = 10){
+          function(region,n = 12){
               return(do.call(c,lapply(getRegions(region),getP,n)))
         }
 )
@@ -315,29 +317,47 @@ setMethod("getT", "RegionList",
         }
 )
 
-#' Get a individual region within an object of class RegionList
+
+
+#' Get Object Region
 #' @name [
+#' @aliases [,RegionList-method
+#' @aliases [,RegionList,ANY,ANY,ANY
+#' @param x An object of type RegionList 
+#' @param i Index, which region to extract                                      
+#' @param j (Not used)
+#' @param ... (not used)
+#' @param drop If drop is used
+#' @return A region from a RegionList of class "list"                           
+#' @docType methods
 #' @rdname index
-#' @param x An object of type RegionList
-#' @param i Index, which region to extract
-#' @return A region from a RegionList of class "list"
-setMethod("[", signature(x = "RegionList", i = "ANY"),
-            function(x,i){
-                x@regions[i]
-            }
+setMethod("[", signature(x = "RegionList", i = "ANY", j = "ANY"),
+    function (x, i, j, ..., drop){
+       x@regions[i]
+    }
 )
 
-#' Get a region from a RegionList object
+
+
+
+
+#' Get Object Region
 #' @name [[
-#' @rdname index_list 
-#' @param x An object of type RegionList      
-#' @param i Index, which region to extract
-#' @return A region from a RegionList with class "Region"
-setMethod("[[", signature(x = "RegionList", i = "ANY"),
-            function(x,i){
-                x@regions[[i]]
-            }
+#' @aliases [[,RegionList-method
+#' @param x An object of type RegionList 
+#' @param i Index, which region to extract                                      
+#' @param j (Not used)
+#' @param ... (not used)
+#' @param drop If drop is used
+#' @return A region from a RegionList with class "Region"                           
+#' @docType methods
+#' @rdname index_list
+setMethod("[[", signature(x = "RegionList", i = "ANY", j="ANY"),
+    function (x, i, j, ..., drop){
+       x@regions[[i]]
+    }
 )
+
 
 #' Update a RegionList object
 #' @rdname setRegion
@@ -359,10 +379,10 @@ setMethod("getRegions","RegionList",
 
 #' Set a Region of type missing
 #' @rdname setRegion
-#' @param ... Arguments to be pased to Region(...)
+#' @param ... Arguments to be pased to RegionInit(...)
 setMethod("setRegion","missing",
           function(x,i,...){
-              x@regions[[i]] <- Region(...)
+              x@regions[[i]] <- RegionInit(...)
               return(x)
             }
 )
@@ -462,7 +482,7 @@ setMethod("show", "Region",
 setMethod("head","RegionList",
           function(x,n = 10L){
             if(length(x) > n)
-                x <- RegionList(regions = x[1:n],nRegions = n)
+                x <- RegionListInit(regions = x[1:n],nRegions = n)
             
           return(invisible(print(x)))
           }

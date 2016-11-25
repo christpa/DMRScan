@@ -70,7 +70,7 @@ makeCpGregions <- function(observations, chr, pos, maxGap = 500, minCpG = 2){
     }else{
         nRegions    <- as.integer(max(cluster))
     }
-        regionList  <- RegionList(nRegions)
+        regionList  <- RegionListInit(nRegions)
 
     j                  <- 1
     for(i in seq_len(max(cluster))){
@@ -80,7 +80,7 @@ makeCpGregions <- function(observations, chr, pos, maxGap = 500, minCpG = 2){
         if(length(reg.id) >= minCpG){
             regionList <- setRegion(regionList,
                                   i             = j,
-                                  Region(
+                                  RegionInit(
                                     tValues       = xx,
                                     id            = rowNames[reg.id],
                                     chromosome    = chr[reg.id][1],
@@ -160,7 +160,7 @@ makeCpGgenes <- function(observations, chr, pos, gene, minCpG = 2){
       geneNames  <- unique(na.omit(gene))
       nGene      <- sum(table(gene) >= minCpG)
       
-      regionList <- RegionList(nGene)
+      regionList <- RegionListInit(nGene)
 
       i          <- 1
       for(geneIter in geneNames){
@@ -168,7 +168,7 @@ makeCpGgenes <- function(observations, chr, pos, gene, minCpG = 2){
           if(length(idx) >= minCpG){
             regionList    <- setRegion(regionList,
                                      i  = i,
-                                     Region( 
+                                     RegionInit( 
                                         tValues = observations[idx],
                                         id      = rowNames[idx],
                                         chromosome = chr[idx][1],
@@ -182,7 +182,7 @@ makeCpGgenes <- function(observations, chr, pos, gene, minCpG = 2){
 
        names(regionList@regions) <- geneNames     
        ll         <- which(sapply(getRegions(regionList),length) >= minCpG)
-       regionList <- RegionList(regionList[ll],nRegions = length(ll))
+       regionList <- RegionListInit(regionList[ll],nRegions = length(ll))
 
         return(regionList)
 }

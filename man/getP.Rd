@@ -7,11 +7,11 @@
 \alias{getP,RegionList-method}
 \title{Method getP}
 \usage{
-getP(region, n = 10)
+getP(region, n = 12)
 
-\S4method{getP}{Region}(region, n = 10)
+\S4method{getP}{Region}(region, n = 12)
 
-\S4method{getP}{RegionList}(region, n = 10)
+\S4method{getP}{RegionList}(region, n = 12)
 }
 \arguments{
 \item{region}{An object of type Region or RegionList}
@@ -31,7 +31,7 @@ Get p-values for a list of regions (RegionList)
 \examples{
 #Number of probes is n = 10
 nCpG <- 10
-region <- Region(tValues    = rnorm(nCpG),
+region <- RegionInit(tValues    = rnorm(nCpG),
                  position   = 1:nCpG,
                  chromosome = "3",
                  pVal       = runif(1))

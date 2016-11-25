@@ -22,7 +22,7 @@ Method getRegions
 Get the regions within an RegionList object
 }
 \examples{
-someEmptyRegions <- RegionList(3L) 
+someEmptyRegions <- RegionListInit(3L) 
 # To get back three empty regions
 getRegions(someEmptyRegions)
 
