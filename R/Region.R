@@ -261,6 +261,7 @@ setGeneric("getRegions", function(x) standardGeneric("getRegions"))
 #' @return The number of CpGs in an object 
 setGeneric("nCpG", function(x) standardGeneric("nCpG"))         
 
+
 #' Get p-values for a region
 #' @rdname getP
 setMethod("getP", "Region",
@@ -322,6 +323,7 @@ setMethod("getT", "RegionList",
 #' Get Object Region
 #' @name [
 #' @aliases [,RegionList-method
+#' @aliases [,RegionList,ANY,ANY,ANY-method
 #' @usage NULL 
 #' @param x An object of type RegionList 
 #' @param i Index, which region to extract                                      
@@ -336,10 +338,6 @@ setMethod("[", signature(x = "RegionList", i = "ANY", j = "ANY"),
        x@regions[i]
     }
 )
-
-
-
-
 
 #' Get Object Region
 #' @name [[

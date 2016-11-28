@@ -4,6 +4,7 @@
 \name{[}
 \alias{[}
 \alias{[,RegionList-method}
+\alias{[,RegionList,ANY,ANY,ANY-method}
 \title{Get Object Region}
 \arguments{
 \item{x}{An object of type RegionList}
