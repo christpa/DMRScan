@@ -5,7 +5,11 @@
 \alias{DMRScan.methylationData}
 \title{DMRScan}
 \description{
-xxx
+Bi-sulfite sequencing data of known CpGs at chromosome 22 from 100 Finish teens, sampled from the two extreme BMI quantiles. See "Genome-wide DNA methylation in saliva and body size of adolescent girls", TB Rounge, CM Page, M Lepisto, E Pekka, and BK Andreassen and E Weiderpass, Epigenomics 8.11 (2016): 1495-1505.
+}
+\examples{
+data(DMRScan.methylationData)
+head(DMRScan.methylationData)
 }
 \keyword{datasets}
 

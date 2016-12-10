@@ -1,6 +1,7 @@
 #' DMR Scan function
 #' 
-#' @name DMRscan_slidingWindow 
+#' @name DMRscan
+#' @rdname DMRScan_slidingWindow
 #' @param observations An object of type RegionList 
 #' @param windowSize A sequence of windowSizes for the slidingWindow, 
 #' must be an integer 
@@ -45,13 +46,13 @@
 #' windowThresholds <- estimateWindowThreshold(nProbe = nCpG, 
 #'                windowSize = windowSizes, method = "sampling", mcmc = 10000)
 #' ## Run the slidingWindow
-#' DMRScanResults   <- dmrscan(observations = regions, 
+#' DMRScanResults   <- DMRScan(observations = regions, 
 #'                             windowSize = windowSizes, 
 #'                             windowThreshold = windowThresholds)
 #' ## Print the result
 #' print(DMRScanResults)
 #' 
-dmrscan <- function(observations,windowSize,windowThreshold=NULL,...){
+DMRScan <- function(observations,windowSize,windowThreshold=NULL,...){
 
     nProbe      <- nCpG(observations)
     alpha       <- 0.05
@@ -64,13 +65,13 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,...){
     }
 
     if(length(windowSize) == 1){
-        slidingWindow  <- Rt(observations, windowThreshold = windowThreshold, 
+        slidingWindow  <- oneWindowSizeScanner(observations, windowThreshold = windowThreshold, 
                              windowSize = windowSize)
     }else{
         if(!(length(windowSize)==length(windowThreshold)))
             stop("Error; windowSize and windowThreshold MUST be of equal lenght\n")
 
-        slidingWindow  <- St(observations,windowThreshold = windowThreshold,
+        slidingWindow  <- manyWindowSizeScanner(observations,windowThreshold = windowThreshold,
                                     windowSize = windowSize)
     }
     zhangWindow    <- slidingWindow[[1]]
@@ -84,7 +85,7 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,...){
 
 
     ### calculate Region-wise p-values
-    if(nregions >= 1 & !any(is.na(lowerBound))){
+    if(nregions >= 1 & !anyNA(lowerBound)){
         regionLengths  <- do.call(c,lapply(getRegions(observations),length))
         regionIndex    <- rep(seq_along(regionLengths),regionLengths)[lowerBound]
         
@@ -131,20 +132,20 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,...){
    mean                    <- stats::median(apply(slidingValues, 1, mean, na.rm = TRUE))
    log.p.val.normal        <- -1*stats::pnorm(abs(tVal[1,]), mean=mean, sd =sd,lower.tail=FALSE,log.p=TRUE)/log(10)
    
-   position                <- getPos(observations)
-   tVal.orig               <- getT(observations)
+   position                <- pos(observations)
+   tVal.orig               <- tVal(observations)
    CpGnames                <- names(observations)
    
    ## Roll back regions into object region
 
-        signRegions          <- RegionListInit(nRegions = nregions)
+        signRegions          <- RegionList(nRegions = nregions)
 
         for(i in seq_along(signRegion)){
             motherRegion        <- observations[[regionIndex[i]]]
             signIndex           <- index[[i]]
             signRegions         <- setRegion(signRegions,
                                              i      = i,
-                                        RegionInit(
+                                        Region(
                                           tValues   = tVal.orig[signIndex],
                                           position  = position[signIndex],
                                           chromosome= motherRegion@chromosome,
@@ -159,7 +160,7 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,...){
 
 
     }else{
-        signRegions <- RegionListInit(0L)
+        signRegions <- RegionList(0L)
     }
           return(signRegions)
 }

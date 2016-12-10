@@ -1,9 +1,9 @@
 #' @rdname Rt-methods
 #' @aliases Rt,RegionList-method
-setMethod("Rt", "RegionList", function(region,windowThreshold,windowSize){
+setMethod("oneWindowSizeScanner", "RegionList", function(region,windowThreshold,windowSize){
     
     regions        <- getRegions(region)
-    slidingWindow  <- sapply(regions, Rt, windowThreshold = windowThreshold,
+    slidingWindow  <- sapply(regions, oneWindowSizeScanner, windowThreshold = windowThreshold,
                           windowSize = windowSize)
       
     signProbe  <- t(as.matrix(do.call(c,slidingWindow[1,])))
@@ -22,10 +22,10 @@ setMethod("Rt", "RegionList", function(region,windowThreshold,windowSize){
 #' @rdname Rt-methods
 #' @aliases Rt,Region-method
 #' @importFrom RcppRoll roll_mean roll_sum
-setMethod("Rt", "Region", function(region,windowThreshold,windowSize){
+setMethod("oneWindowSizeScanner", "Region", function(region,windowThreshold,windowSize){
 
-    dat         <- abs(region@tValues)
-    nProbe      <- region@nCpG
+    dat         <- tVal(region)
+    nProbe      <- nCpG(region)
 
     if(nProbe <= windowSize){
          signProbe <- rep(FALSE,nProbe)
@@ -77,11 +77,10 @@ setMethod("Rt", "Region", function(region,windowThreshold,windowSize){
 
 
 #' @rdname St-methods                
-setMethod("St", "RegionList", function(region,windowThreshold,windowSize){ 
+setMethod("manyWindowSizeScanner", "RegionList", function(region,windowThreshold,windowSize){ 
 
     regions        <- getRegions(region)
-    slidingWindow  <- sapply(regions,St,windowThreshold = windowThreshold,
-                          windowSize = windowSize)
+    slidingWindow  <- sapply(regions,manyWindowSizeScanner, windowThreshold = windowThreshold, windowSize = windowSize)
 
     signProbe  <- do.call(c,slidingWindow[1,])
     valueProbe <- do.call(cbind,slidingWindow[2,])
@@ -95,9 +94,9 @@ setMethod("St", "RegionList", function(region,windowThreshold,windowSize){
 
 #' @rdname St-methods             
 #' @importFrom RcppRoll roll_mean 
-setMethod("St", "Region", function(region,windowThreshold,windowSize){ 
+setMethod("manyWindowSizeScanner", "Region", function(region,windowThreshold,windowSize){ 
                     
-    dat         <- getT(region)
+    dat         <- tVal(region)
     nProbe      <- nCpG(region)
 
     signProbe  <- logical(nProbe)

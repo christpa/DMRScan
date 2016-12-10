@@ -26,17 +26,20 @@
 #' thresholdGrid <- estimateWindowThreshold(nProbe = 1000, 
 #'                                     windowSize = 3:8, method = "siegmund")
 #' @export
-estimateWindowThreshold <- function(nProbe, windowSize, method = "siegmund",mcmc = 1000, nCPU = 1,submethod = "ar",...){
-
+estimateWindowThreshold <- function(nProbe, windowSize, method = "siegmund",
+                                mcmc = 1000, nCPU = 1,submethod = "ar",...){
         method              <- match.arg(method,c("siegmund","mcmc","sampling"))
-        estimateThreshold   <- get(paste("estimateThresholdGrid",method,sep="."))
-        
-        thresholdGrid      <- estimateThreshold(nProbe = nProbe, windowSize = windowSize, mcmc = mcmc, nCPU = nCPU,submethod = submethod,...)
-
+        if(method == "siegmund"){
+                estimateThreshold   <- estimateThresholdGrid.siegmund
+        }else if(method == "mcmc"){
+              estimateThreshold     <- estimateThresholdGrid.mcmc
+        }else{
+            estimateThreshold     <- estimateThresholdGrid.sampling
+        }
+ thresholdGrid      <- estimateThreshold(nProbe = nProbe, 
+ windowSize = windowSize, mcmc = mcmc, nCPU = nCPU,submethod = submethod,...)
         return(thresholdGrid)
-
 }
-
 
 #' @importFrom parallel makeCluster parLapplyLB stopCluster
 #' @importFrom stats smooth.spline predict

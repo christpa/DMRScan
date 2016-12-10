@@ -17,15 +17,8 @@ Description: This package detects significant differentially methylated regions
     CpG.
 biocViews: Software, Technology, Sequencing, WholeGenome
 Depends:
-    R (>= 3.4.0),
-    MASS,
-    Matrix,
-    RcppRoll,
-    stats,
-    parallel,
-    ggplot2,
-    methods,
-    mvtnorm
+    R (>= 3.3.0)
+Imports: Matrix, MASS, RcppRoll, ggplot2, methods, mvtnorm, stats, parallel
 License: GPL-3
 LazyData: true
 Author: Christian M Page [aut, cre],

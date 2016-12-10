@@ -8,11 +8,11 @@
 #' @return A plot object 
 plot.Region <- function(x,...){                
      dat <- data.frame(                             
-                        tVal = abs(getT(x)),        
-                        pos  = getPos(x)         
+                        tVal = abs(tVal(x)),        
+                        pos  = pos(x)         
           )                                 
     title <- paste("Region with", nCpG(x), "CpGs on ", range(x), "with P value", 
-                   getP(x,n = 8))
+                   pVal(x,n = 8))
            p <-ggplot(dat, aes_(x = pos, y = tVal)) +     
               geom_smooth(se = FALSE, span = 2) + ## roaling average 
               geom_point() +                                     

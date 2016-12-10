@@ -11,7 +11,7 @@
 \S4method{length}{RegionList}(x)
 }
 \arguments{
-\item{x}{An object of type Region}
+\item{x}{A RegionList object}
 }
 \value{
 The number of CpGs in a Region

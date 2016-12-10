@@ -16,61 +16,46 @@ setClass(Class = "Region",
         nCpG        = "integer")
 )
 
-#' Constructor for class Region  
-#' 
-#' @name Region
-#' @rdname initialize_Region
-#' @aliases initialize,Region-method
-#' @param .Object Empty
-#' @param tValues A vector of test statistics
-#' @param id A vector of id's for each test statistic
-#' @param position A vector of position for each test statistc
-#' @param chromosome An character describing the chromosome (1-22, X,Y)
-#' @param pVal A numeric giving the estimated p-value for each significant DMR
-#' @importFrom methods validObject
-#' @return An object of type Region
-setMethod("initialize", "Region", 
-          function(.Object, tValues = "numeric", id = "character", 
-                   position = "integer",chromosome = "character", 
-                   pVal = "numeric"){
-        
-            if(!missing(pVal)) 
-                .Object@pVal <- pVal
-            
-            if(class(chromosome) %in% c("integer", "numeric"))
-                chromosome  <- as.character(chromosome)
-            
-            .Object@tValues     <- tValues
-            .Object@position    <- position
-            .Object@chromosome  <- chromosome[1]
-            .Object@nCpG        <- length(tValues)
-            
-            if(!missing(id)){
-                .Object@id      <- id
-            }else{
-                .Object@id      <- character(length(tValues))
-            }
-
-            validObject(.Object)
-            return(.Object)
-        }
-)
 
 #' Shorthand for initializing region
-#' @name Region-init
+#' @name Region
 #' @rdname Region-class_init
 #' @importFrom methods new
-#' @param ... Parameters to pased to new("Regions",...)
+#' @param tValues A vector of test statistics
+#' @param position A vector of position for each test statistc
+#' @param chromosome An character describing the chromosome (1-22, X,Y)
+#' @param pVal The P value of a region, set to numeric() if not given.
+#' @param id The names of each probe in the region 
+#' @importFrom methods validObject
+#' @return An object of type Region
 #' @return An object of type Region
 #' @export
 #' @examples
 #' #Number of probes is n = 10
 #' nCpG <- 10
-#' region <- RegionInit(tValues    = rnorm(nCpG),
+#' region <- Region(tValues    = rnorm(nCpG),
 #'                  position   = 1:nCpG,
-#'                  chromosome = "3")
-RegionInit <- function(...) new("Region", ...)
+#'                  chromosome = "3",
+#'                  id         = paste("CpG",1:nCpG,sep="_"),
+#'                  pVal       = runif(1)) 
+Region <- function(tValues, position, chromosome, pVal, id){ 
+      
+  if(missing(pVal)) pVal <- numeric()
+  if(missing(id)) id   <- character(length(tValues))
 
+  if(class(chromosome) %in% c("integer", "numeric"))
+
+   chromosome  <- as.character(chromosome)
+    nCpG       <- length(position)
+    object     <- new("Region", 
+                  tValues   = tValues, 
+                  id        = id,
+                  position  = position,
+                  chromosome= chromosome,
+                  pVal      = pVal,
+                  nCpG      = nCpG)
+    return(object)
+}
 #' Class RegionList                                                        
 #'                                                                     
 #' Class \code{RegionList} is a collection of Regions  
@@ -85,54 +70,35 @@ setClass(Class = "RegionList",
     )
 )
 
-#' Constructor RegionList
-#' @name RegionList 
-#' @rdname initialize_RegionList
-#' @aliases initialize,RegionList-method
-#' @param .Object Empty
-#' @param nRegions The number of regions to be included in the RegionList object
-#' @param regions An optional list of regions to be assigned to a RegionList
-#' @importFrom methods validObject
-#' @return An object of tpe RegionList
-setMethod("initialize", "RegionList",    
-          function(.Object, nRegions = "integer",regions = "array"){
-            
-            if(missing(regions)){
-                .Object@regions <- array(list(),nRegions)
-            }else{
-                .Object@regions <- regions
-            }
-            if(missing(nRegions)){ 
-                .Object@nRegions <- length(regions)
-            }else{
-                if(!is.integer(nRegions))nRegions <- as.integer(nRegions)
-                .Object@nRegions <- nRegions
-            }
-            return(.Object)
-        }
-)
-
 #' Shorthand for initializing RegionList
-#' @name RegionList-init                                        
+#' @name RegionList                                        
 #' @rdname RegionList-class_init
-#' @param ... Parameters to be past to new("RegionList",...)
+#' @param regions The regions to be included
+#' @param nRegions The number of regions to be placed
 #' @importFrom methods new
 #' @return An object of type RegionList
 #' @export
 #' @examples 
 #' # An empty list of 3 regions
-#' RegionListInit(3L)
+#' RegionList(3L)
 #' 
-RegionListInit <- function(...){ 
-                new("RegionList",...)         
+RegionList <- function(nRegions,regions){ 
+    
+    if(missing(regions)) regions <- array(list(),nRegions)
+    if(missing(nRegions)) nRegions <- length(regions)
+        else if(!is.integer(nRegions)) nRegions <- as.integer(nRegions)
+    
+    object <- new("RegionList",regions = regions, nRegions = nRegions)         
+    return(object)
 }
  
 ## Set generic functions for Rt() and St() when 
 ## One for class "list" and one for class "Region"
  
-#' Method Rt 
-#' @name Rt
+#' Method Fixed window size scan for one window size 
+#' @name oneWindowSizeScanner
 #' @rdname Rt-methods
+#' @aliases Rt
 #' @param region Object of type Region or RegionList
 #' @param windowThreshold Vector of window thresholds
 #' @param windowSize Vector of window sizes to be tested on regions
@@ -140,13 +106,14 @@ RegionListInit <- function(...){
 #' @examples
 #' ## Not run
 #'
-setGeneric("Rt", function(region,windowThreshold,windowSize) 
-                    standardGeneric("Rt"))
+setGeneric("oneWindowSizeScanner", function(region,windowThreshold,windowSize) 
+                    standardGeneric("oneWindowSizeScanner"))
 
 
-#' Method St 
-#' @name St
+#' Method Fixed window size scan for a sequence of window sizes
+#' @name manyWindowSizeScanner
 #' @rdname St-methods
+#' @aliases St
 #' @param region Object of type Region or RegionList
 #' @param windowThreshold Vector of window thresholds
 #' @param windowSize Vector of window sizes to be tested on regions
@@ -154,61 +121,61 @@ setGeneric("Rt", function(region,windowThreshold,windowSize)
 #' @examples
 #' ## Not run
 #'
-setGeneric("St", function(region,windowThreshold,windowSize) 
-                                standardGeneric("St"))
+setGeneric("manyWindowSizeScanner", function(region,windowThreshold,windowSize) 
+                                standardGeneric("manyWindowSizeScanner"))
 
 
-#' Method getP 
-#' @name getP
-#' @rdname getP
-#' @exportMethod getP
+#' Method get pvalue 
+#' @name pVal
+#' @rdname pVal
+#' @exportMethod pVal
 #' @param region An object of type Region or RegionList
 #' @param n The number of digits to be presented. Default is 10
 #' @return A numeric vector of p-values
 #' @examples
 #' #Number of probes is n = 10
 #' nCpG <- 10
-#' region <- RegionInit(tValues    = rnorm(nCpG),
+#' region <- Region(tValues    = rnorm(nCpG),
 #'                  position   = 1:nCpG,
 #'                  chromosome = "3",
 #'                  pVal       = runif(1))
 #' ## Pvalues for Region
-#' getP(region)
-setGeneric("getP", function(region,n = 12) standardGeneric("getP"))
+#' pVal(region)
+setGeneric("pVal", function(region,n = 12) standardGeneric("pVal"))
 
-#' Method getPos 
-#' @name getPos
-#' @rdname getPos
-#' @exportMethod getPos
+#' Method pos 
+#' @name pos
+#' @rdname pos
+#' @exportMethod pos
 #' @param region An opbject of type Region or RegionList
 #' @return An integer vector of positions for each probe site
 #' @examples
 #' #Number of probes is n = 10
 #' nCpG <- 10
-#' region <- RegionInit(tValues    = rnorm(nCpG),
+#' region <- Region(tValues    = rnorm(nCpG),
 #'                  position   = 1:nCpG,
 #'                  chromosome = "3")
 #' ## Genomic coordinates for Region
-#' getPos(region)
-setGeneric("getPos", function(region) standardGeneric("getPos"))
+#' pos(region)
+setGeneric("pos", function(region) standardGeneric("pos"))
 
-#' Method getT 
-#' @name getT
-#' @rdname getT
-#' @exportMethod getT
+#' Method get T statistic for a region
+#' @name tVal
+#' @rdname tVal
+#' @exportMethod tVal
 #' @param region An opbject of type Region or RegionList
 #' @param ... Index 
 #' @return A numeric vector of t-values for a Region or RegionList
 #' @examples
 #' #Number of probes is n = 10
 #' nCpG <- 10
-#' region <- RegionInit(tValues    = rnorm(nCpG),
+#' region <- Region(tValues    = rnorm(nCpG),
 #'                  position   = 1:nCpG,
 #'                  chromosome = "3")
 #' ## T values for Region
-#' getT(region)
+#' tVal(region)
 #'
-setGeneric("getT", function(region,...) standardGeneric("getT"))
+setGeneric("tVal", function(region,...) standardGeneric("tVal"))
 
 
 #' Method setRegion   
@@ -217,13 +184,14 @@ setGeneric("getT", function(region,...) standardGeneric("getT"))
 #' @exportMethod setRegion 
 #' @param x A region
 #' @param i an index
+#' @param ... To be pased to Region()
 #' @return An updated version of RegionList x, with a new Region at index i
 #' @examples
 #' ## A region list with 3 regions
-#' regList <- RegionListInit(3L)
+#' regList <- RegionList(3L)
 #' #Number of probes in first is n = 10
 #' nCpG <- 10
-#' region <- RegionInit(tValues    = rnorm(nCpG),
+#' region <- Region(tValues    = rnorm(nCpG),
 #'                  position   = 1:nCpG,
 #'                  chromosome = "3")
 #' ## Set first region in regList to region
@@ -233,18 +201,16 @@ setGeneric("setRegion", function(x,i,...) standardGeneric("setRegion"))
 
 
 #' Method getRegions        
-#' @name getRegions        
+#' @name getRegions
+#' @param x An object of type RegionList
 #' @rdname getRegions
-#' @param x A RegionList object
+#' @aliases getRegions
 #' @exportMethod getRegions                
 #' @examples 
-#' someEmptyRegions <- RegionListInit(3L) 
+#' someEmptyRegions <- RegionList(3L) 
 #' # To get back three empty regions
 #' getRegions(someEmptyRegions)
-#' 
 #' @return An object of type Region
-#' @examples
-#' ## Not run
 #'
 setGeneric("getRegions", function(x) standardGeneric("getRegions"))
 
@@ -253,7 +219,7 @@ setGeneric("getRegions", function(x) standardGeneric("getRegions"))
 #' @rdname nCpG
 #' @exportMethod nCpG      
 #' @examples 
-#' someEmptyRegions <- RegionListInit(3L)
+#' someEmptyRegions <- RegionList(3L)
 #' # The number of CpGs in this regions is 0
 #' nCpG(someEmptyRegions)
 #'
@@ -263,24 +229,24 @@ setGeneric("nCpG", function(x) standardGeneric("nCpG"))
 
 
 #' Get p-values for a region
-#' @rdname getP
-setMethod("getP", "Region",
+#' @rdname pVal
+setMethod("pVal", "Region",
           function(region,n=12){
               return(round(region@pVal,digits = n))
         }
 )
 
 #' Get p-values for a list of regions (RegionList)
-#' @rdname getP
-setMethod("getP", "RegionList",
+#' @rdname pVal
+setMethod("pVal", "RegionList",
           function(region,n = 12){
-              return(do.call(c,lapply(getRegions(region),getP,n)))
+              return(do.call(c,lapply(getRegions(region),pVal,n)))
         }
 )
 
 #' Get the chromosomal coordinates for a Region
-#' @rdname getPos
-setMethod("getPos", "Region",
+#' @rdname pos
+setMethod("pos", "Region",
           function(region){
               return(region@position)
         }
@@ -288,16 +254,16 @@ setMethod("getPos", "Region",
 
 #' Get the chromosomal coordinates for a 
 #' list of regions in a RegionList object
-#' @rdname getPos
-setMethod("getPos", "RegionList",
+#' @rdname pos
+setMethod("pos", "RegionList",
           function(region){
-              return(do.call(c,lapply(getRegions(region),getPos)))
+              return(do.call(c,lapply(getRegions(region),pos)))
         }
 )
 
 #' Get test statistic for an object of type Region
-#' @rdname getT
-setMethod("getT", "Region",
+#' @rdname tVal
+setMethod("tVal", "Region",
           function(region, index = NULL){
               if(is.null(index))
                   return(region@tValues)
@@ -307,22 +273,32 @@ setMethod("getT", "Region",
 )
 
 #' Get test statistic for all regins within a RegionList class
-#' @rdname getT
+#' @rdname tVal
 #' @param index Index to extract
-setMethod("getT", "RegionList",
+setMethod("tVal", "RegionList",
           function(region, index = NULL){
               if(is.null(index))
-                  return(do.call(c,lapply(getRegions(region),getT)))
+                  return(do.call(c,lapply(getRegions(region),tVal)))
               else
-                  return(do.call(c,lapply(getRegions(region)[index],getT)))
+                  return(do.call(c,lapply(getRegions(region)[index],tVal)))
         }
 )
 
-
+#' getRegions for Region List
+#' @name getRegions
+#' @aliases getRegions,RegionList-method
+#' @usage NULL
+#' @return A region from a RegionList
+#' @docType methods
+#' @rdname getRegions
+setMethod("getRegions","RegionList",
+          function(x){
+              return(x@regions)
+        }
+)
 
 #' Get Object Region
 #' @name [
-#' @aliases [,RegionList-method
 #' @aliases [,RegionList,ANY,ANY,ANY-method
 #' @usage NULL 
 #' @param x An object of type RegionList 
@@ -356,7 +332,6 @@ setMethod("[[", signature(x = "RegionList", i = "ANY", j="ANY"),
     }
 )
 
-
 #' Update a RegionList object
 #' @rdname setRegion
 #' @param region An object of type Region to be inseted in RegionList
@@ -367,27 +342,8 @@ setMethod("setRegion","RegionList",
             }
 )
 
-#' Get the regions within an RegionList object
-#' @rdname getRegions
-setMethod("getRegions","RegionList",
-          function(x){
-             return(x@regions)
-            }
-)
-
-#' Set a Region of type missing
-#' @rdname setRegion
-#' @param ... Arguments to be pased to RegionInit(...)
-setMethod("setRegion","missing",
-          function(x,i,...){
-              x@regions[[i]] <- RegionInit(...)
-              return(x)
-            }
-)
-
 #' Calculate the length of a region in terms of CpGs
 #' @rdname length
-#' @param x An object of type Region
 #' @return The number of CpGs in a Region
 setMethod("length", "Region",
             function(x){
@@ -397,6 +353,7 @@ setMethod("length", "Region",
 
 #' Get the number of regions in a RegionList
 #' @rdname length
+#' @param x A RegionList object
 #' @return The number of CpGs in a RegionList
 setMethod("length", "RegionList",
           function(x){
@@ -410,7 +367,7 @@ setMethod("length", "RegionList",
 #' @return A character giving the genomic position
 setMethod("range", "Region",
           function(x){
-              pos <- getPos(x)
+              pos <- pos(x)
             return(paste("Chr",x@chromosome,":",max(pos),"-",min(pos),sep=""))
           }
 )
@@ -480,7 +437,7 @@ setMethod("show", "Region",
 setMethod("head","RegionList",
           function(x,n = 10L){
             if(length(x) > n)
-                x <- RegionListInit(regions = x[1:n],nRegions = n)
+                x <- RegionList(regions = x[1:n],nRegions = n)
             
           return(invisible(print(x)))
           }
@@ -493,7 +450,7 @@ setMethod("head","RegionList",
 #' @return An updated RegionList, sorted on empirical p-values
 setMethod("sort","RegionList",
           function(x, decreasing = FALSE){
-            order       <- order(getP(x))
+            order       <- order(pVal(x))
             x@regions   <- x@regions[order]    
             return(x)
 

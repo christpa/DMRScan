@@ -7,24 +7,23 @@
 \title{Method getRegions}
 \usage{
 getRegions(x)
-
-\S4method{getRegions}{RegionList}(x)
 }
 \arguments{
-\item{x}{A RegionList object}
+\item{x}{An object of type RegionList}
 }
 \value{
 An object of type Region
+
+A region from a RegionList
 }
 \description{
 Method getRegions
 
-Get the regions within an RegionList object
+getRegions for Region List
 }
 \examples{
-someEmptyRegions <- RegionListInit(3L) 
+someEmptyRegions <- RegionList(3L) 
 # To get back three empty regions
 getRegions(someEmptyRegions)
-
 }
 

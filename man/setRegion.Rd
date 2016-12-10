@@ -4,21 +4,18 @@
 \name{setRegion}
 \alias{setRegion}
 \alias{setRegion,RegionList-method}
-\alias{setRegion,missing-method}
 \title{Method setRegion}
 \usage{
 setRegion(x, i, ...)
 
 \S4method{setRegion}{RegionList}(x, i, region)
-
-\S4method{setRegion}{missing}(x, i, ...)
 }
 \arguments{
 \item{x}{A region}
 
 \item{i}{an index}
 
-\item{...}{Arguments to be pased to RegionInit(...)}
+\item{...}{To be pased to Region()}
 
 \item{region}{An object of type Region to be inseted in RegionList}
 }
@@ -29,15 +26,13 @@ An updated version of RegionList x, with a new Region at index i
 Method setRegion
 
 Update a RegionList object
-
-Set a Region of type missing
 }
 \examples{
 ## A region list with 3 regions
-regList <- RegionListInit(3L)
+regList <- RegionList(3L)
 #Number of probes in first is n = 10
 nCpG <- 10
-region <- RegionInit(tValues    = rnorm(nCpG),
+region <- Region(tValues    = rnorm(nCpG),
                  position   = 1:nCpG,
                  chromosome = "3")
 ## Set first region in regList to region

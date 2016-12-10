@@ -12,7 +12,7 @@
 #' @param minCpG Minimum number of CpGs allowed in each region to be 
 #' considered. Default is set to at least 2 CpGs within each region.
 #' @return The suplied observations ordered into into a RegionList object. 
-#' To be parsed further into dmrscan() 
+#' To be parsed further into DMRScan() 
 #' @keywords CpG Regions
 #' @export
 #' @examples
@@ -36,12 +36,8 @@
 #' regions <- makeCpGregions(observations = testStatistics, chr = pos[,1], 
 #'                             pos = pos[,2], maxGap = maxGap, minCpG = minCpG)
 makeCpGregions <- function(observations, chr, pos, maxGap = 500, minCpG = 2){
-        if(any(is.na(c(chr,pos)))){
-         ## if any NA or Chr is not integer
-         ## stop
-        }
 
-	if(is.null(dim(observations))){
+    if(is.null(dim(observations))){
         rowNames <- names(observations)
         observations <- as.matrix(observations)
         rownames(observations) <- rowNames
@@ -70,7 +66,7 @@ makeCpGregions <- function(observations, chr, pos, maxGap = 500, minCpG = 2){
     }else{
         nRegions    <- as.integer(max(cluster))
     }
-        regionList  <- RegionListInit(nRegions)
+        regionList  <- RegionList(nRegions)
 
     j                  <- 1
     for(i in seq_len(max(cluster))){
@@ -80,7 +76,7 @@ makeCpGregions <- function(observations, chr, pos, maxGap = 500, minCpG = 2){
         if(length(reg.id) >= minCpG){
             regionList <- setRegion(regionList,
                                   i             = j,
-                                  RegionInit(
+                                  Region(
                                     tValues       = xx,
                                     id            = rowNames[reg.id],
                                     chromosome    = chr[reg.id][1],
@@ -135,7 +131,7 @@ makeCpGregions <- function(observations, chr, pos, maxGap = 500, minCpG = 2){
 #'
 makeCpGgenes <- function(observations, chr, pos, gene, minCpG = 2){
 
-        if(any(is.na(c(chr,pos)))){
+        if(anyNA(c(chr,pos))){
          ## if any NA or Chr is not integer
          ## stop
         }
@@ -160,7 +156,7 @@ makeCpGgenes <- function(observations, chr, pos, gene, minCpG = 2){
       geneNames  <- unique(na.omit(gene))
       nGene      <- sum(table(gene) >= minCpG)
       
-      regionList <- RegionListInit(nGene)
+      regionList <- RegionList(nGene)
 
       i          <- 1
       for(geneIter in geneNames){
@@ -168,7 +164,7 @@ makeCpGgenes <- function(observations, chr, pos, gene, minCpG = 2){
           if(length(idx) >= minCpG){
             regionList    <- setRegion(regionList,
                                      i  = i,
-                                     RegionInit( 
+                                     Region( 
                                         tValues = observations[idx],
                                         id      = rowNames[idx],
                                         chromosome = chr[idx][1],
@@ -182,7 +178,7 @@ makeCpGgenes <- function(observations, chr, pos, gene, minCpG = 2){
 
        names(regionList@regions) <- geneNames     
        ll         <- which(sapply(getRegions(regionList),length) >= minCpG)
-       regionList <- RegionListInit(regionList[ll],nRegions = length(ll))
+       regionList <- RegionList(regionList[ll],nRegions = length(ll))
 
         return(regionList)
 }
