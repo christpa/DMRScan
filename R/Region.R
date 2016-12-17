@@ -409,7 +409,7 @@ setMethod("print", "Region",
 setMethod("print", "RegionList",
           function(x){
            cat("|Genomic Coordinate \t\t| nCpGs | pVal |\n") 
-           lapply(getRegions(x),show)
+           sapply(getRegions(x),show)
            return(invisible(0))
           }
 )

@@ -271,7 +271,7 @@ We can also use an Monte Carlo approach to estimate the window thresholds, in or
 # dmrscan.results  <- DMRScan(observations = regions, windowSize = window.sizes, 
 #                                windowThreshold = window.thresholds.mcmc)   
 ## Print the result          
-print(dmrscan.results)
+#print(dmrscan.results)
 ```
 
 
