@@ -102,7 +102,7 @@ RegionList <- function(nRegions,regions){
 #' @param region Object of type Region or RegionList
 #' @param windowThreshold Vector of window thresholds
 #' @param windowSize Vector of window sizes to be tested on regions
-#' @return A list of which windows that are significant
+#' @return A list of the windows that are significant
 #' @examples
 #' ## Not run
 #'
@@ -117,7 +117,7 @@ setGeneric("oneWindowSizeScanner", function(region,windowThreshold,windowSize)
 #' @param region Object of type Region or RegionList
 #' @param windowThreshold Vector of window thresholds
 #' @param windowSize Vector of window sizes to be tested on regions
-#' @return A list of which windows that are significant  
+#' @return A list of the windows that are significant  
 #' @examples
 #' ## Not run
 #'
@@ -131,7 +131,7 @@ setGeneric("manyWindowSizeScanner", function(region,windowThreshold,windowSize)
 #' @exportMethod pVal
 #' @param region An object of type Region or RegionList
 #' @param n The number of digits to be presented. Default is 10
-#' @return A numeric vector of p-values
+#' @return The reported p-value for a region
 #' @examples
 #' #Number of probes is n = 10
 #' nCpG <- 10
