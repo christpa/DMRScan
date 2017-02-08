@@ -29,7 +29,7 @@ The minimal data requirements for this package to run, is a list of numerics,
 with sequentially ordered test statistics, on which the sliding window is used. 
 In this example, we will be using an example data set to generate the needed input. 
 
-```{r}
+```{r data, cache=TRUE}
 library(DMRScan)
 data(DMRScan.methylationData) ## Load methylation data from chromosome 22, with 52018 CpGs measured
 data(DMRScan.phenotypes) ## Load phenotype (end-point for methylation data)
@@ -39,10 +39,7 @@ data(DMRScan.phenotypes) ## Load phenotype (end-point for methylation data)
 Note that the DMRScan do not require raw data to be used, only test statistics from a CpG wise model. 
 To generate test statistics for use in DMRScan, we use logistic regression on 
 the example DNA methylation data, and the phenotype data as endpoint, but any other model could as well be used.
-```{r}
-library(DMRScan)                                                                
-data(DMRScan.methylationData) ## Load methylation data from chromosome 22, with 52018 CpGs measured
-data(DMRScan.phenotypes) ## Load phenotype (end-point for methylation data)     
+```{r obs, cache = TRUE, depenson='data'}
 observations <- apply(DMRScan.methylationData,1,function(x,y){
                         summary(glm(y ~ x, 
                         family = binomial(link = "logit")))$coefficients[2,3]}, 
@@ -78,15 +75,7 @@ inputs;
 To identify the coordinate to each test statistic given in the previous table, 
 we split the names inherited from the methylation values into its chromosomal 
 part, and the base pair location.
-```{r}
-library(DMRScan)                                                                
-data(DMRScan.methylationData) ## Load methylation data from chromosome 22, with 52018 CpGs measured
-data(DMRScan.phenotypes) ## Load phenotype (end-point for methylation data)     
-observations <- apply(DMRScan.methylationData,1,function(x,y){                  
-                        summary(glm(y ~ x,                                      
-                        family = binomial(link = "logit")))$coefficients[2,3]}, 
-                                           y = DMRScan.phenotypes)             
-
+```{r pos, cache = TRUE, depenson = 'obs'}
 pos <- matrix(as.integer(unlist(strsplit(names(observations),split="chr|[.]"))), 
                                                 ncol = 3, byrow = TRUE)[,-1] 
 head(pos)
@@ -98,7 +87,7 @@ information can be stored in separate objects.
 To generate the clusters, we also need to set the additional clustering 
 parameters:
 
-```{r}
+```{r, cache = TRUE, depenson = pos}
 ## Minimum number of CpGs in a tested cluster 
 min.cpg <- 3  
 
@@ -110,18 +99,7 @@ max.gap <- 750
 This, together with the test statistic vector from earlier, allows us to generate 
 a list of clusters where the sliding window is operated. 
 
-```{r}
-library(DMRScan)                                                                
-data(DMRScan.methylationData) ## Load methylation data from chromosome 22, with 52018 CpGs measured
-data(DMRScan.phenotypes) ## Load phenotype (end-point for methylation data)     
-observations <- apply(DMRScan.methylationData,1,function(x,y){                  
-                        summary(glm(y ~ x,                                      
-                        family = binomial(link = "logit")))$coefficients[2,3]}, 
-                                           y = DMRScan.phenotypes)              
-                                                                                
-pos <- matrix(as.integer(unlist(strsplit(names(observations),split="chr|[.]"))),
-                                                ncol = 3, byrow = TRUE)[,-1]    
-
+```{r reg, cache = TRUE, depenson = 'pos'}
 regions <- makeCpGregions(observations  = observations, chr = pos[,1], pos = pos[,2], 
                                               maxGap = 750, minCpG = 3)
 ``` 
@@ -164,20 +142,7 @@ specified, as well as the correlation structure. We will illustrate using only
 important sampling (which has a fixed correlation structure on the form of AR(2)) 
 and the closed form expression from Siegmund et.al. 
 
-```{r}
-library(DMRScan)                                                                
-data(DMRScan.methylationData) ## Load methylation data from chromosome 22, with 52018 CpGs measured
-data(DMRScan.phenotypes) ## Load phenotype (end-point for methylation data)     
-observations <- apply(DMRScan.methylationData,1,function(x,y){                  
-                        summary(glm(y ~ x,                                      
-                        family = binomial(link = "logit")))$coefficients[2,3]}, 
-                                           y = DMRScan.phenotypes)              
-                                                                                
-pos <- matrix(as.integer(unlist(strsplit(names(observations),split="chr|[.]"))),
-                                                ncol = 3, byrow = TRUE)[,-1]    
-                                                                                
-regions <- makeCpGregions(observations  = observations, chr = pos[,1], pos = pos[,2],
-                                              maxGap = 750, minCpG = 3)         
+```{r thres, cache = TRUE, depenson = 'reg'}
 
 window.sizes <- 3:7 ## Number of CpGs in the sliding windows 
 ## (can be either a single number or a sequence)
@@ -194,26 +159,7 @@ window.thresholds.siegmund <- estimateWindowThreshold(nProbe = n.CpG, windowSize
 ### Identifying Differentially Methylated Regions
 We now have all the data and parameters needed to run the `dmrscan()` function. 
 First using a window threshold estimated with _importanc sampling_, we have
-```{r}
-library(DMRScan)                                                                
-data(DMRScan.methylationData) ## Load methylation data from chromosome 22, with 52018 CpGs measured
-data(DMRScan.phenotypes) ## Load phenotype (end-point for methylation data)     
-observations <- apply(DMRScan.methylationData,1,function(x,y){                  
-                        summary(glm(y ~ x,                                      
-                        family = binomial(link = "logit")))$coefficients[2,3]}, 
-                                           y = DMRScan.phenotypes)              
-                                                                                
-pos <- matrix(as.integer(unlist(strsplit(names(observations),split="chr|[.]"))),
-                                                ncol = 3, byrow = TRUE)[,-1]    
-                                                                                
-regions <- makeCpGregions(observations  = observations, chr = pos[,1], pos = pos[,2],
-                                              maxGap = 750, minCpG = 3)         
-                                                                                
-window.sizes <- 3:7 ## Number of CpGs in the sliding windows                    
-## (can be either a single number or a sequence)                                
-n.CpG        <- nCpG(regions) ## Number of CpGs to be tested                    
-## Estimate the window threshold, based on the number of CpGs and window sizes  
-## using important sampling                                                     
+```{r res, cache = TRUE, depenson = 'thres'}
 window.thresholds.importancSampling <- estimateWindowThreshold(nProbe = n.CpG, windowSize = window.sizes,
                                                                     method = "sampling", mcmc = 10000)
 dmrscan.results   <- DMRScan(observations = regions, windowSize = window.sizes, 
@@ -231,28 +177,7 @@ This will give the following result, with two genome wide significant regions.
 
 When using a more stringent cut-off, generated by using the "_siegmund_" option in `dmrscan()`, we get no significant regions on the same data set. Exemplified by the syntax below:
 
-```{r}
-
-library(DMRScan)                                                                 
-data(DMRScan.methylationData) ## Load methylation data from chromosome 22, with 52018 CpGs measured
-data(DMRScan.phenotypes) ## Load phenotype (end-point for methylation data)     
-observations <- apply(DMRScan.methylationData,1,function(x,y){                  
-                        summary(glm(y ~ x,                                      
-                        family = binomial(link = "logit")))$coefficients[2,3]}, 
-                                           y = DMRScan.phenotypes)              
-                                                                                
-pos <- matrix(as.integer(unlist(strsplit(names(observations),split="chr|[.]"))),
-                                                ncol = 3, byrow = TRUE)[,-1]    
-                                                                                
-regions <- makeCpGregions(observations  = observations, chr = pos[,1], pos = pos[,2],
-                                              maxGap = 750, minCpG = 3)         
-                                                                                
-window.sizes <- 3:7 ## Number of CpGs in the sliding windows                    
-## (can be either a single number or a sequence)                                
-n.CpG        <- nCpG(regions) ## Number of CpGs to be tested                    
-window.thresholds.siegmund <- estimateWindowThreshold(nProbe = n.CpG, windowSize = window.sizes,
-                                                          method = "siegmund")   
-
+```{r res2, cache = TRUE, depenson = 'thres'}
 dmrscan.results   <- DMRScan(observations = regions, windowSize = window.sizes, 
                                 windowThreshold = window.thresholds.siegmund)
 ## Print the result
