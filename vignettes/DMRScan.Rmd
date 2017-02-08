@@ -5,13 +5,13 @@ author: "Christian M Page"
 output: rmarkdown::html_vignette
 
 # Abstract
-###Motivation
+### Motivation
 DNA methylation plays an important role in human health and disease, and methods 
 for the identification of differently methylated regions are of increasing interest. 
 There is currently a lack of statistical methods which properly address 
 multiple testing, i.e. genome-wide significance for differentially methylated regions.
 
-###Methods
+### Methods
 We introduce a scan statistic (DMRScan), which overcomes these limitations, but 
 don't suffers from the same limitations as alternative R packages, such as 
 "Bumphunter" and "DMRCate".
