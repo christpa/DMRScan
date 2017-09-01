@@ -1,8 +1,21 @@
+---
 title: "Using the DMR Scan Package"
 author: "Christian M Page"
-%\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{DMRScan.Rmd}
-output: rmarkdown::html_vignette
+date: "`r doc_date()`"
+package: "`r pkg_ver('DMRScan')`"
+abstract: >
+  A  guide to using the DMRScan package for analyzing
+  differantly methylated regions.vignettes.
+vignette: >
+  %\VignetteIndexEntry{DMRScan.Rmd}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+output: 
+  BiocStyle::pdf_document:
+    keep_tex: true
+    number_sections: false
+---
+
 
 # Abstract
 ### Motivation
