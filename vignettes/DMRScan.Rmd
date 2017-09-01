@@ -1,8 +1,10 @@
+---
 title: "Using the DMR Scan Package"
 author: "Christian M Page"
 %\VignetteEngine{knitr::knitr}
 %\VignetteIndexEntry{DMRScan.Rmd}
 output: rmarkdown::html_vignette
+---
 
 # Abstract
 ### Motivation
