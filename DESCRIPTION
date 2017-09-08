@@ -18,7 +18,7 @@ Description: This package detects significant differentially methylated regions
 biocViews: Software, Technology, Sequencing, WholeGenome
 Depends:
     R (>= 3.4.0)
-Imports: Matrix, MASS, RcppRoll,GenomicRanges, methods, mvtnorm, stats, parallel
+Imports: Matrix, MASS, RcppRoll,GenomicRanges, IRanges, methods, mvtnorm, stats, parallel
 License: GPL-3
 LazyData: true
 Author: Christian M Page [aut, cre],
@@ -27,7 +27,7 @@ Author: Christian M Page [aut, cre],
     Hanne F Harbo [ths],
     Bettina K Andreassen [aut]
 Maintainer: Christian M Page <page.ntnu@gmail.com>
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 Suggests:
     testthat,
     knitr,

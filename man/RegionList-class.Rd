@@ -3,12 +3,9 @@
 \docType{class}
 \name{RegionList-class}
 \alias{RegionList-class}
-\title{Class RegionList                                                        
-                                                                    
+\title{Class RegionList
 Class \code{RegionList} is a collection of Regions}
 \description{
-Class RegionList                                                        
-                                                                    
+Class RegionList
 Class \code{RegionList} is a collection of Regions
 }
-

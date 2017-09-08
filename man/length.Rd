@@ -23,4 +23,3 @@ Calculate the length of a region in terms of CpGs
 
 Get the number of regions in a RegionList
 }
-

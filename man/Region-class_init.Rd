@@ -34,4 +34,3 @@ region <- Region(tValues    = rnorm(nCpG),
                  id         = paste("CpG",1:nCpG,sep="_"),
                  pVal       = runif(1)) 
 }
-

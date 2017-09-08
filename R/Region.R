@@ -39,39 +39,36 @@ setClass(Class = "Region",
 #'                  id         = paste("CpG",1:nCpG,sep="_"),
 #'                  pVal       = runif(1)) 
 Region <- function(tValues, position, chromosome, pVal, id){ 
-      
-  if(missing(pVal)) pVal <- numeric()
-  if(missing(id)) id   <- character(length(tValues))
+   if(missing(pVal)) pVal <- numeric()
+   if(missing(id)) id   <- character(length(tValues))
 
-  if(class(chromosome) %in% c("integer", "numeric"))
+   if(class(chromosome) %in% c("integer", "numeric"))
 
-   chromosome  <- as.character(chromosome)
+    chromosome  <- as.character(chromosome)
     nCpG       <- length(position)
     object     <- new("Region", 
-                  tValues   = tValues, 
-                  id        = id,
-                  position  = position,
-                  chromosome= chromosome,
-                  pVal      = pVal,
-                  nCpG      = nCpG)
+    tValues   = tValues,
+    id        = id,
+    position  = position,
+    chromosome= chromosome,
+    pVal      = pVal,
+    nCpG      = nCpG)
     return(object)
 }
-#' Class RegionList                                                        
-#'                                                                     
+#' Class RegionList
 #' Class \code{RegionList} is a collection of Regions  
-#'                                                                     
-#' @name RegionList-class                                                  
-#' @rdname RegionList-class                                               
-#' @exportClass RegionList                                                 
-setClass(Class = "RegionList",                                             
-    representation = representation(                                   
-        regions     = "array",                                       
+#' @name RegionList-class 
+#' @rdname RegionList-class
+#' @exportClass RegionList
+setClass(Class = "RegionList",
+    representation = representation(
+        regions     = "array", 
         nRegions    = "integer"
     )
 )
 
 #' Shorthand for initializing RegionList
-#' @name RegionList                                        
+#' @name RegionList
 #' @rdname RegionList-class_init
 #' @param regions The regions to be included
 #' @param nRegions The number of regions to be placed
@@ -83,15 +80,12 @@ setClass(Class = "RegionList",
 #' RegionList(3L)
 #' 
 RegionList <- function(nRegions,regions){ 
-    
     if(missing(regions)) regions <- array(list(),nRegions)
     if(missing(nRegions)) nRegions <- length(regions)
-        else if(!is.integer(nRegions)) nRegions <- as.integer(nRegions)
-    
-    object <- new("RegionList",regions = regions, nRegions = nRegions)         
+         else if(!is.integer(nRegions)) nRegions <- as.integer(nRegions)
+    object <- new("RegionList",regions = regions, nRegions = nRegions)
     return(object)
 }
- 
 ## Set generic functions for Rt() and St() when 
 ## One for class "list" and one for class "Region"
  
@@ -107,7 +101,7 @@ RegionList <- function(nRegions,regions){
 #' ## Not run
 #'
 setGeneric("oneWindowSizeScanner", function(region,windowThreshold,windowSize) 
-                    standardGeneric("oneWindowSizeScanner"))
+     standardGeneric("oneWindowSizeScanner"))
 
 
 #' Method Fixed window size scan for a sequence of window sizes
@@ -122,7 +116,7 @@ setGeneric("oneWindowSizeScanner", function(region,windowThreshold,windowSize)
 #' ## Not run
 #'
 setGeneric("manyWindowSizeScanner", function(region,windowThreshold,windowSize) 
-                                standardGeneric("manyWindowSizeScanner"))
+     standardGeneric("manyWindowSizeScanner"))
 
 
 #' Method get pvalue 
@@ -302,11 +296,11 @@ setMethod("getRegions","RegionList",
 #' @aliases [,RegionList,ANY,ANY,ANY-method
 #' @usage NULL 
 #' @param x An object of type RegionList 
-#' @param i Index, which region to extract                                      
+#' @param i Index, which region to extract
 #' @param j (Not used)
 #' @param ... (not used)
 #' @param drop If drop is used
-#' @return A region from a RegionList of class "list"                           
+#' @return A region from a RegionList of class "list"
 #' @docType methods
 #' @rdname index
 setMethod("[", signature(x = "RegionList", i = "ANY", j = "ANY"),
@@ -319,11 +313,11 @@ setMethod("[", signature(x = "RegionList", i = "ANY", j = "ANY"),
 #' @name [[
 #' @aliases [[,RegionList-method
 #' @param x An object of type RegionList 
-#' @param i Index, which region to extract                                      
+#' @param i Index, which region to extract
 #' @param j (Not used)
 #' @param ... (not used)
 #' @param drop If drop is used
-#' @return A region from a RegionList with class "Region"                           
+#' @return A region from a RegionList with class "Region"
 #' @docType methods
 #' @rdname index_list
 setMethod("[[", signature(x = "RegionList", i = "ANY", j="ANY"),
@@ -395,10 +389,9 @@ setMethod("nCpG","RegionList",
 #' @return An print object of a Region class
 setMethod("print", "Region",
           function(x,...){
-            out <- paste("Region with ", x@nCpG, " nCpGs on chromosome", x@chromosome, 
-                         ":", min(x@position), "-" ,max (x@position), " With P value ", x@pVal, sep = "")
-       #     print(out) 
-
+            out <- paste("Region with ", x@nCpG, " nCpGs on chromosome", 
+            x@chromosome, ":", min(x@position), "-" ,max (x@position), 
+            " With P value ", x@pVal, sep = "")
           return(print(out))
           }
 )
@@ -422,8 +415,7 @@ setMethod("print", "RegionList",
 setMethod("show", "Region",
           function(object){
           out <- paste("|Chr",object@chromosome, ":",min(object@position),"-",
-                       max(object@position)," \t|", object@nCpG, "\t|", object@pVal,"|\n",sep="") 
-      #    cat(out)
+            max(object@position)," \t|", object@nCpG, "\t|", object@pVal,"|\n",sep="") 
           return(invisible(cat(out)))
           }
 )
@@ -438,7 +430,6 @@ setMethod("head","RegionList",
           function(x,n = 10L){
             if(length(x) > n)
                 x <- RegionList(regions = x[1:n],nRegions = n)
-            
           return(invisible(print(x)))
           }
 )

@@ -20,7 +20,7 @@ Please see the vignette.
 # Citation
 To cite the DMRScan package in publications use:
 
-*Assessing Genome-Wide Significance for the Detection of Differentially Methylated Regions*. Page CM, Vos L, Rounge TB, Harbo HF, and Andreassen BK _Submitted to BMC Bioinformatics_., (2016)
+*Assessing Genome-Wide Significance for the Detection of Differentially Methylated Regions*. Page CM, Vos L, Rounge TB, Harbo HF, and Andreassen BK _Submitted_., (2017)
 
 A BibTeX entry for LaTeX users is
 ```BibTeX
