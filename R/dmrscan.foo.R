@@ -155,7 +155,7 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,...){
                                         )
                               )
         }
-        if(nregions > 1){
+        if(nregions => 1){
             signRegions <- as.GRanges(sort(signRegions))
         }
 
