@@ -161,7 +161,7 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,...){
 
 
     }else{
-        signRegions <- as.GRanges(RegionList(0L))
+        signRegions <- GRanges()
     }
           return(signRegions)
 }
