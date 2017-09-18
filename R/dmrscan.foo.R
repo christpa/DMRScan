@@ -129,9 +129,9 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,...){
 
    phi                     <- stats::acf(tVal[1,],plot = FALSE)$acf[2:3]
    p.val.empirical         <- apply(tVal,2,function(x,y,ll){(sum(abs(x[1]) <= y)+1)/ll},y = slidingValues.no.zero,ll = ll)
-   sd                      <- sapply(tVal[2,],varAR, phi = phi, se = 1,order = 2)
-   mean                    <- stats::median(apply(slidingValues, 1, mean, na.rm = TRUE))
-   log.p.val.normal        <- -1*stats::pnorm(abs(tVal[1,]), mean=mean, sd =sd,lower.tail=FALSE,log.p=TRUE)/log(10)
+#   sd                      <- sapply(tVal[2,],varAR, phi = phi, se = 1,order = 1)
+#   mean                    <- stats::median(apply(slidingValues, 1, mean, na.rm = TRUE))
+#   log.p.val.normal        <- -1*stats::pnorm(abs(tVal[1,]), mean=mean, sd =sd,lower.tail=FALSE,log.p=TRUE)/log(10)
    
    position                <- pos(observations)
    tVal.orig               <- tVal(observations)
