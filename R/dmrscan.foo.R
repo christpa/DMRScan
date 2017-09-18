@@ -53,7 +53,21 @@
 #' ## Print the result
 #' print(DMRScanResults)
 #' 
-dmrscan <- function(observations,windowSize,windowThreshold=NULL,...){
+dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos = NULL, maxGap = 500,minCpG = 2,...){
+
+	if(class(observations) == "matrix"){
+		observations	<- makeCpGregions(observations, chr = chr, pos = pos, maxGap = maxGap, minCpG = minCpG)
+	}else if (class(observations) == "GRanges"){
+		## convert to res
+		observations	<- data.frame(chr = rep(as.character(observations@seqnames@values),observations@seqnames@lengths),
+									  pos = observations@ranges@start,
+									  tval= observations@elementMetadata@listData$testStatistic)
+		observations	<- makeCpGregions(observations$tval, chr = observations$chr, pos = observations$pos, maxGap = maxGap, minCpG = minCpG)
+
+	}else if( class(observations) == "minfi"){
+		## Not correct class name
+
+	}
 
     nProbe      <- nCpG(observations)
     alpha       <- 0.05
