@@ -130,7 +130,9 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos
                             },
                                         val     = slidingValues,
                                         which.k = zhangWhichK)
-        signRegion <- signRegion[sapply(signRegion,length)>0]
+        signRegion.noZero <- sapply(signRegion,length)>0
+		nregions		  <- sum(signRegion.noZero)
+		signRegion <- signRegion[signRegion.noZero]
 
         tVal       <- sapply(signRegion,function(x,kIndex){
                                       ll    <- ncol(x)
@@ -161,9 +163,12 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos
    CpGnames                <- names(observations)
    
    ## Roll back regions into object region
-
+	
         signRegions          <- RegionList(nRegions = nregions)
-
+		if(any(!signRegion.noZero)){
+			regionIndex <- regionIndex[signRegion.noZero]
+			index		<- index[signRegion.noZero]
+		}
         for(i in seq_along(signRegion)){
             motherRegion        <- observations[[regionIndex[i]]]
             signIndex           <- index[[i]]
