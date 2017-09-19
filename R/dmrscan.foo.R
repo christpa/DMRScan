@@ -113,18 +113,17 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos
                                    vv  <- val[,x]
                                    if(class(vv) == "numeric"){
                                        use <- !is.na(vv)
-                                       kk  <- ifelse(sum(which.k[x][use]) == 0, yes = which.k[x][use] +1, no = which.k[x][use])
-									   out <- rbind(vv[use],kk)
+									   out <- ifelse(sum(which.k[x][use]) == 0, NULL, rbind(vv[use],which.k[x][use]))
                                    }else{
                                        use <- !is.na(colSums(vv))
-                                       kk  <- ifelse(sum(which.k[x][use]) == 0, yes = which.k[x][use] +1, no = which.k[x][use])
-                                       out <- rbind(vv[,use],kk)
+									   out <- ifelse(sum(which.k[x][use]) == 0, rbind(vv[,use],which.k[x][use]))
                                    }
                                    return(out)
                             },
                                         val     = slidingValues,
                                         which.k = zhangWhichK)
-        
+        signRegion <- signRegion[sapply(signRegion,length)>0]
+
         tVal       <- sapply(signRegion,function(x,kIndex){
                                       ll    <- ncol(x)
                                       win   <- nrow(x)
