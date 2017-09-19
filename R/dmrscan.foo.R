@@ -116,7 +116,7 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos
 									   out <- ifelse(sum(which.k[x][use]) == 0, NULL, rbind(vv[use],which.k[x][use]))
                                    }else{
                                        use <- !is.na(colSums(vv))
-									   out <- ifelse(sum(which.k[x][use]) == 0, rbind(vv[,use],which.k[x][use]))
+									   out <- ifelse(sum(which.k[x][use]) == 0, NULL,rbind(vv[,use],which.k[x][use]))
                                    }
                                    return(out)
                             },
