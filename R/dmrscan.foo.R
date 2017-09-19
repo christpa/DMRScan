@@ -114,11 +114,17 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos
                                    if(class(vv) == "numeric"){
                                        use <- !is.na(vv)
 									   fail	<- sum(which.k[x]) == 0 | is.null(use)
-									   out <- ifelse(fail, NULL, rbind(vv[use],which.k[x][use]))
+									   if(fail)
+										   out <- NULL
+										else
+											out <- rbind(vv[use],which.k[x][use])
                                    }else{
                                        use <- !is.na(colSums(vv))
 									   fail	<- sum(which.k[x]) == 0 | length(use) == 0
-									   out <- ifelse(fail, NULL,rbind(vv[,use],which.k[x][use]))
+									   if(fail)
+										   out <- NULL
+									   else
+										   out <- rbind(vv[,use],which.k[x][use])
                                    }
                                    return(out)
                             },
