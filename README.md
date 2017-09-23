@@ -14,6 +14,17 @@ Additional inputs are the
   - maximum allowed distance within a region
   - the minimum number of CpGs within a region.
 
+### Installation 
+For a stable release from Bioconductor use
+```R
+source("https://www.bioconductor.org/biocLite.R")
+biocLite("DMRScan")
+```
+For the develupmental version from Github, use 
+```R
+install_github("christmp/DMRScan")
+```
+
 ### Usage
 Please see the vignette.
 
