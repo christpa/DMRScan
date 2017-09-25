@@ -4,16 +4,26 @@
 \alias{dmrscan}
 \title{DMR Scan function}
 \usage{
-dmrscan(observations, windowSize, windowThreshold = NULL, ...)
+dmrscan(observations, windowSize, windowThreshold = NULL, chr = NULL,
+  pos = NULL, maxGap = 500, ...)
 }
 \arguments{
-\item{observations}{An object of type RegionList}
+\item{observations}{An object of either;  RegionList, a matrix with one 
+column for the test statistic, a GRanges object, or a "minfi" object (soon 
+to be supported)}
 
 \item{windowSize}{A sequence of windowSizes for the slidingWindow, 
 must be an integer}
 
 \item{windowThreshold}{Optional argument with corresponding cut-off for 
 each window. Will be estimated if not supplied.}
+
+\item{chr}{A vector of chromosomal position. Only used when the observations
+vector is a matrix of test statistic.}
+
+\item{pos}{A vector of genomic coordinates for the CpGs to match the chr argument}
+
+\item{maxGap}{The maximum allowed gap between two CpGs within the same region.}
 
 \item{...}{Optional arguments to be pased to estimate_windowThreshold(), 
 if no grid is specified.}
@@ -35,7 +45,8 @@ test.statistics <- apply(DMRScan.methylationData,1,function(x,y)
   summary(glm(y ~ x, family = binomial(link = "logit")))$coefficients[2,3],
                                                    y = DMRScan.phenotypes)
 ## Set chromosomal position to each test-statistic
-positions <- data.frame(matrix(as.integer(unlist(strsplit(names(test.statistics), split="chr|[.]"))), ncol = 3, byrow = TRUE))[,-1]
+positions <- data.frame(matrix(as.integer(unlist(strsplit(names(test.statistics), 
+							split="chr|[.]"))), ncol = 3, byrow = TRUE))[,-1]
 ## Set clustering features 
 min.cpg <- 4  ## Minimum number of CpGs in a tested cluster
 ## Maxium distance (in base-pairs) within a cluster 

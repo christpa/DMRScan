@@ -22,7 +22,4 @@ A GRange object
 \description{
 Cast to GRranges
 }
-\examples{
-## Not run
-}
 \keyword{DMRScan}
