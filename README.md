@@ -20,7 +20,7 @@ For a stable release from Bioconductor use
 source("https://www.bioconductor.org/biocLite.R")
 biocLite("DMRScan")
 ```
-For the develupmental version from Github, use 
+For the developmental version from Github, use 
 ```R
 install_github("christmp/DMRScan")
 ```
