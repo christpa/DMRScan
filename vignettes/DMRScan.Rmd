@@ -3,7 +3,7 @@ title: "Using the DMR Scan Package"
 author: "Christian M Page"
 abstract: >
   A  guide to using the DMRScan package for analyzing
-  differantly methylated regions.vignettes.
+  differantly methylated regions.
 vignette: >
   %\VignetteIndexEntry{DMRScan.Rmd}
   %\VignetteEngine{knitr::rmarkdown}
