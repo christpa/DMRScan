@@ -2,11 +2,17 @@
 #' 
 #' @name dmrscan
 #' @rdname DMRScan_slidingWindow
-#' @param observations An object of type RegionList 
+#' @param observations An object of either;  RegionList, a matrix with one 
+#' column for the test statistic, a GRanges object, or a "minfi" object (soon 
+#' to be supported)
 #' @param windowSize A sequence of windowSizes for the slidingWindow, 
 #' must be an integer 
 #' @param windowThreshold Optional argument with corresponding cut-off for 
 #' each window. Will be estimated if not supplied.
+#' @param chr A vector of chromosomal position. Only used when the observations
+#' vector is a matrix of test statistic.
+#' @param pos A vector of genomic coordinates for the CpGs to match the chr argument
+#' @param maxGap The maximum allowed gap between two CpGs within the same region. 
 #' @param ... Optional arguments to be pased to estimate_windowThreshold(), 
 #' if no grid is specified.
 #' @return An object of type RegionList with signficantly differentially 
@@ -26,7 +32,8 @@
 #'   summary(glm(y ~ x, family = binomial(link = "logit")))$coefficients[2,3],
 #'                                                    y = DMRScan.phenotypes)
 #' ## Set chromosomal position to each test-statistic
-#' positions <- data.frame(matrix(as.integer(unlist(strsplit(names(test.statistics), split="chr|[.]"))), ncol = 3, byrow = TRUE))[,-1]
+#' positions <- data.frame(matrix(as.integer(unlist(strsplit(names(test.statistics), 
+#'                                split="chr|[.]"))), ncol = 3, byrow = TRUE))[,-1]
 #' ## Set clustering features 
 #' min.cpg <- 4  ## Minimum number of CpGs in a tested cluster
 #' ## Maxium distance (in base-pairs) within a cluster 
@@ -53,21 +60,22 @@
 #' ## Print the result
 #' print(DMRScanResults)
 #' 
-dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos = NULL, maxGap = 500,minCpG = 2,...){
+dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos = NULL, maxGap = 500,...){
 
-	if(class(observations) == "matrix"){
-		observations	<- makeCpGregions(observations, chr = chr, pos = pos, maxGap = maxGap, minCpG = minCpG)
-	}else if (class(observations) == "GRanges"){
-		## convert to res
-		observations	<- data.frame(chr = rep(as.character(observations@seqnames@values),observations@seqnames@lengths),
-									  pos = observations@ranges@start,
-									  tval= observations@elementMetadata@listData$testStatistic)
-		observations	<- makeCpGregions(observations$tval, chr = observations$chr, pos = observations$pos, maxGap = maxGap, minCpG = minCpG)
+    if(class(observations) == "matrix"){
+        observations    <- makeCpGregions(observations, chr = chr, pos = pos, maxGap = maxGap, minCpG = min(windowSize))
+    }else if (class(observations) == "GRanges"){
+        ## convert to res
+        observations    <- data.frame(chr = rep(as.character(observations@seqnames@values),observations@seqnames@lengths),
+                                      pos = observations@ranges@start,
+                                      tval= observations@elementMetadata@listData$testStatistic)
+        observations    <- makeCpGregions(observations$tval, chr = observations$chr, pos = observations$pos, maxGap = maxGap, minCpG = min(windowSize))
 
-	}else if( class(observations) == "minfi"){
-		## Not correct class name
-
-	}
+    }else if( class(observations) == "minfi"){
+        ## Not correct class name
+        print("Minfi objects are not supported yet")
+        return(1)
+    }
 
     nProbe      <- nCpG(observations)
     alpha       <- 0.05
@@ -113,26 +121,29 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos
                                    vv  <- val[,x]
                                    if(class(vv) == "numeric"){
                                        use <- !is.na(vv)
-									   fail	<- sum(which.k[x]) == 0 | is.null(use)
-									   if(fail)
-										   out <- NULL
-										else
-											out <- rbind(vv[use],which.k[x][use])
+                                       fail    <- sum(which.k[x]) == 0 | is.null(use)
+                                       if(fail)
+                                           out <- NULL
+                                        else
+                                            out <- rbind(vv[use],which.k[x][use])
                                    }else{
                                        use <- !is.na(colSums(vv))
-									   fail	<- sum(which.k[x]) == 0 | length(use) == 0
-									   if(fail)
-										   out <- NULL
-									   else
-										   out <- rbind(vv[,use],which.k[x][use])
+                                       if(length(use) == 0)
+                                           vv <- na.omitt.dmrscan(vv)
+                                       use <- !is.na(colSums(vv))
+                                       fail    <- sum(which.k[x]) == 0 | length(use) == 0
+                                       if(fail)       
+                                           out <- NULL
+                                       else
+                                           out <- rbind(vv[,use],which.k[x][use])
                                    }
                                    return(out)
                             },
                                         val     = slidingValues,
                                         which.k = zhangWhichK)
         signRegion.noZero <- sapply(signRegion,length)>0
-		nregions		  <- sum(signRegion.noZero)
-		signRegion <- signRegion[signRegion.noZero]
+        nregions          <- sum(signRegion.noZero)
+        signRegion        <- signRegion[signRegion.noZero]
 
         tVal       <- sapply(signRegion,function(x,kIndex){
                                       ll    <- ncol(x)
@@ -163,12 +174,12 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos
    CpGnames                <- names(observations)
    
    ## Roll back regions into object region
-	
+    
         signRegions          <- RegionList(nRegions = nregions)
-		if(any(!signRegion.noZero)){
-			regionIndex <- regionIndex[signRegion.noZero]
-			index		<- index[signRegion.noZero]
-		}
+        if(any(!signRegion.noZero)){
+            regionIndex <- regionIndex[signRegion.noZero]
+            index        <- index[signRegion.noZero]
+        }
         for(i in seq_along(signRegion)){
             motherRegion        <- observations[[regionIndex[i]]]
             signIndex           <- index[[i]]

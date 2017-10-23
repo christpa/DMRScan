@@ -214,5 +214,7 @@ We can also use an Monte Carlo approach to estimate the window thresholds, in or
 #print(dmrscan.results)
 ```
 
-
+```{r}
+sessionInfo()
+```
 End of vignette
