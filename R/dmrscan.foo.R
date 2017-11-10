@@ -92,7 +92,7 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos
                              windowSize = windowSize)
     }else{
         if(!(length(windowSize)==length(windowThreshold)))
-            stop("Error; windowSize and windowThreshold MUST be of equal lenght\n")
+            stop("Error; window size and window threshold must be of equal length\n")
 
         slidingWindow  <- manyWindowSizeScanner(observations,windowThreshold = windowThreshold,
                                     windowSize = windowSize)
