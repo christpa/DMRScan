@@ -25,7 +25,7 @@ multiple testing, i.e. genome-wide significance for differentially methylated re
 ### Methods
 We introduce a scan statistic (DMRScan), which overcomes these limitations, but 
 don't suffers from the same limitations as alternative R packages, such as 
-"Bumphunter" and "DMRCate".
+[_bumphunter_](http://bioconductor.org/packages/release/bioc/html/bumphunter.html)[1] and[_DMRcate_](http://bioconductor.org/packages/release/bioc/html/DMRcate.html) [2].
 
 ### Data Set
 In this package, we have included a small bi-sulfite sequncing example data set, which is an extract 
@@ -213,6 +213,11 @@ We can also use an Monte Carlo approach to estimate the window thresholds, in or
 ## Print the result          
 #print(dmrscan.results)
 ```
+
+## References
+[1] Jaffe AE, Murakami P, Lee H, Leek JT, Fallin DM, Feinberg AP and Irizarry RA (2012). “Bump hunting to identify differentially methylated regions in epigenetic epidemiology studies.” _International journal of epidemiology_, 41(1), pp. 200–209. doi: 10.1093/ije/dyr238.
+
+[2] Peters TJ, Buckley MJ, Statham AL, Pidsley R, Samaras K, Lord RV, Clark SJ and Molloy PL (2015). “De novo identification of differentially methylated regions in the human genome.” _Epigenetics & Chromatin_, 8, pp. 6. http://www.epigeneticsandchromatin.com/content/8/1/6.
 
 ```{r}
 sessionInfo()
