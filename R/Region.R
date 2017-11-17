@@ -83,7 +83,6 @@ setClass(Class = "RegionList",
 #' RegionList(3L)
 #' 
 RegionList <- function(nRegions,regions){ 
-    
     if(missing(regions)) regions <- array(list(),nRegions)
     if(missing(nRegions)) nRegions <- length(regions)
         else if(!is.integer(nRegions)) nRegions <- as.integer(nRegions)
@@ -107,8 +106,7 @@ RegionList <- function(nRegions,regions){
 #' ## Not run
 #'
 setGeneric("oneWindowSizeScanner", function(region,windowThreshold,windowSize) 
-                    standardGeneric("oneWindowSizeScanner"))
-
+     standardGeneric("oneWindowSizeScanner"))
 
 #' Method Fixed window size scan for a sequence of window sizes
 #' @name manyWindowSizeScanner
@@ -122,8 +120,7 @@ setGeneric("oneWindowSizeScanner", function(region,windowThreshold,windowSize)
 #' ## Not run
 #'
 setGeneric("manyWindowSizeScanner", function(region,windowThreshold,windowSize) 
-                                standardGeneric("manyWindowSizeScanner"))
-
+     standardGeneric("manyWindowSizeScanner"))
 
 #' Method get pvalue 
 #' @name pVal
@@ -395,10 +392,9 @@ setMethod("nCpG","RegionList",
 #' @return An print object of a Region class
 setMethod("print", "Region",
           function(x,...){
-            out <- paste("Region with ", x@nCpG, " nCpGs on chromosome", x@chromosome, 
-                         ":", min(x@position), "-" ,max (x@position), " With P value ", x@pVal, sep = "")
-       #     print(out) 
-
+            out <- paste("Region with ", x@nCpG, " nCpGs on chromosome", 
+            x@chromosome, ":", min(x@position), "-" ,max (x@position), 
+            " With P value ", x@pVal, sep = "")
           return(print(out))
           }
 )
@@ -422,8 +418,7 @@ setMethod("print", "RegionList",
 setMethod("show", "Region",
           function(object){
           out <- paste("|Chr",object@chromosome, ":",min(object@position),"-",
-                       max(object@position)," \t|", object@nCpG, "\t|", object@pVal,"|\n",sep="") 
-      #    cat(out)
+            max(object@position)," \t|", object@nCpG, "\t|", object@pVal,"|\n",sep="") 
           return(invisible(cat(out)))
           }
 )
@@ -438,7 +433,6 @@ setMethod("head","RegionList",
           function(x,n = 10L){
             if(length(x) > n)
                 x <- RegionList(regions = x[1:n],nRegions = n)
-            
           return(invisible(print(x)))
           }
 )

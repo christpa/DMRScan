@@ -2,5 +2,6 @@ News:
 0.99.0 New functional package
 0.99.4 Added data set and updated documentation 
 
-ToDo:
-    *Prallel
+1.1.0 
+    * Changed output to GRanges to harmonize with Bioconductuor 
+

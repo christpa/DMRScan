@@ -51,4 +51,3 @@ regions  <- makeCpGgenes(observations = testStatistics,
 }
 \keyword{CpG}
 \keyword{Regions}
-

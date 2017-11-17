@@ -9,3 +9,4 @@ citEntry(entry="article",
   year = "2017",
   textVersion = paste("Assessing Genome-Wide Significance for the Detection of Differentially Methylated Regions.",
     "Page CM, Vos L, Rounge TB, Harbo HF, and Andreassen BK")
+
