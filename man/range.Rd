@@ -16,3 +16,7 @@ A character giving the genomic position
 \description{
 Get the genomic position of a Region
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master

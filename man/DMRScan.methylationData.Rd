@@ -5,14 +5,22 @@
 \alias{DMRScan.methylationData}
 \title{DMRScan}
 \description{
+<<<<<<< HEAD
 Bi-sulfite sequencing data of known CpGs at chromosome 22 from 100 Finish teens, 
 sampled from the two extreme BMI quantiles. The data set is reduced to 25139 sites on chromosome 22. 
 See "Genome-wide DNA methylation in saliva and body size of adolescent girls", TB Rounge, CM Page, 
 M Lepisto, E Pekka, and BK Andreassen and E Weiderpass, _Epigenomics_ 8.11 (2016): 1495-1505 for a 
 full overvew of the data set.
+=======
+Bi-sulfite sequencing data of known CpGs at chromosome 22 from 100 Finish teens, sampled from the two extreme BMI quantiles. See "Genome-wide DNA methylation in saliva and body size of adolescent girls", TB Rounge, CM Page, M Lepisto, E Pekka, and BK Andreassen and E Weiderpass, Epigenomics 8.11 (2016): 1495-1505.
+>>>>>>> upstream/master
 }
 \examples{
 data(DMRScan.methylationData)
 head(DMRScan.methylationData)
 }
 \keyword{datasets}
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master

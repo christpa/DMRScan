@@ -22,3 +22,7 @@ Shorthand for initializing RegionList
 RegionList(3L)
 
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master

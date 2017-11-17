@@ -19,7 +19,11 @@ pVal(region, n = 12)
 \item{n}{The number of digits to be presented. Default is 10}
 }
 \value{
+<<<<<<< HEAD
 The reported p-value for a region
+=======
+A numeric vector of p-values
+>>>>>>> upstream/master
 }
 \description{
 Method get pvalue
@@ -38,3 +42,7 @@ region <- Region(tValues    = rnorm(nCpG),
 ## Pvalues for Region
 pVal(region)
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master

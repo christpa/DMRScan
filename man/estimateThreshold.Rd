@@ -45,3 +45,7 @@ one unique value for each window size
 thresholdGrid <- estimateWindowThreshold(nProbe = 1000, 
                                     windowSize = 3:8, method = "siegmund")
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master

@@ -32,3 +32,7 @@ someEmptyRegions <- RegionList(3L)
 nCpG(someEmptyRegions)
 
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master

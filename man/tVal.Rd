@@ -40,3 +40,7 @@ region <- Region(tValues    = rnorm(nCpG),
 tVal(region)
 
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master

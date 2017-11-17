@@ -8,3 +8,7 @@
 Class \code{Region} is a collection of test statistics for a set of CpGs 
 within a short genomic range
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master

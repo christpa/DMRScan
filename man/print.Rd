@@ -25,3 +25,7 @@ Print a region
 
 Print a number of regions in a RegionList
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master

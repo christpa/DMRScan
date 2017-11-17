@@ -6,7 +6,15 @@ citEntry(entry="article",
                       person(given="Trine B",       family="Rounge"),
                       person(given="Hanne F",       family="Harbo"),
                       person(given="Bettina K",     family="Andreassen")),
+<<<<<<< HEAD
   year = "2016",
   journal = "Submitted",
   textVersion = paste("Assessing Genome-Wide Significance for the Detection of Differentially Methylated Regions.",
     "Page CM, Vos L, Rounge TB, Harbo HF, and Andreassen BK"))
+=======
+  journal = "BMC Bioinformatics (Submitted)",
+  year = "2016",
+  textVersion = paste("Assessing Genome-Wide Significance for the Detection of Differentially Methylated Regions.",
+    "Page CM, Vos L, Rounge TB, Harbo HF, and Andreassen BK",
+    "Submitted to BMC Bioinformatics., (2016)"))
+>>>>>>> upstream/master

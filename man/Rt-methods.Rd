@@ -2,12 +2,21 @@
 % Please edit documentation in R/Region.R, R/test.R
 \docType{methods}
 \name{oneWindowSizeScanner}
+<<<<<<< HEAD
 \alias{oneWindowSizeScanner}
 \alias{Rt}
 \alias{oneWindowSizeScanner,RegionList-method}
 \alias{Rt,RegionList-method}
 \alias{oneWindowSizeScanner,Region-method}
 \alias{Rt,Region-method}
+=======
+\alias{Rt}
+\alias{Rt,Region-method}
+\alias{Rt,RegionList-method}
+\alias{oneWindowSizeScanner}
+\alias{oneWindowSizeScanner,Region-method}
+\alias{oneWindowSizeScanner,RegionList-method}
+>>>>>>> upstream/master
 \title{Method Fixed window size scan for one window size}
 \usage{
 oneWindowSizeScanner(region, windowThreshold, windowSize)
@@ -24,7 +33,11 @@ oneWindowSizeScanner(region, windowThreshold, windowSize)
 \item{windowSize}{Vector of window sizes to be tested on regions}
 }
 \value{
+<<<<<<< HEAD
 A list of the windows that are significant
+=======
+A list of which windows that are significant
+>>>>>>> upstream/master
 }
 \description{
 Method Fixed window size scan for one window size
@@ -33,3 +46,7 @@ Method Fixed window size scan for one window size
 ## Not run
 
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master

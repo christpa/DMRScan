@@ -16,3 +16,7 @@ Cat a region to screen
 \description{
 Show a region
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master

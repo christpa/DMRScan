@@ -22,3 +22,7 @@ A region from a RegionList of class "list"
 \description{
 Get Object Region
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master

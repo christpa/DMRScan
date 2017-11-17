@@ -2,10 +2,17 @@
 % Please edit documentation in R/Region.R, R/test.R
 \docType{methods}
 \name{manyWindowSizeScanner}
+<<<<<<< HEAD
 \alias{manyWindowSizeScanner}
 \alias{St}
 \alias{manyWindowSizeScanner,RegionList-method}
 \alias{manyWindowSizeScanner,Region-method}
+=======
+\alias{St}
+\alias{manyWindowSizeScanner}
+\alias{manyWindowSizeScanner,Region-method}
+\alias{manyWindowSizeScanner,RegionList-method}
+>>>>>>> upstream/master
 \title{Method Fixed window size scan for a sequence of window sizes}
 \usage{
 manyWindowSizeScanner(region, windowThreshold, windowSize)
@@ -23,7 +30,11 @@ manyWindowSizeScanner(region, windowThreshold, windowSize)
 \item{windowSize}{Vector of window sizes to be tested on regions}
 }
 \value{
+<<<<<<< HEAD
 A list of the windows that are significant
+=======
+A list of which windows that are significant
+>>>>>>> upstream/master
 }
 \description{
 Method Fixed window size scan for a sequence of window sizes
@@ -32,3 +43,7 @@ Method Fixed window size scan for a sequence of window sizes
 ## Not run
 
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master

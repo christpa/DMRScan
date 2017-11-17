@@ -18,3 +18,7 @@ An updated RegionList, sorted on empirical p-values
 \description{
 Sort a set of regions on p-value in a RegionList object
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master
