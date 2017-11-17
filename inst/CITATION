@@ -6,7 +6,7 @@ citEntry(entry="article",
                       person(given="Trine B",       family="Rounge"),
                       person(given="Hanne F",       family="Harbo"),
                       person(given="Bettina K",     family="Andreassen")),
-  year = "2016",
-  journal = "Submitted",
+  year = "2017",
   textVersion = paste("Assessing Genome-Wide Significance for the Detection of Differentially Methylated Regions.",
-    "Page CM, Vos L, Rounge TB, Harbo HF, and Andreassen BK"))
+    "Page CM, Vos L, Rounge TB, Harbo HF, and Andreassen BK")
+
