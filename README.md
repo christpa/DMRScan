@@ -24,6 +24,16 @@ For the developmental version from Github, use
 ```R
 install_github("christmp/DMRScan")
 ```
+Requred R-packages for DMRScan are:
+* Matrix 
+* MASS 
+* RcppRoll 
+* GenomicRanges
+* IRanges
+* methods
+* mvtnorm
+* stats
+* parallel
 
 ### Usage
 Please see the vignette.
