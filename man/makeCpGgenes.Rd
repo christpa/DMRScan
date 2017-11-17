@@ -51,7 +51,3 @@ regions  <- makeCpGgenes(observations = testStatistics,
 }
 \keyword{CpG}
 \keyword{Regions}
-<<<<<<< HEAD
-=======
-
->>>>>>> upstream/master

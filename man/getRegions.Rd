@@ -3,10 +3,7 @@
 \docType{methods}
 \name{getRegions}
 \alias{getRegions}
-<<<<<<< HEAD
 \alias{getRegions}
-=======
->>>>>>> upstream/master
 \alias{getRegions,RegionList-method}
 \title{Method getRegions}
 \usage{
@@ -30,7 +27,3 @@ someEmptyRegions <- RegionList(3L)
 # To get back three empty regions
 getRegions(someEmptyRegions)
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> upstream/master

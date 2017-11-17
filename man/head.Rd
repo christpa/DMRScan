@@ -19,7 +19,3 @@ The top regins in a RegionList
 \description{
 Cat the head of a list of regions in a RegionList object
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> upstream/master

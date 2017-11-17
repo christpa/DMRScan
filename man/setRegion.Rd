@@ -39,7 +39,3 @@ region <- Region(tValues    = rnorm(nCpG),
 regList <- setRegion(regList,i = 1, region)
 
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> upstream/master

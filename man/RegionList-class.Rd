@@ -3,14 +3,6 @@
 \docType{class}
 \name{RegionList-class}
 \alias{RegionList-class}
-<<<<<<< HEAD
-\title{Class RegionList
-Class \code{RegionList} is a collection of Regions}
-\description{
-Class RegionList
-Class \code{RegionList} is a collection of Regions
-}
-=======
 \title{Class RegionList                                                        
                                                                     
 Class \code{RegionList} is a collection of Regions}
@@ -19,5 +11,3 @@ Class RegionList
                                                                     
 Class \code{RegionList} is a collection of Regions
 }
-
->>>>>>> upstream/master

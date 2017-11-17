@@ -36,7 +36,3 @@ region <- Region(tValues    = rnorm(nCpG),
 ## Genomic coordinates for Region
 pos(region)
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> upstream/master

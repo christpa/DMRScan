@@ -1,12 +1,7 @@
 #' @importFrom Matrix sparseMatrix
 #' @importFrom RcppRoll roll_mean roll_sum
 windowTest <- function(threshold,windowSize,nProbe,method,...){
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> upstream/master
-    method <- match.arg(method,c("ar", "arima"))
+   method <- match.arg(method,c("ar", "arima"))
     if(method == "arima"){
         submethod <- .makeData.arima
     }else if(method == "ar"){
@@ -17,10 +12,6 @@ windowTest <- function(threshold,windowSize,nProbe,method,...){
     sign        <- sum(RcppRoll::roll_sum(windows > threshold,windowSize) == 1)
     return(sign)
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> upstream/master
 .ndiag <- function(par,dim){
         x <- rep(par[1],dim)
         i <- seq_len(dim)
@@ -34,10 +25,6 @@ windowTest <- function(threshold,windowSize,nProbe,method,...){
      mat <- Matrix::sparseMatrix(i=i,j=j,x=x,dims=c(dim,dim),symmetric=FALSE)
          return(mat)
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> upstream/master
 .makeData.ar <- function(nProbe,d = 2,...){
     ll      <- nProbe + 2*d + 1
     x       <- stats::rnorm(n = ll)
@@ -45,19 +32,9 @@ windowTest <- function(threshold,windowSize,nProbe,method,...){
 
     x.out   <- x.new[seq(d+1,nProbe+d)]/sqrt(2*d+1)
     return(x.out)
-<<<<<<< HEAD
-}
-.makeData.arima <- function(L,...){
-	        x.out   <- stats::arima.sim(n=L,...)
-        return(as.numeric(x.out))
-}
-=======
 }   
 
 .makeData.arima <- function(L,...){
         x.out   <- stats::arima.sim(n=L,...)
         return(as.numeric(x.out))
 }
-
-
->>>>>>> upstream/master

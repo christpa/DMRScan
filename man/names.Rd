@@ -23,7 +23,3 @@ Get the names of all probes within a region
 
 Get the names of all probes in a study
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> upstream/master

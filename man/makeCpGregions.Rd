@@ -51,7 +51,3 @@ regions <- makeCpGregions(observations = testStatistics, chr = pos[,1],
 }
 \keyword{CpG}
 \keyword{Regions}
-<<<<<<< HEAD
-=======
-
->>>>>>> upstream/master
