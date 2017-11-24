@@ -16,4 +16,3 @@ Cat a region to screen
 \description{
 Show a region
 }
-

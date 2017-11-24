@@ -11,4 +11,3 @@ Class RegionList
                                                                     
 Class \code{RegionList} is a collection of Regions
 }
-

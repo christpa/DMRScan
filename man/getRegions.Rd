@@ -3,6 +3,7 @@
 \docType{methods}
 \name{getRegions}
 \alias{getRegions}
+\alias{getRegions}
 \alias{getRegions,RegionList-method}
 \title{Method getRegions}
 \usage{
@@ -26,4 +27,3 @@ someEmptyRegions <- RegionList(3L)
 # To get back three empty regions
 getRegions(someEmptyRegions)
 }
-
