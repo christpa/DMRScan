@@ -46,7 +46,7 @@
 #' windowThresholds <- estimateWindowThreshold(nProbe = nCpG,                   
 #'                windowSize = windowSizes, method = "sampling", mcmc = 10000)  
 #' ## Run the slidingWindow                                                     
-#' DMRScanResults   <- DMRScan(observations = regions,                          
+#' DMRScanResults   <- dmrscan(observations = regions,                          
 #'                             windowSize = windowSizes,                        
 #'                             windowThreshold = windowThresholds)              
 #' ## Print the result                                                          
