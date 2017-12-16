@@ -2,12 +2,15 @@
 
 language: r
 r: bioc-release
+use_bioc: true
 sudo: false
 cache: packages
 
+bioc_packages: BiocInstaller
+
 install:
--./travis-tool.sh install_r <RcppRoll> <mvtnorm> <MASS> 
-- ./travis-tool.sh install_bioc <BiocInstaller> <BiocCheck> <IRanges> <GenomicRanges> 
+- ./travis-tool.sh install_r <RcppRoll> <mvtnorm> <MASS> 
+- ./travis-tool.sh install_bioc <BiocCheck> <IRanges> <GenomicRanges> 
 
 
 
