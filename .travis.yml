@@ -6,8 +6,8 @@ sudo: false
 cache: packages
 
 install:
-	./travis-tool.sh install_r <RcppRoll> <mvtnorm> <MASS> 
-	- ./travis-tool.sh install_bioc <IRanges> <GenomicRanges> 
+	- ./travis-tool.sh install_r <RcppRoll> <mvtnorm> <MASS> 
+	- ./travis-tool.sh install_bioc <BiocInstaller> <BiocCheck> <IRanges> <GenomicRanges> 
 
 
 
