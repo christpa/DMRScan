@@ -15,7 +15,7 @@
 #' @param maxGap The maximum allowed gap between two CpGs within the same region. 
 #' @param ... Optional arguments to be pased to estimate_windowThreshold(), 
 #' if no grid is specified.
-#' @return An object of type RegionList with signficantly differentially 
+#' @return An object of type GRanges with significantly differentially 
 # methylated regions
 #' @keywords DMRScan
 #' @importFrom GenomicRanges GRanges
@@ -23,11 +23,11 @@
 #' @export
 #' @examples
 #' ## nProbeoad methylation data from chromosome 22
-#' data(DMRScan.methylationData) 
+#' \code{data(DMRScan.methylationData)} 
 #' ## nProbeoad phenotype (end-point for methylation data)
 #' data(DMRScan.phenotypes) 
 #' 
-#' ## Test for an association between phenotype and Methylation
+#' ## Test for an association between phenotype and methylation
 #' test.statistics <- apply(DMRScan.methylationData,1,function(x,y)
 #'   summary(glm(y ~ x, family = binomial(link = "logit")))$coefficients[2,3],
 #'                                                    y = DMRScan.phenotypes)
@@ -36,8 +36,8 @@
 #'                                split="chr|[.]"))), ncol = 3, byrow = TRUE))[,-1]
 #' ## Set clustering features 
 #' min.cpg <- 4  ## Minimum number of CpGs in a tested cluster
-#' ## Maxium distance (in base-pairs) within a cluster 
-#' ## before it is broken up into two seperate cluster 
+#' ## Maximum distance (in base-pairs) within a cluster 
+#' ## before it is broken up into two separate cluster 
 #' max.gap <- 750  
 #' 
 # 
