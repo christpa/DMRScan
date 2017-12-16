@@ -1,5 +1,17 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: R
+language: r
+r: bioc-release
 sudo: false
 cache: packages
+
+install:
+	./travis-tool.sh install_r <RcppRoll> <mvtnorm> <MASS> 
+	- ./travis-tool.sh install_bioc <IRanges> <GenomicRanges> 
+
+
+
+script:
+	- R CMD build .
+	- R CMD check *tar.gz
+	- R CMD BiocCheck *tar.gz
