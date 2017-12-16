@@ -6,12 +6,8 @@ use_bioc: true
 sudo: false
 cache: packages
 
-bioc_packages: IRanges GenomicRanges
+bioc_packages: IRanges GenomicRanges BiocCheck
 r_packages: RcppRoll
-
-install:
-- ./travis-tool.sh install_bioc BiocCheck 
-
 
 
 script:
