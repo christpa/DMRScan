@@ -10,6 +10,7 @@ bioc_packages:
 - IRanges 
 - GenomicRanges 
 - BiocCheck
+- BiocStyle
 
 r_packages: 
 - RcppRoll
