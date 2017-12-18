@@ -6,6 +6,12 @@ use_bioc: true
 sudo: false
 cache: packages
 
+before_install:
+  - tlmgr install bera
+  - tlmgr install nowidow
+  - tlmgr install parnotes
+  - tlmgr install marginfix
+
 bioc_packages: 
 - IRanges 
 - GenomicRanges 
