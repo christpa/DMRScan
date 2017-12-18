@@ -6,8 +6,13 @@ use_bioc: true
 sudo: false
 cache: packages
 
-bioc_packages: IRanges; GenomicRanges; BiocCheck
-r_packages: RcppRoll
+bioc_packages: 
+- IRanges 
+- GenomicRanges 
+- BiocCheck
+
+r_packages: 
+- RcppRoll
 
 
 script:
