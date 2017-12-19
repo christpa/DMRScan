@@ -2,17 +2,28 @@
 
 language: r
 r: bioc-release
+use_bioc: true
 sudo: false
 cache: packages
 bioc_required: true
 
-install:
-	- ./travis-tool.sh install_r <RcppRoll> <mvtnorm> <MASS> 
-	- ./travis-tool.sh install_bioc <BiocInstaller> <BiocCheck> <IRanges> <GenomicRanges> 
+before_install:
+  - tlmgr install bera
+  - tlmgr install nowidow
+  - tlmgr install parnotes
+  - tlmgr install marginfix
 
+bioc_packages: 
+- IRanges 
+- GenomicRanges 
+- BiocCheck
+- BiocStyle
+
+r_packages: 
+- RcppRoll
 
 
 script:
-	- R CMD build .
-	- R CMD check *tar.gz
-	- R CMD BiocCheck *tar.gz
+- R CMD build .
+- R CMD check *tar.gz
+- R CMD BiocCheck *tar.gz
