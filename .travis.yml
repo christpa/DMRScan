@@ -4,6 +4,7 @@ language: r
 r: bioc-release
 sudo: false
 cache: packages
+bioc_required: true
 
 install:
 	- ./travis-tool.sh install_r <RcppRoll> <mvtnorm> <MASS> 
