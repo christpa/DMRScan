@@ -12,7 +12,7 @@
 #' @param minCpG Minimum number of CpGs allowed in each region to be 
 #' considered. Default is set to at least 2 CpGs within each region.
 #' @return The suplied observations ordered into into a RegionList object. 
-#' To be parsed further into DMRScan() 
+#' To be parsed further into \code{\link{dmrcan}} 
 #' @keywords CpG Regions
 #' @export
 #' @examples

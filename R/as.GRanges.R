@@ -2,8 +2,8 @@
 #' 
 #' @name as.GRanges
 #' @rdname as.GRanges
-#' @param x A Regian object 
-#' @return A GRange object 
+#' @param x A \code{\link{Region}} object 
+#' @return A \code{\link[GRanges]{GRanges}} object 
 #' @keywords DMRScan
 #' @importFrom GenomicRanges GRanges
 #' @importFrom IRanges IRanges

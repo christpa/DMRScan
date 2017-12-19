@@ -2,20 +2,20 @@
 #' 
 #' @name dmrscan
 #' @rdname DMRScan_slidingWindow
-#' @param observations An object of either;  RegionList, a matrix with one 
-#' column for the test statistic, a GRanges object, or a "minfi" object (soon 
-#' to be supported)
-#' @param windowSize A sequence of windowSizes for the slidingWindow, 
-#' must be an integer 
+#' @param observations An object of either;  \code{\link{RegionList}} made by 
+#' \code{\link{makeCpGregions}}, a vector of the test statistic, a \code{\link[GRanges]{GRanges}} object, 
+#' or a "minfi" object (soon to be supported). 
+#' @param windowSize A sequence of windowSizes for the slidingWindow. Must be an 
+#' integer vector, with equal length as the number of windows. 
 #' @param windowThreshold Optional argument with corresponding cut-off for 
 #' each window. Will be estimated if not supplied.
 #' @param chr A vector of chromosomal position. Only used when the observations
 #' vector is a matrix of test statistic.
 #' @param pos A vector of genomic coordinates for the CpGs to match the chr argument
 #' @param maxGap The maximum allowed gap between two CpGs within the same region. 
-#' @param ... Optional arguments to be pased to estimate_windowThreshold(), 
+#' @param ... Optional arguments to be passed to \code{\link{estimate_windowThreshold}}, 
 #' if no grid is specified.
-#' @return An object of type GRanges with significantly differentially 
+#' @return An object of type \code{\link[GRanges]{GRanges}} with significantly differentially 
 # methylated regions
 #' @keywords DMRScan
 #' @importFrom GenomicRanges GRanges

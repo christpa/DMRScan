@@ -31,7 +31,7 @@ should be used. This option is only compatible with the 'mcmc' method.}
 should be used. In the AR(5), the index runs from -2 to 2. A regular AR(p) 
 model can be obtaine using ARIMA(p,0,0) instead.}
 
-\item{...}{Optinal parameters pased on to arima(), when simulating data 
+\item{...}{Optinal parameters pased on to \code{\link[stats]{arima}}, when simulating data 
 using the mcmc option, see arima.sim()}
 }
 \value{

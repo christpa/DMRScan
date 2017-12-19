@@ -19,7 +19,7 @@
 #' @param submethod A character string indicating if an AR(5) or ARIMA model 
 #' should be used. In the AR(5), the index runs from -2 to 2. A regular AR(p) 
 #' model can be obtaine using ARIMA(p,0,0) instead. 
-#' @param ... Optinal parameters pased on to arima(), when simulating data 
+#' @param ... Optinal parameters pased on to \code{\link[stats]{arima}}, when simulating data 
 #' using the mcmc option, see arima.sim()
 #' @return Returns a vector of the threshold for each window size
 #' @examples

@@ -5,7 +5,8 @@
 \alias{DMRScan.phenotypes}
 \title{DMRScan}
 \description{
-Phenotypes for methylation data, indicating case control status. 
+Accompanying phenotypes for the methylation data, indicating case-
+control status for the BMI quantiles. 
 See "Genome-wide DNA methylation in saliva and body size of adolescent girls", 
 TB Rounge, CM Page, M Lepisto, E Pekka, and BK Andreassen and E Weiderpass, 
 _Epigenomics_ 8.11 (2016): 1495-1505 for a full description of the phenotypes.

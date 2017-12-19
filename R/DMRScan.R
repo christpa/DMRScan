@@ -1,6 +1,6 @@
 #' DMRScan: An R-package for identification of Differentially Metylated Regions 
 #' @author Christian Page, \email{page.ntnu@gmail.com}
-#' @references \url{http://Some_link_to_BMC-bioInfomatics.com}
+#' @references Not Published yet (Under revision) 
 #' @aliases DMRScan_package
 #' @keywords DMR, DMRScan
 #' @docType package
@@ -10,9 +10,9 @@
 #' must be an integer                                                           
 #' @param windowThreshold Optional argument with corresponding cut-off for      
 #' each window. Will be estimated if not supplied.                              
-#' @param ... Optional arguments to be pased to estimate_windowThreshold(),     
+#' @param ... Optional arguments to be pased to \code{\link{estimateWindowThreshold}},     
 #' if no grid is specified.                                                     
-#' @return An object of type RegionList with signficantly differentially        
+#' @return An object of type \code{\link{RegionList}} with signficantly differentially        
 # methylated regions                                                            
 #' @examples                                                                    
 #' ## nProbeoad methylation data from chromosome 22                             

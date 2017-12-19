@@ -23,7 +23,7 @@ considered. Default is set to at least 2 CpGs within each region.}
 }
 \value{
 The suplied observations ordered into into a RegionList object. 
-To be parsed further into DMRScan()
+To be parsed further into \code{\link{dmrcan}}
 }
 \description{
 Clustger CpGs together in regions based on proximity

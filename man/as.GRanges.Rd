@@ -14,10 +14,10 @@ as.GRanges(x)
 \S4method{as.GRanges}{RegionList}(x)
 }
 \arguments{
-\item{x}{A Regian object}
+\item{x}{A \code{\link{Region}} object}
 }
 \value{
-A GRange object
+A \code{\link[GRanges]{GRanges}} object
 }
 \description{
 Cast to GRranges

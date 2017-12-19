@@ -8,12 +8,12 @@ dmrscan(observations, windowSize, windowThreshold = NULL, chr = NULL,
   pos = NULL, maxGap = 500, ...)
 }
 \arguments{
-\item{observations}{An object of either;  RegionList, a matrix with one 
-column for the test statistic, a GRanges object, or a "minfi" object (soon 
-to be supported)}
+\item{observations}{An object of either;  \code{\link{RegionList}} made by 
+\code{\link{makeCpGregions}}, a vector of the test statistic, a \code{\link[GRanges]{GRanges}} object, 
+or a "minfi" object (soon to be supported).}
 
-\item{windowSize}{A sequence of windowSizes for the slidingWindow, 
-must be an integer}
+\item{windowSize}{A sequence of windowSizes for the slidingWindow. Must be an 
+integer vector, with equal length as the number of windows.}
 
 \item{windowThreshold}{Optional argument with corresponding cut-off for 
 each window. Will be estimated if not supplied.}
@@ -25,22 +25,22 @@ vector is a matrix of test statistic.}
 
 \item{maxGap}{The maximum allowed gap between two CpGs within the same region.}
 
-\item{...}{Optional arguments to be pased to estimate_windowThreshold(), 
+\item{...}{Optional arguments to be passed to \code{\link{estimate_windowThreshold}}, 
 if no grid is specified.}
 }
 \value{
-An object of type RegionList with signficantly differentially
+An object of type \code{\link[GRanges]{GRanges}} with significantly differentially
 }
 \description{
 DMR Scan function
 }
 \examples{
 ## nProbeoad methylation data from chromosome 22
-data(DMRScan.methylationData) 
+\\code{data(DMRScan.methylationData)} 
 ## nProbeoad phenotype (end-point for methylation data)
 data(DMRScan.phenotypes) 
 
-## Test for an association between phenotype and Methylation
+## Test for an association between phenotype and methylation
 test.statistics <- apply(DMRScan.methylationData,1,function(x,y)
   summary(glm(y ~ x, family = binomial(link = "logit")))$coefficients[2,3],
                                                    y = DMRScan.phenotypes)
@@ -49,8 +49,8 @@ positions <- data.frame(matrix(as.integer(unlist(strsplit(names(test.statistics)
                                split="chr|[.]"))), ncol = 3, byrow = TRUE))[,-1]
 ## Set clustering features 
 min.cpg <- 4  ## Minimum number of CpGs in a tested cluster
-## Maxium distance (in base-pairs) within a cluster 
-## before it is broken up into two seperate cluster 
+## Maximum distance (in base-pairs) within a cluster 
+## before it is broken up into two separate cluster 
 max.gap <- 750  
 
 ## Identify all clusters, and generate a list for each cluster
