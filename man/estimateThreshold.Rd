@@ -3,7 +3,7 @@
 \name{estimateThreshold}
 \alias{estimateThreshold}
 \alias{estimateWindowThreshold}
-\title{Estimate window thresholds}
+\title{EstimateWindowThresholds}
 \usage{
 estimateWindowThreshold(nProbe, windowSize, method = "siegmund",
   mcmc = 1000, nCPU = 1, submethod = "ar", ...)

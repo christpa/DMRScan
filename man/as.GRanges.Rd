@@ -17,7 +17,7 @@ as.GRanges(x)
 \item{x}{A \code{\link{Region}} object}
 }
 \value{
-A \code{\link[GRanges]{GRanges}} object
+A \code{\link[GenomicRanges]{GRanges}} object
 }
 \description{
 Cast to GRranges

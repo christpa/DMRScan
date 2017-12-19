@@ -12,12 +12,12 @@
 #' each window size. Will be estimated if not supplied.                              
 #' @param ... Optional arguments to be pased to estimate_windowThreshold(),     
 #' if no grid is specified.                                                     
-#' @return An object of type RegionList with signficantly differentially        
+#' @return An object of type GRanges with signficantly differentially        
 # methylated regions                                                            
 #' @examples                                                                    
-#' ## nProbeoad methylation data from chromosome 22                             
+#' ## Methylation data from chromosome 22                             
 #' data(DMRScan.methylationData)                                                
-#' ## nProbeoad phenotype (end-point for methylation data)                      
+#' ## Phenotype (end-point for methylation data)                      
 #' data(DMRScan.phenotypes)                                                     
 #'                                                                              
 #' ## Test for an association between phenotype and methylation                 

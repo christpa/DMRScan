@@ -1,8 +1,7 @@
-#' Estimate window thresholds
+#' @title EstimateWindowThresholds
 #' @name estimateThreshold
 #' @description Estimate window thresholds for sliding window, 
 #' one unique value for each window size
-#'
 #' @param nProbe The number of probes (CpGs) in the study. 
 #' @param windowSize The different window sizes to be tested. 
 #' Must be either one, or an ordered sequence of integers.

@@ -9,7 +9,7 @@ dmrscan(observations, windowSize, windowThreshold = NULL, chr = NULL,
 }
 \arguments{
 \item{observations}{An object of either;  \code{\link{RegionList}} made by 
-\code{\link{makeCpGregions}}, a vector of the test statistic, a \code{\link[GRanges]{GRanges}} object, 
+\code{\link{makeCpGregions}}, a vector of the test statistic, a \code{\link[GenomicRanges]{GRanges}} object, 
 or a "minfi" object (soon to be supported).}
 
 \item{windowSize}{A sequence of windowSizes for the slidingWindow. Must be an 
@@ -25,19 +25,20 @@ vector is a matrix of test statistic.}
 
 \item{maxGap}{The maximum allowed gap between two CpGs within the same region.}
 
-\item{...}{Optional arguments to be passed to \code{\link{estimate_windowThreshold}}, 
+\item{...}{Optional arguments to be passed to \code{\link{estimateThreshold}}, 
 if no grid is specified.}
 }
 \value{
-An object of type \code{\link[GRanges]{GRanges}} with significantly differentially
+An object of type \code{\link[GenomicRanges]{GRanges}} with significantly differentially
 }
 \description{
 DMR Scan function
 }
 \examples{
-## nProbeoad methylation data from chromosome 22
-\\code{data(DMRScan.methylationData)} 
-## nProbeoad phenotype (end-point for methylation data)
+## methylation data from chromosome 22 
+data(DMRScan.methylationData)
+## phenotype (end-point for methylation data)
+
 data(DMRScan.phenotypes) 
 
 ## Test for an association between phenotype and methylation
