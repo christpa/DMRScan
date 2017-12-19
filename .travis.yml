@@ -25,5 +25,5 @@ r_packages:
 
 script:
 - R CMD build .
-- R CMD check *tar.gz
+- R CMD check --as-cran *tar.gz
 - R CMD BiocCheck *tar.gz
