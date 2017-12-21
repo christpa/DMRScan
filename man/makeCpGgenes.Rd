@@ -25,7 +25,7 @@ The suplied observations ordered into into a list,
 with one entry for each CpG region.
 }
 \description{
-Clustger CpGs together in genes based on annotation
+Cluster CpGs together in genes based on annotation
 }
 \examples{
 data(DMRScan.methylationData) ## Load methylation data from chromosome 22
