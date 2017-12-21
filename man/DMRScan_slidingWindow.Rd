@@ -9,7 +9,7 @@ dmrscan(observations, windowSize, windowThreshold = NULL, chr = NULL,
 }
 \arguments{
 \item{observations}{An object of either;  \code{\link{RegionList}} made by 
-\code{\link{makeCpGregions}}, a vector of the test statistic, a \code{\link[GenomicRanges]{GRanges}} object, 
+makeCpGregions, a vector of the test statistic, a \code{\link[GenomicRanges]{GRanges}} object, 
 or a "minfi" object (soon to be supported).}
 
 \item{windowSize}{A sequence of windowSizes for the slidingWindow. Must be an 
@@ -32,7 +32,7 @@ if no grid is specified.}
 An object of type \code{\link[GenomicRanges]{GRanges}} with significantly differentially
 }
 \description{
-DMR Scan function
+Sliding window to identify differentially methylated regions.
 }
 \examples{
 ## methylation data from chromosome 22 

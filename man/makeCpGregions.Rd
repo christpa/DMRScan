@@ -2,6 +2,7 @@
 % Please edit documentation in R/makeCpGregions.R
 \name{makeCpGregions}
 \alias{makeCpGregions}
+\alias{makeRegions}
 \title{Cluster}
 \usage{
 makeCpGregions(observations, chr, pos, maxGap = 500, minCpG = 2)

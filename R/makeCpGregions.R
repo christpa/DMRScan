@@ -1,5 +1,7 @@
 #' @title Cluster
 #' @name makeCpGregions
+#' @rdname makeCpGregions
+#' @aliases makeRegions
 #' @description
 #' Clustger CpGs together in regions based on proximity
 #' @param chr Vector of chromosome location for each CpG 
