@@ -1,13 +1,8 @@
 #' @title Cluster
 #' @name makeCpGregions
-<<<<<<< HEAD
 #' @rdname makeCpGregions
 #' @aliases makeRegions
-#' @description
-#' Clustger CpGs together in regions based on proximity
-=======
 #' @description Cluster CpGs together in regions based on proximity
->>>>>>> master
 #' @param chr Vector of chromosome location for each CpG 
 #' @param pos Vector giving base pair position for each CpG If unsorted, 
 #' use order(chr,pos) to sort the genomic positions within each chromosome.
