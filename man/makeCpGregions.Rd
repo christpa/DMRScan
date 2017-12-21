@@ -24,10 +24,10 @@ considered. Default is set to at least 2 CpGs within each region.}
 }
 \value{
 The suplied observations ordered into into a RegionList object. 
-To be parsed further into \code{\link{dmrcan}}
+To be parsed further into \code{\link{dmrscan}}
 }
 \description{
-Clustger CpGs together in regions based on proximity
+Cluster CpGs together in regions based on proximity
 }
 \examples{
 data(DMRScan.methylationData) ## Load methylation data from chromosome 22

@@ -1,9 +1,13 @@
 #' @title Cluster
 #' @name makeCpGregions
+<<<<<<< HEAD
 #' @rdname makeCpGregions
 #' @aliases makeRegions
 #' @description
 #' Clustger CpGs together in regions based on proximity
+=======
+#' @description Cluster CpGs together in regions based on proximity
+>>>>>>> master
 #' @param chr Vector of chromosome location for each CpG 
 #' @param pos Vector giving base pair position for each CpG If unsorted, 
 #' use order(chr,pos) to sort the genomic positions within each chromosome.
@@ -14,7 +18,7 @@
 #' @param minCpG Minimum number of CpGs allowed in each region to be 
 #' considered. Default is set to at least 2 CpGs within each region.
 #' @return The suplied observations ordered into into a RegionList object. 
-#' To be parsed further into \code{\link{dmrcan}} 
+#' To be parsed further into \code{\link{dmrscan}} 
 #' @keywords CpG Regions
 #' @export
 #' @examples
@@ -97,7 +101,7 @@ makeCpGregions <- function(observations, chr, pos, maxGap = 500, minCpG = 2){
 #' @title Cluster
 #' @name makeCpGgenes
 #' @description
-#' Clustger CpGs together in genes based on annotation
+#' Cluster CpGs together in genes based on annotation
 #' @param chr Vector of chromosome location for each CpG 
 #' @param pos Vector giving base pair position for each CpG If unsorted, 
 #' use order(chr,pos) to sort the genomic positions within each chromosome.
@@ -184,4 +188,3 @@ makeCpGgenes <- function(observations, chr, pos, gene, minCpG = 2){
 
         return(regionList)
 }
-

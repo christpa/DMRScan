@@ -13,8 +13,8 @@
 #' @param ... Optional arguments to be pased to \code{\link{estimateThreshold}},     
 #' if no grid is specified.                                                     
 #' @return An object of type \code{\link{RegionList}} with signficantly differentially        
-# methylated regions                                                            
-#' @examples                                                                    
+# methylated regions
+#' @examples                                                              
 #' ## nProbeoad methylation data from chromosome 22                             
 #' data(DMRScan.methylationData)                                                
 #' ## nProbeoad phenotype (end-point for methylation data)                      
