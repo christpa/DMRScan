@@ -53,4 +53,39 @@ year = {2017}}
 journal = {(In review)},
 year = {2016}}
 ```
+
+
+```{r}
+sessionInfo()
+```
+
+```
+R version 3.4.2 (2017-09-28)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS Sierra 10.12.6
+
+Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+
+locale:
+[1] C
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] DMRScan_0.01.02
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_0.12.13            mvtnorm_1.0-6           lattice_0.20-35        
+ [4] IRanges_2.10.5          RcppRoll_0.2.2          bitops_1.0-6           
+ [7] MASS_7.3-47             GenomeInfoDb_1.12.3     grid_3.4.2             
+[10] stats4_3.4.2            zlibbioc_1.22.0         XVector_0.16.0         
+[13] S4Vectors_0.14.7        Matrix_1.2-11           RCurl_1.95-4.8         
+[16] parallel_3.4.2          compiler_3.4.2          BiocGenerics_0.22.1    
+[19] GenomicRanges_1.28.6    GenomeInfoDbData_0.99.0
+```
+
+
 End of README
