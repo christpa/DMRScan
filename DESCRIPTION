@@ -1,6 +1,6 @@
 Package: DMRScan
 Title: Detection of Differentially Methylated Regions
-Version: 1.4.5
+Version: 1.4.6
 Authors@R: c( person("CM", "Page", email = "page.ntnu@gmail.com", role =
     c("aut", "cre")), person("L", "Vos", email = "Linda.Vos@Kreftregisteret.no",
     role = "aut"), person("TB", "Rounge", email = "", role = "ctb"), person("HF",
@@ -35,3 +35,4 @@ Suggests:
 VignetteBuilder: knitr
 URL: https://github.com/christpa/DMRScan
 BugReports: https://github.com/christpa/DMRScan/issues
+PackageStatus: Deprecated
