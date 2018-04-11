@@ -1,8 +1,7 @@
 #' @rdname Rt-methods
-#' @aliases Rt,RegionList-method
-setMethod("oneWindowSizeScanner", "RegionList", function(region,windowThreshold,windowSize){
+#' @aliases Rt,GRangesList-method
+setMethod("oneWindowSizeScanner", "GRangesList", function(region,windowThreshold,windowSize){
     
-    regions        <- getRegions(region)
     slidingWindow  <- sapply(regions, oneWindowSizeScanner, windowThreshold = windowThreshold,
                           windowSize = windowSize)
       
@@ -20,12 +19,13 @@ setMethod("oneWindowSizeScanner", "RegionList", function(region,windowThreshold,
 
 
 #' @rdname Rt-methods
-#' @aliases Rt,Region-method
+#' @aliases Rt,GRanges-method
 #' @importFrom RcppRoll roll_mean roll_sum
-setMethod("oneWindowSizeScanner", "Region", function(region,windowThreshold,windowSize){
+setMethod("oneWindowSizeScanner", "GRanges", function(region,windowThreshold,windowSize){
 
-    dat         <- tVal(region)
-    nProbe      <- nCpG(region)
+## Assumes that the values are ordered!! 
+    dat         <- ncols(region)@listData$tVal
+    nProbe      <- length(region)
 
     if(nProbe <= windowSize){
          signProbe <- rep(FALSE,nProbe)
@@ -77,9 +77,8 @@ setMethod("oneWindowSizeScanner", "Region", function(region,windowThreshold,wind
 
 
 #' @rdname St-methods                
-setMethod("manyWindowSizeScanner", "RegionList", function(region,windowThreshold,windowSize){ 
+setMethod("manyWindowSizeScanner", "GRangesList", function(region,windowThreshold,windowSize){ 
 
-    regions        <- getRegions(region)
     slidingWindow  <- sapply(regions,manyWindowSizeScanner, windowThreshold = windowThreshold, windowSize = windowSize)
 
     signProbe  <- do.call(c,slidingWindow[1,])
@@ -94,10 +93,12 @@ setMethod("manyWindowSizeScanner", "RegionList", function(region,windowThreshold
 
 #' @rdname St-methods             
 #' @importFrom RcppRoll roll_mean 
-setMethod("manyWindowSizeScanner", "Region", function(region,windowThreshold,windowSize){ 
+setMethod("manyWindowSizeScanner", "GRanges", function(region,windowThreshold,windowSize){ 
                     
-    dat         <- tVal(region)
-    nProbe      <- nCpG(region)
+
+## Assumes that the values are ordered!! 
+    dat         <- ncols(region)@listData$tVal
+    nProbe      <- length(region)
 
     signProbe  <- logical(nProbe)
     valueProbe <- matrix(0,length(windowSize),nProbe)

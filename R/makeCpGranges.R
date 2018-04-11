@@ -75,7 +75,7 @@ makeCpGregions <- function(observations, chr, pos, maxGap = 500, minCpG = 2){
         if(length(reg.id) >= minCpG){
             regionList[[j]] <- GRanges(seqnames = chr[reg.id],
                                   	   ranges = IRanges(start=pos[reg.id], end = pos[reg.id]),
-										score = xx,
+										tVal = xx,
 										id   = rowNames[reg.id])
             #cat(j, "/", nRegions,"\r")
                 j   <- j + 1 
@@ -163,7 +163,7 @@ makeCpGgenes <- function(observations, chr, pos, gene, minCpG = 2){
         if(length(idx) >= minCpG){
             regionList[[i]] <- GRanges(seqnames = chr[idx],
                                   	   ranges = IRanges(start=pos[idx], end = pos[idx]),
-										score = xx,
+										tVal = xx,
 										id   = rowNames[idx]
 										gene = geneIter)
             #cat(j, "/", nRegions,"\r")
