@@ -49,7 +49,7 @@
 #' ## Number of CpGs in the slidingWindows, can be either a single number 
 #' ## or a sequence of windowSizes
 #' windowSizes <- 3:7 
-#' nCpG        <- nCpG(regions) ## Number of CpGs to be tested
+#' nCpG        <- sum(sapply(regions,length)) ## Number of CpGs to be tested
 #' 
 #' # Estimate the windowThreshold, based on the number of CpGs and windowSizes
 #' windowThresholds <- estimateWindowThreshold(nProbe = nCpG, 
@@ -71,7 +71,7 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos
         return(1)
     }
 
-    nProbe      <- nCpG(observations)
+    nProbe      <- sum(sapply(observations,length))
     alpha       <- 0.05
 
     windowSize  <- sort(windowSize)
@@ -171,18 +171,19 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos
 
    ## Roll back regions into object region
     
-        if(nregions >= 1 & !anyNA(lowerBound)){
-         	signRegions          <- array(list(), nregions) 
         if(any(!signRegion.noZero)){
             regionIndex <- regionIndex[signRegion.noZero]
             index        <- index[signRegion.noZero]
         }
-        for(i in seq_along(signRegion)){
+        ## Do I need a list for this?? GRanges is sufficient
+		signRegions	<- array(list(),length(signRegion))
+		for(i in seq_along(signRegion)){
             signIndex           <- index[[i]]
             signRegions[i]      <- GRanges(
 									seqnames = chr[signIndex],
 									ranges	= IRanges(start=position[signIndex], end = position[signIndex]),
-                                    tVal	= tVal.orig[signIndex],
+                                    no.cpg	= length(signIndex),
+									tVal	= tVal.orig[signIndex],
                                     pVal    = p.val.empirical[i],
                                     id      = CpGnames[signIndex]
                                         )

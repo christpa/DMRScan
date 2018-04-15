@@ -4,16 +4,16 @@
 \name{manyWindowSizeScanner}
 \alias{manyWindowSizeScanner}
 \alias{St}
-\alias{manyWindowSizeScanner,RegionList-method}
-\alias{manyWindowSizeScanner,Region-method}
+\alias{manyWindowSizeScanner,GRangesList-method}
+\alias{manyWindowSizeScanner,GRanges-method}
 \title{Method Fixed window size scan for a sequence of window sizes}
 \usage{
 manyWindowSizeScanner(region, windowThreshold, windowSize)
 
-\S4method{manyWindowSizeScanner}{RegionList}(region, windowThreshold,
+\S4method{manyWindowSizeScanner}{GRangesList}(region, windowThreshold,
   windowSize)
 
-\S4method{manyWindowSizeScanner}{Region}(region, windowThreshold, windowSize)
+\S4method{manyWindowSizeScanner}{GRanges}(region, windowThreshold, windowSize)
 }
 \arguments{
 \item{region}{Object of type Region or RegionList}

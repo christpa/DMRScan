@@ -12,6 +12,8 @@
 #' considered. Default is set to at least 2 CpGs within each region.
 #' @return The suplied observations ordered into into a RegionList object. 
 #' To be parsed further into \code{\link{dmrscan}} 
+#' @importFrom IRanges IRanges
+#' @importFrom GenomicRanges GRanges
 #' @keywords CpG Regions
 #' @export
 #' @examples
@@ -75,6 +77,7 @@ makeCpGregions <- function(observations, chr, pos, maxGap = 500, minCpG = 2){
         if(length(reg.id) >= minCpG){
             regionList[[j]] <- GRanges(seqnames = chr[reg.id],
                                   	   ranges = IRanges(start=pos[reg.id], end = pos[reg.id]),
+										no.cpgs= length(reg.id),
 										tVal = xx,
 										id   = rowNames[reg.id])
             #cat(j, "/", nRegions,"\r")
@@ -163,8 +166,9 @@ makeCpGgenes <- function(observations, chr, pos, gene, minCpG = 2){
         if(length(idx) >= minCpG){
             regionList[[i]] <- GRanges(seqnames = chr[idx],
                                   	   ranges = IRanges(start=pos[idx], end = pos[idx]),
+										no.cpgs = length(idx),
 										tVal = xx,
-										id   = rowNames[idx]
+										id   = rowNames[idx],
 										gene = geneIter)
             #cat(j, "/", nRegions,"\r")
                 i   <- i + 1 

@@ -159,7 +159,7 @@ and the closed form expression from Siegmund et.al.
 
 window.sizes <- 3:7 ## Number of CpGs in the sliding windows 
 ## (can be either a single number or a sequence)
-n.CpG        <- nCpG(regions) ## Number of CpGs to be tested
+n.CpG        <- sum(sapply(regions, length)) ## Number of CpGs to be tested
 ## Estimate the window threshold, based on the number of CpGs and window sizes 
 ## using important sampling
 window.thresholds.importancSampling <- estimateWindowThreshold(nProbe = n.CpG, windowSize = window.sizes, 

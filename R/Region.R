@@ -37,25 +37,31 @@ setGeneric("pos",function(x)
 	standardGeneric("pos"))
 
 setGeneric("tVal",function(x)
-	standardGeneric("pos"))
+	standardGeneric("tVal"))
 
 setGeneric("id",function(x)
-	standardGeneric("pos"))
+	standardGeneric("id"))
 
+#' @importFrom GenomeInfoDb seqnames
 setMethod("chr", "GRangesList", function(x){
-	return(rep(do.call(c,sapply(grl, function(x)as.character(seqnames(x)@values))), 
-				do.call(c,sapply(grl, function(x)seqnames(x)@lengths))))
+	return(rep(do.call(c,lapply(x, function(x)as.character(seqnames(x)@values))), 
+				do.call(c,lapply(x, function(x)seqnames(x)@lengths))))
 })
 
-
+#' @importFrom GenomicRanges ranges 
 setMethod("pos", "GRangesList", function(x){
-	return(do.call(c,sapply(grl, function(x)ranges(x)@start)))
+	return(do.call(c,sapply(x, function(x)ranges(x)@start)))
 })
 
+
+setMethod("tVal", "GRanges", function(x){
+	return(mcols(x)$tVal)
+})
 
 setMethod("tVal", "GRangesList", function(x){
 	return(do.call(c,sapply(sapply(x, mcols),function(x)x$tVal)))
 })
+
 
 setMethod("id", "GRangesList", function(x){
 	return(do.call(c,sapply(sapply(x, mcols),function(x)x$tVal)))

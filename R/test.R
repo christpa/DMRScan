@@ -21,10 +21,11 @@ setMethod("oneWindowSizeScanner", "GRangesList", function(region,windowThreshold
 #' @rdname Rt-methods
 #' @aliases Rt,GRanges-method
 #' @importFrom RcppRoll roll_mean roll_sum
+#' @importFrom GenomicRanges mcols
 setMethod("oneWindowSizeScanner", "GRanges", function(region,windowThreshold,windowSize){
 
 ## Assumes that the values are ordered!! 
-    dat         <- ncols(region)@listData$tVal
+    dat         <- mcols(region)@listData$tVal
     nProbe      <- length(region)
 
     if(nProbe <= windowSize){
@@ -93,11 +94,12 @@ setMethod("manyWindowSizeScanner", "GRangesList", function(region,windowThreshol
 
 #' @rdname St-methods             
 #' @importFrom RcppRoll roll_mean 
+#' @importFrom GenomicRanges mcols
 setMethod("manyWindowSizeScanner", "GRanges", function(region,windowThreshold,windowSize){ 
                     
 
 ## Assumes that the values are ordered!! 
-    dat         <- ncols(region)@listData$tVal
+    dat         <- mcols(region)@listData$tVal
     nProbe      <- length(region)
 
     signProbe  <- logical(nProbe)
