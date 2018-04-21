@@ -49,7 +49,7 @@
 #' ## Number of CpGs in the slidingWindows, can be either a single number 
 #' ## or a sequence of windowSizes
 #' windowSizes <- 3:7 
-#' nCpG        <- nCpG(regions) ## Number of CpGs to be tested
+#' nCpG        <- sum(sapply(regions,length)) ## Number of CpGs to be tested
 #' 
 #' # Estimate the windowThreshold, based on the number of CpGs and windowSizes
 #' windowThresholds <- estimateWindowThreshold(nProbe = nCpG, 
@@ -65,25 +65,17 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos
 
     if(class(observations) == "matrix"){
         observations    <- makeCpGregions(observations, chr = chr, pos = pos, maxGap = maxGap, minCpG = min(windowSize))
-    }else if (class(observations) == "GRanges"){
-        ## convert to res
-        observations    <- data.frame(chr = rep(as.character(observations@seqnames@values),observations@seqnames@lengths),
-                                      pos = observations@ranges@start,
-                                      tval= observations@elementMetadata@listData$testStatistic)
-        observations    <- makeCpGregions(observations$tval, chr = observations$chr, pos = observations$pos, maxGap = maxGap, minCpG = min(windowSize))
-
     }else if( class(observations) == "minfi"){
         ## Not correct class name
         print("Minfi objects are not supported yet")
         return(1)
     }
-
-    nProbe      <- nCpG(observations)
     alpha       <- 0.05
 
     windowSize  <- sort(windowSize)
     if(is.null(windowThreshold)){
         cat("Constructing t-grid\n")
+    	nProbe      <- sum(sapply(observations,length))
         windowThreshold  <- estimateWindowThreshold(nProbe,windowSize,...)
         print(windowThreshold)
     }
@@ -110,7 +102,7 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos
 
     ### calculate Region-wise p-values
     if(nregions >= 1 & !anyNA(lowerBound)){
-        regionLengths  <- do.call(c,lapply(getRegions(observations),length))
+        regionLengths  <- sapply(observations,length)
         regionIndex    <- rep(seq_along(regionLengths),regionLengths)[lowerBound]
         
         regions         <- data.frame(start=lowerBound,end=upperBound,length=upperBound-lowerBound+1,bump=regionIndex)
@@ -171,35 +163,39 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos
 #   log.p.val.normal        <- -1*stats::pnorm(abs(tVal[1,]), mean=mean, sd =sd,lower.tail=FALSE,log.p=TRUE)/log(10)
    
    position                <- pos(observations)
+   chr					   <- chr(observations)
    tVal.orig               <- tVal(observations)
-   CpGnames                <- names(observations)
-   
+   CpGnames                <- id(observations)
+
+
    ## Roll back regions into object region
     
-        signRegions          <- RegionList(nRegions = nregions)
         if(any(!signRegion.noZero)){
             regionIndex <- regionIndex[signRegion.noZero]
             index        <- index[signRegion.noZero]
-        }
-        for(i in seq_along(signRegion)){
-            motherRegion        <- observations[[regionIndex[i]]]
+        }else{
+        ## Do I need a list for this?? GRanges is sufficient
+		signRegions.df <- data.frame("start" = NA, "stop" = NA, seqname = "", "no.cpg" = NA, "tVal" = NA, "pVal" = NA, "id"= NA, row.names = 1:length(index)) 	
+		for(i in seq_along(signRegion)){
             signIndex           <- index[[i]]
-            signRegions         <- setRegion(signRegions,
-                                             i      = i,
-                                        Region(
-                                          tValues   = tVal.orig[signIndex],
-                                          position  = position[signIndex],
-                                          chromosome= motherRegion@chromosome,
-                                          pVal      = p.val.empirical[i],
-                                          id        = CpGnames[signIndex]
-                                        )
-                              )
+            signRegions.df$seqnames <- chr[signIndex][1]
+			signRegions.df$start	<- min(position[signIndex])
+			signRegions.df$end		<- max(position[signIndex])
+			signRegions.df$no.cpg	<- length(signIndex)
+		    signRegions.df$pval		<- p.val.empirical[i]
+			signRegions.df$id		<- paste(names(CpGnames[signIndex]),collapse="|")
+			
+#			signRegions.df[i,] <- c(
+#									seqnames = chr[signIndex],
+#									ranges	= IRanges(start=position[signIndex], end = position[signIndex]),
+#                                    no.cpg	= length(signIndex),
+#									tVal	= tVal.orig[signIndex],
+#                                    pVal    = p.val.empirical[i],
+#                                    id      = CpGnames[signIndex]
+#                                        )
         }
-        if(nregions >= 1 & !anyNA(lowerBound)){
-            signRegions <- as.GRanges(signRegions)
-        }
-
-
+		}
+		signRegions <- GRanges(signRegions.df) 
     }else{
         signRegions <- GRanges()
     }
