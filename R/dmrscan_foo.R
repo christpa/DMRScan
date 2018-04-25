@@ -70,13 +70,17 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos
         print("Minfi objects are not supported yet")
         return(1)
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
     alpha       <- 0.05
 
     windowSize  <- sort(windowSize)
     if(is.null(windowThreshold)){
     	nProbe      <- sum(sapply(observations,length))
         cat("Constructing t-grid\n")
+    	nProbe      <- sum(sapply(observations,length))
         windowThreshold  <- estimateWindowThreshold(nProbe,windowSize,...)
         print(windowThreshold)
     }
@@ -174,6 +178,7 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos
         if(any(!signRegion.noZero)){
             regionIndex <- regionIndex[signRegion.noZero]
             index        <- index[signRegion.noZero]
+<<<<<<< HEAD
         }
 		signRegions	<- as.data.frame(matrix(NA, ncol = 6, nrow = length(regionIndex), dimnames = list(NULL, c("seqnames","start","end","no.cpg","pVal","tVal"))))
 		for(i in seq_along(signRegion)){
@@ -189,6 +194,31 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos
                                         
         }
 			signRegions <- GRanges(signRegions) 
+=======
+        }else{
+        ## Do I need a list for this?? GRanges is sufficient
+		signRegions.df <- data.frame("start" = NA, "stop" = NA, seqname = "", "no.cpg" = NA, "tVal" = NA, "pVal" = NA, "id"= NA, row.names = 1:length(index)) 	
+		for(i in seq_along(signRegion)){
+            signIndex           <- index[[i]]
+            signRegions.df$seqnames <- chr[signIndex][1]
+			signRegions.df$start	<- min(position[signIndex])
+			signRegions.df$end		<- max(position[signIndex])
+			signRegions.df$no.cpg	<- length(signIndex)
+		    signRegions.df$pval		<- p.val.empirical[i]
+			signRegions.df$id		<- paste(names(CpGnames[signIndex]),collapse="|")
+			
+#			signRegions.df[i,] <- c(
+#									seqnames = chr[signIndex],
+#									ranges	= IRanges(start=position[signIndex], end = position[signIndex]),
+#                                    no.cpg	= length(signIndex),
+#									tVal	= tVal.orig[signIndex],
+#                                    pVal    = p.val.empirical[i],
+#                                    id      = CpGnames[signIndex]
+#                                        )
+        }
+		}
+		signRegions <- GRanges(signRegions.df) 
+>>>>>>> master
     }else{
         signRegions <- GRanges()
     }
