@@ -2,7 +2,7 @@
 #' @aliases Rt,GRangesList-method
 setMethod("oneWindowSizeScanner", "GRangesList", function(region,windowThreshold,windowSize){
     
-    slidingWindow  <- sapply(regions, oneWindowSizeScanner, windowThreshold = windowThreshold,
+    slidingWindow  <- sapply(region, oneWindowSizeScanner, windowThreshold = windowThreshold,
                           windowSize = windowSize)
       
     signProbe  <- t(as.matrix(do.call(c,slidingWindow[1,])))
@@ -80,7 +80,7 @@ setMethod("oneWindowSizeScanner", "GRanges", function(region,windowThreshold,win
 #' @rdname St-methods                
 setMethod("manyWindowSizeScanner", "GRangesList", function(region,windowThreshold,windowSize){ 
 
-    slidingWindow  <- sapply(regions,manyWindowSizeScanner, windowThreshold = windowThreshold, windowSize = windowSize)
+    slidingWindow  <- sapply(region,manyWindowSizeScanner, windowThreshold = windowThreshold, windowSize = windowSize)
 
     signProbe  <- do.call(c,slidingWindow[1,])
     valueProbe <- do.call(cbind,slidingWindow[2,])

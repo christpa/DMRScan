@@ -40,7 +40,7 @@
 #' ## Number of CpGs in the slidingWindows, can be either a single number       
 #' ## or a sequence of windowSizes                                              
 #' windowSizes <- 3:7                                                           
-#' nCpG        <- sum(sapply(regions, lenght)) ## Number of CpGs to be tested                  
+#' nCpG        <- sum(sapply(regions, length)) ## Number of CpGs to be tested                  
 #'                                                                              
 #' # Estimate the windowThreshold, based on the number of CpGs and windowSizes  
 #' windowThresholds <- estimateWindowThreshold(nProbe = nCpG,                   

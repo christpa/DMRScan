@@ -71,11 +71,11 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos
         return(1)
     }
 
-    nProbe      <- sum(sapply(observations,length))
     alpha       <- 0.05
 
     windowSize  <- sort(windowSize)
     if(is.null(windowThreshold)){
+    	nProbe      <- sum(sapply(observations,length))
         cat("Constructing t-grid\n")
         windowThreshold  <- estimateWindowThreshold(nProbe,windowSize,...)
         print(windowThreshold)
@@ -175,20 +175,20 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos
             regionIndex <- regionIndex[signRegion.noZero]
             index        <- index[signRegion.noZero]
         }
-        ## Do I need a list for this?? GRanges is sufficient
-		signRegions	<- array(list(),length(signRegion))
+		signRegions	<- as.data.frame(matrix(NA, ncol = 6, nrow = length(regionIndex), dimnames = list(NULL, c("seqnames","start","end","no.cpg","pVal","tVal"))))
 		for(i in seq_along(signRegion)){
             signIndex           <- index[[i]]
-            signRegions[i]      <- GRanges(
-									seqnames = chr[signIndex],
-									ranges	= IRanges(start=position[signIndex], end = position[signIndex]),
-                                    no.cpg	= length(signIndex),
-									tVal	= tVal.orig[signIndex],
-                                    pVal    = p.val.empirical[i],
-                                    id      = CpGnames[signIndex]
-                                        )
+			signRegions[i,"seqnames"]	<- chr[signIndex[1]]
+			signRegions[i,"start"]	<- min(position[signIndex])
+			signRegions[i,"end"]	<- max(position[signIndex])
+			signRegions[i,"pVal"]	<- p.val.empirical[i]
+			signRegions[i,"tVal"]	<- tVal[1,i]
+#			signRegions[i,"id"]		<- paste(CpGnames[signIndex], collapse="|")
+			signRegions[i,"no.cpg"]	<- length(signIndex)
+
+                                        
         }
-			signRegions <- as(unlist(signRegions), "GRangesList")  
+			signRegions <- GRanges(signRegions) 
     }else{
         signRegions <- GRanges()
     }
