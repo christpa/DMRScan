@@ -6,7 +6,7 @@
 \alias{DMRScan_package-package}
 \title{DMRScan: An R-package for identification of Differentially Metylated Regions}
 \arguments{
-\item{observations}{An object of type RegionList}
+\item{observations}{An object of type GRangesList from makeCpGregions}
 
 \item{windowSize}{A sequence of windowSizes for the slidingWindow,
 must be an integer}
@@ -18,7 +18,7 @@ each window. Will be estimated if not supplied.}
 if no grid is specified.}
 }
 \value{
-An object of type \code{\link{RegionList}} with signficantly differentially
+An object of type \code{\link{GRanges}} with signficantly differentially
 }
 \description{
 DMRScan: An R-package for identification of Differentially Metylated Regions
@@ -49,7 +49,7 @@ regions <- makeCpGregions(observations = test.statistics,
 ## Number of CpGs in the slidingWindows, can be either a single number       
 ## or a sequence of windowSizes                                              
 windowSizes <- 3:7                                                           
-nCpG        <- sum(sapply(regions, lenght)) ## Number of CpGs to be tested                  
+nCpG        <- sum(sapply(regions, length)) ## Number of CpGs to be tested                  
                                                                              
 # Estimate the windowThreshold, based on the number of CpGs and windowSizes  
 windowThresholds <- estimateWindowThreshold(nProbe = nCpG,                   

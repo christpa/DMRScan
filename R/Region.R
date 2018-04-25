@@ -5,7 +5,7 @@
 #' @name oneWindowSizeScanner
 #' @rdname Rt-methods
 #' @aliases Rt
-#' @param region Object of type Region or RegionList
+#' @param region Object of type GRanges 
 #' @param windowThreshold Vector of window thresholds
 #' @param windowSize Vector of window sizes to be tested on regions
 #' @return A list of the windows that are significant
@@ -19,7 +19,7 @@ setGeneric("oneWindowSizeScanner", function(region,windowThreshold,windowSize)
 #' @name manyWindowSizeScanner
 #' @rdname St-methods
 #' @aliases St
-#' @param region Object of type Region or RegionList
+#' @param region Object of type GRanges 
 #' @param windowThreshold Vector of window thresholds
 #' @param windowSize Vector of window sizes to be tested on regions
 #' @return A list of the windows that are significant  

@@ -10,10 +10,11 @@
 #' Default is set to 500.
 #' @param minCpG Minimum number of CpGs allowed in each region to be 
 #' considered. Default is set to at least 2 CpGs within each region.
-#' @return The suplied observations ordered into into a RegionList object. 
+#' @return The suplied observations ordered into into a GRangesList object. 
 #' To be parsed further into \code{\link{dmrscan}} 
 #' @importFrom IRanges IRanges
 #' @importFrom GenomicRanges GRanges
+#' @importFrom methods as
 #' @keywords CpG Regions
 #' @export
 #' @examples
@@ -107,6 +108,10 @@ makeCpGregions <- function(observations, chr, pos, maxGap = 500, minCpG = 2){
 #' @return The suplied observations ordered into into a list, 
 #' with one entry for each CpG region.
 #' @keywords CpG Regions
+#' @importFrom IRanges IRanges
+#' @importFrom GenomicRanges GRanges
+#' @importFrom methods as
+#' @keywords CpG Regions
 #' @export
 #' @examples
 #' data(DMRScan.methylationData) ## Load methylation data from chromosome 22
@@ -156,7 +161,7 @@ makeCpGgenes <- function(observations, chr, pos, gene, minCpG = 2){
       geneNames  <- unique(na.omit(gene))
       nGene      <- sum(table(gene) >= minCpG)
       
-      regionList  <- array(list(),nRegions)
+      regionList  <- array(list(),nGene)
 
       i          <- 1
       for(geneIter in geneNames){
@@ -175,7 +180,7 @@ makeCpGgenes <- function(observations, chr, pos, gene, minCpG = 2){
         }
     };cat("\n") 
 	if(length(geneNames) > (i-1))
-		regionList <- regionList[1:(j-1)]
+		regionList <- regionList[1:(i-1)]
 
 	regionList <- as(unlist(regionList), "GRangesList")
     return(regionList)

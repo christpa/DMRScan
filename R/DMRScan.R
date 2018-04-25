@@ -5,14 +5,14 @@
 #' @keywords DMR, DMRScan
 #' @docType package
 #' @name DMRScan_package
-#' @param observations An object of type RegionList                             
+#' @param observations An object of type GRangesList from makeCpGregions
 #' @param windowSize A sequence of windowSizes for the slidingWindow,           
 #' must be an integer                                                           
 #' @param windowThreshold Optional argument with corresponding cut-off for      
 #' each window. Will be estimated if not supplied.                              
 #' @param ... Optional arguments to be pased to \code{\link{estimateThreshold}},     
 #' if no grid is specified.                                                     
-#' @return An object of type \code{\link{RegionList}} with signficantly differentially        
+#' @return An object of type \code{\link{GRanges}} with signficantly differentially        
 # methylated regions
 #' @examples                                                              
 #' ## nProbeoad methylation data from chromosome 22                             

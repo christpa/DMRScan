@@ -22,7 +22,7 @@ Default is set to 500.}
 considered. Default is set to at least 2 CpGs within each region.}
 }
 \value{
-The suplied observations ordered into into a RegionList object. 
+The suplied observations ordered into into a GRangesList object. 
 To be parsed further into \code{\link{dmrscan}}
 }
 \description{

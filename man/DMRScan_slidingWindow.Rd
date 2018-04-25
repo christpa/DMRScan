@@ -8,7 +8,7 @@ dmrscan(observations, windowSize, windowThreshold = NULL, chr = NULL,
   pos = NULL, maxGap = 500, ...)
 }
 \arguments{
-\item{observations}{An object of either;  \code{\link{RegionList}} made by 
+\item{observations}{An object of either;  \code{\link{GRangesList}} made by 
 \code{\link{makeCpGregions}}, a vector of the test statistic, a \code{\link[GenomicRanges]{GRanges}} object, 
 or a "minfi" object (soon to be supported).}
 

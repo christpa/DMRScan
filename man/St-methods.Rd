@@ -16,7 +16,7 @@ manyWindowSizeScanner(region, windowThreshold, windowSize)
 \S4method{manyWindowSizeScanner}{GRanges}(region, windowThreshold, windowSize)
 }
 \arguments{
-\item{region}{Object of type Region or RegionList}
+\item{region}{Object of type GRanges}
 
 \item{windowThreshold}{Vector of window thresholds}
 

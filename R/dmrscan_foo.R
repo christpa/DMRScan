@@ -2,7 +2,7 @@
 #' 
 #' @name dmrscan
 #' @rdname DMRScan_slidingWindow
-#' @param observations An object of either;  \code{\link{RegionList}} made by 
+#' @param observations An object of either;  \code{\link{GRangesList}} made by 
 #' \code{\link{makeCpGregions}}, a vector of the test statistic, a \code{\link[GenomicRanges]{GRanges}} object, 
 #' or a "minfi" object (soon to be supported). 
 #' @param windowSize A sequence of windowSizes for the slidingWindow. Must be an 
