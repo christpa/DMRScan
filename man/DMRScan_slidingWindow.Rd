@@ -9,7 +9,7 @@ dmrscan(observations, windowSize, windowThreshold = NULL, chr = NULL,
 }
 \arguments{
 \item{observations}{An object of either;  \code{\link{GRangesList}} made by 
-\code{\link{makeCpGregions}}, a vector of the test statistic, a \code{\link[GenomicRanges]{GRanges}} object, 
+\code{\link{makeCpGregions}}, a vector of the test statistic, a \code{\link{GRanges}} object, 
 or a "minfi" object (soon to be supported).}
 
 \item{windowSize}{A sequence of windowSizes for the slidingWindow. Must be an 
@@ -29,7 +29,7 @@ vector is a matrix of test statistic.}
 if no grid is specified.}
 }
 \value{
-An object of type \code{\link[GenomicRanges]{GRanges}} with significantly differentially
+An object of type \code{\link{GRanges}} with significantly differentially
 }
 \description{
 DMR Scan function

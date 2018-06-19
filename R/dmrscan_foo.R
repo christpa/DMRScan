@@ -15,7 +15,7 @@
 #' @param maxGap The maximum allowed gap between two CpGs within the same region. 
 #' @param ... Optional arguments to be passed to \code{\link{estimateThreshold}}, 
 #' if no grid is specified.
-#' @return An object of type \code{\link[GenomicRanges]{GRanges}} with significantly differentially 
+#' @return An object of type \code{\link{GRanges}} with significantly differentially 
 # methylated regions
 #' @keywords DMRScan
 #' @importFrom GenomicRanges GRanges
