@@ -7,6 +7,6 @@ citEntry(entry="article",
                       person(given="Hanne F",       family="Harbo"),
                       person(given="Bettina K",     family="Andreassen")),
   year = "2017",
-  journal = "In review",
+  journal = "SAGMB",
   textVersion = paste("Page CM, Vos L, Rounge TB, Harbo HF, and Andreassen BK (2017)",
 				"Assessing Genome-Wide Significance for the Detection of Differentially Methylated Regions."))
