@@ -17,8 +17,9 @@ Additional inputs are the
 ### Installation 
 For a stable release from Bioconductor use
 ```R
-source("https://www.bioconductor.org/biocLite.R")
-biocLite("DMRScan")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("DMRScan")
 ```
 For the developmental version from Github, use 
 ```R
