@@ -40,19 +40,20 @@ Requred R-packages for DMRScan are:
 Please see the vignette.
 
 # Citation
-To cite the DMRScan package in publications use:
+To cite the DMRScan package in publications please use:
 
-*Assessing Genome-Wide Significance for the Detection of Differentially Methylated Regions*. Page CM, Vos L, Rounge TB, Harbo HF, and Andreassen BK _In review_., (2017)
+Page, C. M., Vos, L., Rounge, T. B., Harbo, H. F., & Andreassen, B. K. (2018). Assessing genome-wide significance for the detection of differentially methylated regions. *Statistical applications in genetics and molecular biology.* 
+
 
 A BibTeX entry for LaTeX users is
 ```BibTeX
-@Article{DMRScanRpackage,
-title = {Assessing Genome-Wide Significance for the Detection of Differentially Methylated Regions},
-author = {Christian M Page and Linda Vos and Trine B Rounge and Hanne F Harbo and Bettina K Andreassen},
-year = {2017}}
-journal = {(In review)},
-year = {2016}}
-```
+@article{DMR_paper,
+  title={Assessing genome-wide significance for the detection of differentially methylated regions},
+  author={Page, Christian M and Vos, Linda and Rounge, Trine B and Harbo, Hanne F and Andreassen, Bettina K},
+  journal={Statistical applications in genetics and molecular biology},
+  year={2018},
+  publisher={De Gruyter}
+}```
 
 
 ```{r}
