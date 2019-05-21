@@ -63,18 +63,19 @@ makeCpGregions <- function(observations, chr, pos, maxGap = 500, minCpG = 2){
     }
 
     
+
+## Substetute reginos.index with cluster
     if(minCpG >= 2){
-        nRegions    <- sum(table(cluster) >= minCpG)
+        nRegions    <- sum(table(region.idx) >= minCpG)
     }else{
-        nRegions    <- as.integer(max(cluster))
+        nRegions    <- as.integer(max(region.idx))
     }
         regionList  <- array(list(),nRegions)
 
     j                  <- 1
-    for(i in seq_len(max(cluster))){
+    for(i in seq_len(max(region.idx))){
         reg.id  <- which(region.idx==i)
         xx     <- observations[reg.id,]
-        
         if(length(reg.id) >= minCpG){
             regionList[[j]] <- GRanges(seqnames = chr[reg.id],
                                   	   ranges = IRanges(start=pos[reg.id], end = pos[reg.id]),
