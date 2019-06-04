@@ -23,7 +23,7 @@ BiocManager::install("DMRScan")
 ```
 For the developmental version from Github, use 
 ```R
-install_github("christmp/DMRScan")
+devtools::install_github("christpa/DMRScan")
 ```
 Requred R-packages for DMRScan are:
 * Matrix 
