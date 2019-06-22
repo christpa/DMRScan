@@ -1,6 +1,6 @@
 Package: DMRScan
 Title: Detection of Differentially Methylated Regions
-Version: 1.14.1
+Version: 1.14.2
 Authors@R: c( person("CM", "Page", email = "page.ntnu@gmail.com", role =
     c("aut","cre")), person("L", "Vos", email = "Linda.Vos@Kreftregisteret.no",
     role = "aut"), person("TB", "Rounge", email = "", role = "ctb"), person("HF", "Harbo", email = "", role = "ths"), 
@@ -26,10 +26,11 @@ Author: Christian M Page [aut, cre],
     Hanne F Harbo [ths],
     Bettina K Andreassen [aut]
 Maintainer: Christian M Page <page.ntnu@gmail.com>
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Suggests:
     knitr,
-    rmarkdown
+    rmarkdown,
+	BiocStyle
 VignetteBuilder: knitr
 URL: https://github.com/christpa/DMRScan
 BugReports: https://github.com/christpa/DMRScan/issues

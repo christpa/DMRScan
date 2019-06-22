@@ -15,7 +15,8 @@ oneWindowSizeScanner(region, windowThreshold, windowSize)
 \S4method{oneWindowSizeScanner}{GRangesList}(region, windowThreshold,
   windowSize)
 
-\S4method{oneWindowSizeScanner}{GRanges}(region, windowThreshold, windowSize)
+\S4method{oneWindowSizeScanner}{GRanges}(region, windowThreshold,
+  windowSize)
 }
 \arguments{
 \item{region}{Object of type GRanges}
