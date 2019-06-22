@@ -63,9 +63,9 @@
 #' 
 dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos = NULL, maxGap = 500,...){
 
-    if(class(observations) == "matrix"){
+    if("matrix" %in% is(observations)){
         observations    <- makeCpGregions(observations, chr = chr, pos = pos, maxGap = maxGap, minCpG = min(windowSize))
-    }else if( class(observations) == "minfi"){
+    }else if( "minfi" %in% is(observations)){
         ## Not correct class name
         print("Minfi objects are not supported yet")
         return(1)
@@ -112,7 +112,7 @@ dmrscan <- function(observations,windowSize,windowThreshold=NULL,chr = NULL, pos
         kIndex     <- integer(max(windowSize));kIndex[windowSize] <- seq_len(length(windowSize))
         signRegion <- lapply(index,function(x,val,which.k){
                                    vv  <- val[,x]
-                                   if(class(vv) == "numeric"){
+                                   if("numieric" %in% is(vv)){
                                        use <- !is.na(vv)
                                        fail    <- sum(which.k[x]) == 0 | is.null(use)
                                        if(fail)
