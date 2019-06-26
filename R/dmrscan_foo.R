@@ -20,6 +20,7 @@
 #' @keywords DMRScan
 #' @importFrom GenomicRanges GRanges
 #' @importFrom stats acf median pnorm na.omit
+#' @importFrom methods is
 #' @export
 #' @examples
 #' ## methylation data from chromosome 22 
