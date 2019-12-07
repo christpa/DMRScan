@@ -1,6 +1,10 @@
 Package: DMRScan
 Title: Detection of Differentially Methylated Regions
+<<<<<<< HEAD
 Version: 1.12.1
+=======
+Version: 1.9.0
+>>>>>>> 71ac09cc429e31f4f36332f15d80d683cb3a2f2d
 Authors@R: c( person("CM", "Page", email = "page.ntnu@gmail.com", role =
     c("aut","cre")), person("L", "Vos", email = "Linda.Vos@Kreftregisteret.no",
     role = "aut"), person("TB", "Rounge", email = "", role = "ctb"), person("HF", "Harbo", email = "", role = "ths"), 
