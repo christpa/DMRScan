@@ -199,16 +199,16 @@ print(dmrscan.results)
 ## Estimating window thresholds with an ARIMA model using MCMC
 We can also use an Monte Carlo approach to estimate the window thresholds, in order to model complex or non-standard correlation structures. We use the argument "submethod" to set the function calls to the different sampling functions (e.g. ar(), ma(), arima()), and pases ... to the models argument in these functions. 
 
-```{r}
+```{r, eval = FALSE}
 # Not run due to time constraints.
-# window.threshold.mcmc <- estimateWindowThreshold(nProbe = n.CpG, windowSize = window.sizes, 
-#                                method = "mcmc", mcmc = 1000, nCPU = 1, submethod = "arima", 
-#                                model = list(ar = c(0.1,0.03), ma = c(0.04), order = c(2,0,1)))
-#
-# dmrscan.results  <- dmrscan(observations = regions, windowSize = window.sizes, 
-#                                windowThreshold = window.thresholds.mcmc)   
-## Print the result          
-#print(dmrscan.results)
+ window.threshold.mcmc <- estimateWindowThreshold(nProbe = n.CpG, windowSize = window.sizes, 
+                                method = "mcmc", mcmc = 1000, nCPU = 1, submethod = "arima", 
+                                model = list(ar = c(0.1,0.03), ma = c(0.04), order = c(2,0,1)))
+
+ dmrscan.results  <- dmrscan(observations = regions, windowSize = window.sizes, 
+                                windowThreshold = window.thresholds.mcmc)   
+# Print the result          
+print(dmrscan.results)
 ```
 
 ## References
