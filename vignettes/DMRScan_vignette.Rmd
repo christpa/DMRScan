@@ -1,17 +1,15 @@
 ---
-title: "Using the DMR Scan Package"
-author: "Christian M Page"
-abstract: >
-  A  guide to using the DMRScan package for analyzing
-  differantly methylated regions.
-vignette: >
-  %\VignetteIndexEntry{DMRScan.Rmd}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
-output: 
-  BiocStyle::pdf_document:
-    number_sections: false
+  title: "Using the DMR Scan Package"
+  author: "Christian M Page"
+  package: DMRScan
+  output: 
+    BiocStyle::html_document
+  vignette: >
+    %\VignetteIndexEntry{DMR Scan Vignette}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}  
 ---
+
 # Abstract
 ### Motivation
 DNA methylation plays an important role in human health and disease, and methods 
